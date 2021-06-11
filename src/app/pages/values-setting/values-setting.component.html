@@ -1,0 +1,42 @@
+<main>
+  <div class="container box-shadow">
+    <header>
+      <nav [ngClass]="{ active: tabIndex == 0 }" (click)="setTabIndex(0)">
+        <p>Brands</p>
+      </nav>
+      <nav [ngClass]="{ active: tabIndex == 1 }" (click)="setTabIndex(1)">
+        <p>Product Name</p>
+      </nav>
+      <nav [ngClass]="{ active: tabIndex == 2 }" (click)="setTabIndex(2)">
+        <p>Sizes</p>
+      </nav>
+      <nav [ngClass]="{ active: tabIndex == 3 }" (click)="setTabIndex(3)">
+        <p>Colors</p>
+      </nav>
+      <nav [ngClass]="{ active: tabIndex == 4 }" (click)="setTabIndex(4)">
+        <p>Versions</p>
+      </nav>
+      <nav [ngClass]="{ active: tabIndex == 5 }"  (click)="setTabIndex(5)">
+        <p>Warranty</p>
+      </nav>
+      <nav [ngClass]="{ active: tabIndex == 6 }" (click)="setTabIndex(6)">
+        <p>Forwarders</p>
+      </nav>
+      <nav [ngClass]="{active: tabIndex == 7}" (click)="setTabIndex(7)">
+        <p>Couriers</p>
+      </nav>
+    </header>
+    <section>
+      <ng-container [ngSwitch]="tabIndex">
+        <app-brands *ngSwitchCase="0"></app-brands>
+        <app-product-names *ngSwitchCase="1"></app-product-names>
+        <app-variants *ngSwitchCase="2" [refVariantId]="2" [refVariantName]="'Size'"></app-variants>
+        <app-variants *ngSwitchCase="3" [refVariantId]="3" [refVariantName]="'Color'"></app-variants>
+        <app-variants *ngSwitchCase="4" [refVariantId]="4" [refVariantName]="'Version'"></app-variants>
+        <app-variants *ngSwitchCase="5" [refVariantId]="6" [refVariantName]="'Warranty'"></app-variants>
+        <app-forwarders *ngSwitchCase="6"></app-forwarders>
+        <app-couriers *ngSwitchCase="7"></app-couriers>
+      </ng-container>
+    </section>
+  </div>
+</main>

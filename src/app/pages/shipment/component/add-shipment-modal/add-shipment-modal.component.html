@@ -1,0 +1,198 @@
+<div class="modal" *ngIf="vmShipment.addShipmentModel as AddShipmentModel">
+
+  <div class="card modal-form-wrapper">
+
+
+    <!-- <div class="modal-title">Add Shipment</div> -->
+    <div class="title">
+      <button>
+        <span class="material-icons">
+          description
+        </span>
+        Add Shipment
+      </button>
+    </div>
+
+    <div class="modal-close" (click)="vmShipment.closeAddShipmentModal()">
+      <button type="button">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <form class="form-container">
+
+      <div class="form-control-group" style="width: 130px;">
+        <label>Shipment ID</label>
+        <p>{{ AddShipmentModel.shipmentId }}</p>
+      </div>
+
+      <div class="form-control-group" style="width: 100px;">
+        <label>Vendor ID</label>
+        <p>{{ AddShipmentModel.purchasingVendorId }}</p>
+      </div>
+
+      <div class="form-control-group">
+        <label>Shipment Date</label>
+        <input type="date" [(ngModel)]="AddShipmentModel.shipmentDate" [ngModelOptions]="{standalone: true}">
+      </div>
+
+      <!-- <div class="form-control-group">
+        <label>Courier
+        </label>
+        <div class="wrap wrap-selector">
+          <div class="show-sector" (click)="showSelectCourier = true">
+            <p>{{ courierName }}</p>
+            <span class="material-icons"> launch </span>
+          </div>
+          <div class="clear-sector" (click)="clearSelectCourier()">
+            <span class="material-icons"> clear </span>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="form-control-group">
+        <label>Tracking No.</label>
+        <input type="text" [(ngModel)]="AddShipmentModel.trackingNo" [ngModelOptions]="{standalone: true}">
+      </div>
+
+      <div class="form-control-group">
+        <label>Box Count</label>
+        <input type="number" style="text-align: center;" [(ngModel)]="AddShipmentModel.noOfBoxes" [ngModelOptions]="{standalone: true}">
+      </div>
+
+      <div class="form-control-group" >
+        <label>Forwarder</label>
+        <div class="wrap wrap-selector">
+          <div class="show-sector" (click)="showSelectForwarder = true">
+            <p>{{ forwarderName }}</p>
+            <span class="material-icons"> launch </span>
+          </div>
+          <div class="clear-sector" (click)="clearSelectForwarder()">
+            <span class="material-icons"> clear </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-control-group">
+        <label>Forwarder No.</label>
+        <input type="text" [(ngModel)]="AddShipmentModel.forwarderNo" [ngModelOptions]="{standalone: true}">
+      </div>
+
+      <div class="form-control-group">
+        <label>Weight</label>
+        <input type="number" [(ngModel)]="AddShipmentModel.weight" [ngModelOptions]="{standalone: true}">
+      </div>
+
+      <div class="form-control-group">
+        <label>Volume</label>
+        <input type="number" [(ngModel)]="AddShipmentModel.volume" [ngModelOptions]="{standalone: true}">
+      </div>
+
+    </form>
+
+
+    <div class="table-wrapper" style="height: 640px; ">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Order&nbsp;ID</th>
+            <th>Product&nbsp;ID </th>
+            <th>SKU</th>
+            <th>Product&nbsp;Description</th>
+            <th>Product&nbsp;Number</th>
+            <!-- <th>Version</th>
+            <th>Size</th>
+            <th>Color</th> -->
+            <th>Brand</th>
+            <th>Remaining&nbsp;Qty</th>
+            <th>Shipped&nbsp;Qty</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let prod of vendorProductList()" [ngClass]="{'active-tr': selTr === prod.orderDetailId}" (click)="selTr =prod.orderDetailId" class="active-tr">
+            <td>
+              {{ prod.orderId }}
+            </td>
+            <td>
+              {{ prod.productId }}
+            </td>
+            <td>
+              <ng-container *ngIf="!prod.productNo">-</ng-container>
+              <ng-container *ngIf="prod.productNo">{{ prod.productNo }}</ng-container>
+            </td>
+
+            <td>
+              <!-- {{ prod.productDescription }} -->
+
+              <p *ngIf="chackToolTip(prod.productDescription.length, 70) === false">
+                {{ prod.productDescription }}
+              </p>
+              <div class="tooltip" *ngIf="chackToolTip(prod.productDescription.length, 70)">
+                <p>{{ prod.productDescription }}</p>
+                <span class="tooltiptext text-overflow">
+                  {{ prod.productDescription }}</span>
+              </div>
+            </td>
+            <td>
+
+              <ng-container *ngIf="!prod.productNo">-</ng-container>
+              <ng-container *ngIf="prod.productNo">{{ prod.productNo }}</ng-container>
+
+            </td>
+            <!-- <td>
+              {{ getVariant(prod.productVariants, 4) }}
+            </td>
+            <td>
+              {{ getVariant(prod.productVariants, 2) }}
+            </td>
+            <td>
+              {{ getVariant(prod.productVariants, 3) }}
+            </td> -->
+            <td>
+              {{ prod.brand }}
+            </td>
+
+            <td>
+              {{ prod.remainingQty }}
+            </td>
+            <td>
+              <input type="number" [(ngModel)]="prod.shippedQty" (change)="validateShippedQty(prod)"
+                [disabled]="prod.remainingQty == 0">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+
+    <app-pagination class="pagination" [ItemsCount]="getItemsCount()" [PageSize]="20"
+      [PagePos]="vmShipment.posVendorProd" (PositionEventEmitter)="posEventEmmit($event)"></app-pagination>
+
+    <button type="button" class="btn-submit btn btn-success animation-ripple"
+
+      (click)="postNewShipment()">
+      <span class="material-icons">
+        send
+      </span>
+      Submit</button>
+
+
+  </div>
+
+</div>
+<ng-container *ngIf="showSelectCourier">
+  <app-select-courier
+  (addNewListener)="onHasNewCourier($event)"
+    (selectItem)="onSelectCourier($event)"
+    (closeEvent)="showSelectCourier = false"
+  ></app-select-courier>
+</ng-container>
+<ng-container *ngIf="showSelectForwarder">
+  <app-select-forwarder
+    (addNewListener)="onHasNewForwarder($event)"
+    (selectItem)="onSelectForwarder($event)"
+    (closeEvent)="showSelectForwarder = false"
+  ></app-select-forwarder>
+</ng-container>

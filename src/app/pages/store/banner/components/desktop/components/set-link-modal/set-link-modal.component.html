@@ -1,0 +1,18 @@
+<main class="modal">
+  <div class="container">
+    <header>
+      <label><p>Link</p></label>
+      <button class="btn btn-close" (click)="closeFunc()">
+        <span class="material-icons">clear</span>
+      </button>
+    </header>
+    <section>
+      <input type="text" [(ngModel)]="link">
+    </section>
+    <footer>
+      <button class="btn btn-save" (click)="saveFunc()">
+        Save
+      </button>
+    </footer>
+  </div>
+</main>

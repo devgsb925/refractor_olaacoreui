@@ -1,0 +1,117 @@
+.options {
+  display: flex;
+  position: relative;
+
+  .btn-option {
+    display: flex;
+    height: 2rem;
+    justify-content: space-between;
+    align-items: center;
+
+    cursor: pointer;
+    background-color: #fff;
+
+    width: 200px;
+
+    .material-icons {
+
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 0.3rem;
+      background-color: inherit;
+
+      border: 1px solid gainsboro;
+      border-left: 0;
+      border-right: 0;
+
+      color: #444;
+    }
+  }
+
+  .btn-option:nth-child(2) {
+    margin-left: 1rem;
+  }
+
+  .input-group {
+    margin-left: 1rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+
+    input {
+      border: 1px solid gainsboro;
+      border-right: 0;
+    }
+    span {
+      height: 2rem;
+      border: 1px solid gainsboro;
+      border-left: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-right: 5px;
+      color: #444;
+    }
+  }
+
+  .action-wrapper {
+    height: 2rem;
+    float: right;
+    position: absolute;
+
+    right: 0;
+    top: 0;
+    width: 300px;
+    display: flex;
+
+    .btn-action {
+      display: flex;
+      height: 2rem;
+      width: 100%;
+
+      justify-content: center;
+      align-items: center;
+
+      padding-left: 1rem;
+      padding-right: 1rem;
+
+      background-color: #444;
+      color: #FFF;
+
+      span {
+        margin-right: 4px;
+      }
+    }
+
+    .btn-action:nth-child(2) {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.table-wrapper {
+  margin-top: 0.75rem;
+
+  height: calc(100vh - 280px);
+
+
+  .td-input {
+    border: 1px solid gainsboro;
+  }
+}
+
+
+.pagination-wrapper {
+  margin-top: 1rem;
+  height: auto;
+  margin-bottom: 0;
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-end;
+}

@@ -1,0 +1,28 @@
+.grid {
+  padding: 1rem;
+
+  display: grid;
+  grid-template-columns:  1fr;
+  grid-template-rows: auto auto;
+
+  .grid-options {
+    grid-column:  1 / 2;
+    grid-row: 1 / 2;
+
+    .action-btn{
+      display: flex;
+      flex-direction: row-reverse;
+      select{
+        width: auto;
+        margin-right: 10px;
+      }
+    }
+
+  }
+
+  .grid-inventory-history {
+    grid-column:  1 / 2;
+    grid-row: 2 / 3;
+    padding-top: 1rem;
+  }
+}

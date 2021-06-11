@@ -1,0 +1,143 @@
+<div class="card page-container" *ngIf="vmShipment.shipmentList as shipments">
+
+  <div class="search-warpper">
+
+    <div class="sorting-date">
+        <div class="date-item">
+          <label >From</label>
+          <input type="Date" [(ngModel)]="fromDate" (change)="changeFormDate()">
+        </div>
+
+        <div class="date-item">
+          <label >To</label>
+          <input type="Date" [(ngModel)]="toDate" (change)="changeTodate()">
+        </div>
+    </div>
+
+    <div class="search">
+      <input type="text" class="form-control" placeholder="Search by shipment id, tracking, forwarder no" [(ngModel)]="searchShipment"
+      (keyup.enter)="searchShipemt()" />
+    <span class="material-icons"> search </span>
+    </div>
+
+  </div>
+
+  <div class="actions">
+    <button type="button" class="btn-action" (click)="vmShipment.vendorModal = true">
+      <span class="material-icons"> add_circle</span>
+      Add Shipment
+    </button>
+  </div>
+
+  <div class="table-wrapper" >
+    <table>
+      <thead>
+        <tr>
+          <th>S.ID</th>
+          <th>Date</th>
+          <th (click)="openStatusModal()">
+            <div class="status-scal">
+              <div class="status-header">
+                Status
+                <span class="material-icons">
+                  arrow_drop_down
+                </span>
+              </div>
+              <div class="status-model card" [ngClass]="{'active-status': statusTab}">
+                <ul>
+                  <li (click)="selectStatus = -1">All</li>
+                  <li (click)="selectStatus = 0">Pending</li>
+                  <li (click)="selectStatus = 2">Complete</li>
+                  <li (click)="selectStatus = 1">Incomplete</li>
+                </ul>
+              </div>
+            </div>
+          </th>
+          <th>V.ID</th>
+          <th>Tracking</th>
+          <th>Box&nbsp;Count</th>
+          <th>Forwarder</th>
+          <th>Forwarder&nbsp;No</th>
+          <th>Weight</th>
+          <th>Volume</th>
+          <th>Detail</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let shipment of shipmentList()" [ngClass]="{'tr-select': trSelect === shipment.shipmentId}" (click)="trSelect = shipment.shipmentId">
+          <td>{{shipment.shipmentId }}</td>
+
+          <td>
+            <ng-container *ngIf="!shipment.isEdit">
+              {{ shipment.shipmentDate | date:'d/M/yy'}}
+            </ng-container>
+            <input type="date" [(ngModel)]="shipment.shipmentDate" (ngModelChange)="shipment.hasUpdate = true"
+              *ngIf="shipment.isEdit">
+          </td>
+
+          <td >
+              <p *ngIf="shipment.shipmentStatus === 0" [ngClass]="{'pending':shipment.shipmentStatus === 0 }">p</p>
+              <p *ngIf="shipment.shipmentStatus === 1" [ngClass]="{'incomplete':shipment.shipmentStatus === 1 }">I</p>
+              <p *ngIf="shipment.shipmentStatus === 2">C</p>
+          </td>
+
+          <td>
+            <div class="tooltip" style="margin-top: 5px;">
+              <p>{{ shipment.vendorList[0].vendorId }}</p>
+              <span class="tooltiptext text-overflow">
+                Vendor&nbsp;Name&nbsp;:&nbsp;{{ shipment.vendorList[0].companyName
+                }},&nbsp;Contact&nbsp;Name&nbsp;:&nbsp;{{shipment.vendorList[0].contactName}} </span>
+            </div>
+
+          </td>
+
+          <td>{{shipment.trackingNo}}</td>
+
+          <td>{{shipment.noOfBoxes}}</td>
+
+          <td>{{vmShipment.getForwarderById(shipment.refForwarderId)}}</td>
+
+          <td>{{shipment.forwarderNo}}</td>
+
+          <td>{{shipment.weight}}</td>
+          <td>{{shipment.volume}}</td>
+
+          <td>
+            <div class="table-actions">
+              <button class="btn btn-success animation-ripple" type="button" (click)="editShipment(shipment)">
+                Detail
+              </button>
+            </div>
+          </td>
+
+          <td>
+            <div class="table-actions">
+              <button class="btn btn-success animation-ripple del" style="    color: #EB543A;
+              border: 1px solid #EB543A;" (click)="postDeleteShipment(shipment.shipmentId)">
+                <span class="material-icons" style="color: #EB543A;">
+                  delete
+                </span>
+              </button>
+            </div>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <app-pagination class="pagination" [ItemsCount]="getItemsCount()" [PageSize]="20" [PagePos]="vmShipment.posShipment"
+    (PositionEventEmitter)="posEventEmmit($event)"></app-pagination>
+
+</div>
+
+
+<app-vendors *ngIf="vmShipment.vendorModal"></app-vendors>
+
+<app-add-shipment-modal *ngIf="vmShipment.checkAddShipmentParams()"></app-add-shipment-modal>
+
+<app-shipment-detail *ngIf="vmShipment.editModal"></app-shipment-detail>
+
+<app-add-shipment-details *ngIf="vmShipment.addShipmentDetailModal"></app-add-shipment-details>

@@ -1,0 +1,20 @@
+<div class="page-container2">
+
+  <div class="grid2 card">
+
+    <div class="grid-tabs2">
+      <button [ngClass]="{'active-tab': tabChange === 0}" (click)="tabChange = 0">Pending Shipments</button>
+      <button [ngClass]="{'active-tab': tabChange === 1}" (click)="tabChange = 1">Received Shipments</button>
+    </div>
+
+    <div class="grid-data-container" *ngIf="tabChange === 0">
+      <app-pending-shipment></app-pending-shipment>
+    </div>
+
+    <div class="grid-data-container" *ngIf="tabChange === 1">
+      <app-received-shipment></app-received-shipment>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,86 @@
+<main>
+  <div class="container">
+    <section class="information">
+      <h3>
+        {{ forwarderId > 0 ? "Update Forwarder" : "Add New Forwarder" }}
+      </h3>
+      <p>Forwarder</p>
+      <input type="text" placeholder="enter forwarder name" [(ngModel)]="forwarderName">
+      <textarea placeholder="enter forwarder address" [(ngModel)]="forwarderAddress" cols="30" rows="10"></textarea>
+      <button class="btn btn-add" *ngIf="forwarderId == 0" (click)="addFunc()">
+        <span class="material-icons">
+          add_circle
+        </span>
+        <p>Add</p>
+      </button>
+      <button class="btn btn-save" *ngIf="forwarderId > 0" (click)="updateFunc()">
+        <span class="material-icons">
+          save
+        </span>
+        <p>Save</p>
+      </button>
+      <button class="btn btn-cancel" (click)="cancelFunc()">
+        <span class="material-icons">
+          clear
+        </span>
+        <p>Cancel</p>
+      </button>
+    </section>
+
+    <section class="list">
+      <header>
+        <div class="search-wrap">
+          <span class="material-icons">search</span>
+          <input type="text" [(ngModel)]="searchValue" (change)="searchFunc()" placeholder="search forwarder by id or name">
+
+        </div>
+      </header>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="id">
+                <p>ID</p>
+              </th>
+              <th class="name">
+                <p>Forwarder Name</p>
+              </th>
+              <th class="address">
+                <p>Address</p>
+              </th>
+              <th class="date">
+                <p>Date Create</p>
+              </th>
+              <th class="edit">
+                <p>Edit</p>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of showList">
+              <td class="id">
+                <p>{{item.purchasingRefForwarderId}}</p>
+              </td>
+              <td class="name">
+                <p>{{item.companyName}}</p>
+              </td>
+              <td class="address">
+                <p>{{item.address}}</p>
+              </td>
+              <td class="date">
+                <p>{{item.dateCreate | date:'yyyy-MM-dd'}}</p>
+              </td>
+              <td class="edit">
+                <button class="btn btn-edit" (click)="selectFunc(item)">
+                  <span class="material-icons">
+                    edit
+                  </span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>

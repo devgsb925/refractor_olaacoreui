@@ -1,0 +1,33 @@
+<div class="login-container">
+
+    <div class="logo">
+        <img src="../../assets/images/logo_olaa.png" alt="">
+    </div>
+
+    <form class="form-login card" [formGroup]="login_form" novalidate>
+        <input type="text" placeholder="Username" formControlName="Username">
+        <div *ngIf="login_form.controls['Username'].invalid && (login_form.controls['Username'].dirty || login_form.controls['Username'].touched)" style="color: red; font-size: 10px; margin-bottom: 12px;">
+            <div *ngIf="login_form.controls['Username'].errors.required">
+                Username is required.
+              </div>
+
+              <div *ngIf="login_form.controls['Username'].errors.minlength">
+                Username is required. min. of 8 characters.
+              </div>
+        </div>
+        
+        <input type="password" placeholder="Password" formControlName="Password">
+        <div *ngIf="login_form.controls['Password'].invalid && (login_form.controls['Password'].dirty || login_form.controls['Password'].touched)" style="color: red; font-size: 10px; margin-bottom: 12px;">
+            <div *ngIf="login_form.controls['Password'].errors.required">
+                Password is required.
+              </div>
+
+              <div *ngIf="login_form.controls['Password'].errors.minlength">
+                Password is required. min. of 8 characters.
+              </div>
+        </div>
+
+        <button type="button" (click)="login()" [disabled]="login_form.invalid" class="btn btn-rounded btn-primary animation-ripple w-100">LOGIN</button>
+    </form>
+
+</div>

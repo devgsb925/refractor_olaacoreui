@@ -1,0 +1,241 @@
+<main>
+  <div class="container container-main">
+    <section class="layout layout-picking-shop">
+      <div class="wrapper wrapper-tabs">
+        <button>Shop</button>
+        <button>Complete</button>
+      </div>
+      <div class="table table-wrapper">
+        <table style="table-layout: fixed">
+          <thead>
+            <th style="width: 70px">No.</th>
+            <th style="width: 100px">Agent ID</th>
+            <th style="width: 100px">Cart ID</th>
+            <th style="width: 100px">Time</th>
+            <th style="width: 100px">Cart Items</th>
+            <th style="width: 100px">Picked</th>
+            <th style="width: 100px">Left</th>
+            <th></th>
+          </thead>
+
+          <ng-container *ngIf="vmPicking.getCartItems().length > 0">
+            <tbody>
+              <tr
+                *ngFor="let item of vmPicking.getCartItems(); let i = index"
+                (click)="showModalFunc(item.agentId, item.cartId)"
+              >
+                <td class="index">{{ i }}</td>
+                <td class="agent-id">{{ item.agentId }}</td>
+                <td class="cart-id">{{ item.cartId }}</td>
+                <td class="time">
+                  {{ vmPicking.getTime(item.agentId, item.cartId) }}
+                </td>
+                <td class="cart-items">
+                  {{ vmPicking.getCartItemCount(item.agentId, item.cartId) }}
+                </td>
+                <td class="picked">
+                  {{ vmPicking.getPickCount(item.agentId, item.cartId) }}
+                </td>
+                <td class="left">
+                  {{ vmPicking.getPickLeft(item.agentId, item.cartId) }}
+                </td>
+                <td class="status">
+                  <span
+                    *ngIf="vmPicking.hasPick(item.agentId, item.cartId)"
+                    class="material-icons pick-icon"
+                  >
+                    add
+                  </span>
+
+                  <span
+                    *ngIf="vmPicking.hasLeft(item.agentId, item.cartId)"
+                    class="material-icons left-icon"
+                  >
+                    east
+                  </span>
+                  <span
+                    *ngIf="vmPicking.hasCancel(item.agentId, item.cartId)"
+                    class="material-icons left-icon"
+                  >
+                    clear
+                  </span>
+
+                  <span
+                    *ngIf="
+                      !vmPicking.hasLeft(item.agentId, item.cartId) &&
+                      !vmPicking.hasPick(item.agentId, item.cartId) &&
+                      !vmPicking.hasCancel(item.agentId, item.cartId)
+                    "
+                    class="material-icons done-icon"
+                  >
+                    done
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </ng-container>
+        </table>
+      </div>
+    </section>
+    <section class="layout layout-picking-online">
+      <div class="tab tab-online">
+        <button>Online</button>
+        <button>Complete</button>
+      </div>
+
+      <div class="table table-wrapper" style="overflow-x: auto">
+        <table style="table-layout: fixed">
+          <thead>
+            <tr>
+              <th style="width: 4%; padding: 10px">No.</th>
+              <th style="width: 6%">AgentId</th>
+              <th style="width: 6%">Cart ID</th>
+              <th style="width: 8%">Time</th>
+              <th style="width: 12%">Customer Name</th>
+              <th style="width: 5%">Cart Items</th>
+              <th style="width: 5%; text-align: center;">Picked</th>
+              <th style="width: 10%"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr style="height: 30px">
+              <td style="text-align: center">01</td>
+              <td>Olaa04</td>
+              <td>Cart_03</td>
+              <td>13:15</td>
+              <td>Test Customer</td>
+              <td style="text-align: center">4</td>
+              <td style="text-align: center">4</td>
+
+              <td style="padding: 0 5px">
+                <div class="td-item">
+                  <div class="item"></div>
+                  <div class="item">
+                    <span class="material-icons" style="color: #ff4747">
+                      east
+                    </span>
+
+                    <span class="material-icons" style="color: #ff4747">
+                      add
+                    </span>
+
+                    <span
+                      class="material-icons"
+                      style="color: rgb(21, 233, 21)"
+                    >
+                      done
+                    </span>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <ng-container *ngIf="activeModal">
+    <div class="container container-modal">
+      <section class="layout layout-modal">
+        <div class="wrap wrap-btn">
+          <button class="btn btn-close" (click)="activeModal = false">
+            <span class="material-icons"> close </span>
+          </button>
+        </div>
+        <div class="wrap wrap-picking">
+          <div class="item" *ngFor="let withdraw of getWithDrawalFunc()">
+            <div class="img">
+              <img src="./../../../assets/images/no-image.png" alt="" />
+            </div>
+
+            <div class="info">
+              <p class="name">{{ withdraw.productDescription }}</p>
+              <p class="variants">
+                <ng-container
+                  *ngFor="let item of withdraw.productVariants; let i = index"
+                >
+                  <span>{{ item.variantName }} : {{ item.variantValue }}</span>
+                  <span *ngIf="i < withdraw.productVariants.length - 1">
+                    |
+                  </span>
+                </ng-container>
+              </p>
+            </div>
+
+            <div class="withdraw-qty">
+              <p>{{ withdraw.qty }}</p>
+            </div>
+
+            <div
+              class="picking-qty"
+              [ngClass]="
+                vmPicking.getPickQtyByWithdrawalId(
+                  withdraw.warehouseWithdrawalId
+                ) > 0
+                  ? 'inject'
+                  : vmPicking.getPickQtyByWithdrawalId(
+                      withdraw.warehouseWithdrawalId
+                    ) < 0
+                  ? 'reject'
+                  : 'donthas'
+              "
+            >
+              <p>
+                {{ withdraw.withdrawalStatus !== 3 ?
+                  vmPicking.getPickQtyByWithdrawalId(
+                    withdraw.warehouseWithdrawalId
+                  ): withdraw.qty
+                }}
+              </p>
+            </div>
+            <ng-container *ngIf="withdraw.withdrawalStatus < 3">
+              <div
+                class="state state-success"
+                [ngClass]="{
+                  hasPending:
+                    vmPicking.getPickQtyByWithdrawalId(
+                      withdraw.warehouseWithdrawalId
+                    ) != 0
+                }"
+              >
+                <button
+                  class="btn btn-success animation-ripple"
+                  (click)="pendingFunc(withdraw.warehouseWithdrawalId)"
+                >
+                  Pending
+                </button>
+                <span>Accepted</span>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="withdraw.withdrawalStatus == 3">
+              <div
+                class="state state-cancel"
+                [ngClass]="{
+                  cancelFinish:
+                    vmPicking.checkCancelAlready(
+                      withdraw.warehouseWithdrawalId
+                    )
+                }"
+              >
+                <button
+                  class="btn btn-cancel animation-ripple"
+                  (click)="cancelFunc(withdraw.warehouseWithdrawalId)"
+                >
+                  Cancel
+                </button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </section>
+    </div>
+  </ng-container>
+</main>
+<audio hidden #audioRequest>
+  <source src='../../../assets/audios/got-it-done-613.mp3' type="audio/mp3">
+</audio>
+<audio hidden #audioCancel>
+  <source src='../../../assets/audios/clearly-602.mp3' type="audio/mp3">
+</audio>

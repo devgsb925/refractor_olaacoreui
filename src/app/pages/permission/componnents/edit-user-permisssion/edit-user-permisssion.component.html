@@ -1,0 +1,125 @@
+<div class="modal-container">
+  <div class="card">
+    <div class="option">
+      <div class="title">
+        <label for="">
+          <span class="material-icons"> add </span>
+          Add New User
+        </label>
+      </div>
+
+      <button class="btn-close btn btn-success animation-ripple" (click)="changePageFunc(0)">
+        <span class="material-icons"> close </span>
+      </button>
+    </div>
+
+    <div class="content-warpper" *ngIf="vmPermission.editUserModel as editUser">
+      <div class="grid-l">
+        <div class="grid-l-content">
+          <div class="item-group">
+            <label for="">Image</label>
+            <div class="img-item">
+
+              <span style="font-size: 120px" class="material-icons" *ngIf="!imgURL && !loadEditImgUrl">
+                panorama
+              </span>
+
+              <img src="{{baseUrl+loadEditImgUrl}}" alt="{{baseUrl+loadEditImgUrl}}" *ngIf="loadEditImgUrl" />
+              <img src="{{imgURL}}" alt="" *ngIf="imgURL" />
+
+              <div class="form-group">
+                <input type="file" id="file" (change)="handleFileInput($event.target.files)"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="item-group user-id">
+            <label for="">User&nbsp;ID</label>
+            <input type="text" value="{{editUser.userId}}" readonly />
+          </div>
+
+          <div class="item-group">
+            <label for="">First&nbsp;Name</label>
+            <input type="text" [(ngModel)]="editUser.firstName"/>
+          </div>
+
+          <div class="item-group">
+            <label for="">Last&nbsp;Name</label>
+            <input type="text" [(ngModel)]="editUser.lastName"/>
+          </div>
+
+          <div class="item-group">
+            <label for="">Contact&nbsp;Number</label>
+            <input type="text" [(ngModel)]="editUser.contactNo"/>
+          </div>
+
+          <div class="item-group">
+            <label for="">Role</label>
+            <input type="text"  [(ngModel)]="editUser.role"/>
+          </div>
+
+          <div class="item-group">
+            <label for="">User&nbsp;Name</label>
+            <input type="text" [(ngModel)]="editUser.userName"/>
+          </div>
+
+          <div class="item-group">
+
+            <div class="input-group">
+              <label for="">Password</label>
+              <ng-container *ngIf="!passwordType">
+                <input class="hiden" type="password" [(ngModel)]="editUser.password"/>
+                <button (click)="changePasswordType()">
+                  <span class="material-icons"> visibility </span>
+                </button>
+              </ng-container>
+
+              <ng-container *ngIf="passwordType">
+                <input type="text" class="hiden" [(ngModel)]="editUser.password"/>
+                <button (click)="changePasswordType()">
+                  <span class="material-icons"> visibility_off </span>
+                </button>
+              </ng-container>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-r">
+        <div class="grid-r-content">
+          <div class="gird-option">
+            <label for="">
+              <span class="material-icons"> lock_open </span>
+              Permissions
+            </label>
+
+            <button class="btn btn-success animation-ripple" >
+              <span class="material-icons"> save </span>
+              Save
+            </button>
+          </div>
+
+          <div class="role-item" >
+            <div class="role-group">
+              <input type="checkbox" id="all" name="all" value="all" />
+              <label for="all">Select All</label><br />
+            </div>
+            <ng-container >
+              <div class="role-group">
+                <input type="checkbox"  />
+                <label>dsfsdf</label><br />
+              </div>
+
+              <div class="role-sub">
+                <input type="checkbox" />
+                <label for="">sadasd</label><br />
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

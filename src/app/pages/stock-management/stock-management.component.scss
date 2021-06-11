@@ -1,0 +1,41 @@
+.page-wrapper {
+  padding: 1rem;
+  margin: 1rem;
+
+  .tabs {
+
+    height: 40px;
+    display: flex;
+
+    a{
+      display: flex;
+      align-items: center;
+
+      &:nth-child(1){
+        border-top-left-radius: 8px;
+      }
+
+      &:nth-child(3){
+        border-top-right-radius: 8px;
+      }
+    }
+
+
+    .tab {
+      text-decoration: none;
+      padding: 5px 1rem;
+      height: inherit;
+      font-weight: 500;
+      font-size: 0.9rem;
+
+      background-color: rgb(245,245,245);
+      color: rgb(70,70,70);
+    }
+
+
+    .active-tab {
+      background-color: #FF4747;
+      color: #FFF;
+    }
+  }
+}

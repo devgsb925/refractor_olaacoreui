@@ -1,0 +1,102 @@
+<main>
+  <div class="container">
+    <section class="information">
+      <h3>{{brandId > 0 ? 'Update Brand': 'Add New Brand'}}</h3>
+      <div class="logo-preview">
+        <img src="{{filePreview != '' ? filePreview : url != '' ? url : '../../../assets/images/no-image.png'}}" alt="" />
+      </div>
+      <div class="files">
+        <input type="file" #inputLogo (change)="onChooseFile($event.target.files)"/>
+        <button class="btn-reupload" *ngIf="brandId > 0 && file != undefined" (click)="reuploadLogo()">
+          <span class="material-icons">
+            file_upload
+          </span>
+        </button>
+
+        <button class="btn-delete-logo" *ngIf="brandId > 0 && url.length > 0" (click)="deleteLogoFunc()">
+          <span class="material-icons">
+            delete
+          </span>
+        </button>
+      </div>
+
+
+      <p>&nbsp;Brand Name : </p>
+      <input type="text" placeholder="enter product brand" [(ngModel)]="brandName">
+      <button class="btn btn-add" *ngIf="brandId == 0" (click)="addBrandFunc()">
+        <span class="material-icons">
+          add_circle
+        </span>
+        <p>Add</p>
+      </button>
+      <button class="btn btn-save" *ngIf="brandId > 0" (click)="updateBrandFunc()">
+        <span class="material-icons">
+          save
+        </span>
+        <p>Save</p>
+      </button>
+      <button class="btn btn-cancel" (click)="cancelBrandFunc()">
+        <span class="material-icons">
+          clear
+        </span>
+        <p>Cancel</p>
+      </button>
+    </section>
+    <section class="list">
+      <header>
+        <div class="search-wrap">
+          <span class="material-icons"> search </span>
+          <input type="text" [(ngModel)]="searchValue" placeholder="Search by Id, Name ..." (change)="searchBrandFunc()" />
+        </div>
+
+      </header>
+      <table>
+        <thead>
+          <tr>
+            <th class="id">
+              <p>Id</p>
+            </th>
+            <th class="name">
+              <p>Name</p>
+            </th>
+            <th class="logo">
+              <p>Logo</p>
+            </th>
+            <th class="edit">
+              <p>Edit</p>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+      </table>
+      <div class="items-wrap"
+      id="brandItems"
+      cdkDropList
+      [cdkDropListData]="brandList"
+      (cdkDropListDropped)="onDropUpdateOrderIndex($event)"
+      [cdkDropListEnterPredicate]="false">
+        <div *ngFor="let item of this.brandList" [cdkDragData]="item" cdkDrag>
+          <div class="item">
+            <div class="id">
+              <p>{{item.refBrandId}}</p>
+            </div>
+            <div class="name">
+              <p>{{item.name}}</p>
+            </div>
+            <div class="logo">
+              <img src="{{item.url != '' ? item.url : '../../../assets/images/no-image.png'}}" alt="">
+            </div>
+            <div class="edit">
+              <button class="btn btn-edit" (click)="selectBrand(item)">
+                <span class="material-icons">
+                  edit
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</main>

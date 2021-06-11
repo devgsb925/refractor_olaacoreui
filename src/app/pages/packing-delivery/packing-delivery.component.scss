@@ -1,0 +1,31 @@
+.container {
+    padding: 1rem;
+    .distplay-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: calc(90vh - 80px);
+
+        .grid {
+            .name-table {
+                margin-top: 1rem;
+            }
+
+            &:nth-child(1) {
+                .table-item {
+                    padding-right: 1rem;
+                    border-right: gainsboro 1px solid;
+                }
+            }
+
+            &:nth-child(2) {
+                .name-table {
+                    padding-left: 1rem;
+                }
+
+                .table-item {
+                    padding-left: 1rem;
+                }
+            }
+        }
+    }
+}

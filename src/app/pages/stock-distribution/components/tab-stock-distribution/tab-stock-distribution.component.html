@@ -1,0 +1,72 @@
+<div class="options">
+  <button class="btn-option" type="button" (click)="showSelectCategory = true">{{ getCategoryName() }}&nbsp;<span class="material-icons">launch</span></button>
+  <button class="btn-option" type="button" (click)="showSelectBrands = true">{{ getBrandName() }} <span class="material-icons">launch</span></button>
+
+  <div class="input-group">
+    <input type="text" placeholder="Search by product id, product description, barcode...">
+    <span class="material-icons">search</span>
+  </div>
+
+  <div class="action-wrapper">
+    <button class="btn-action" type="button">
+      <span class="material-icons">save</span>
+      Save
+    </button>
+    <button class="btn-action" type="button">
+      <span class="material-icons">swap_horiz</span>
+      Distribute
+    </button>
+  </div>
+</div>
+
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 100px;">Product ID</th>
+        <th style="width: 300px;">Product Description</th>
+        <th style="text-align: center;">Stock Qty</th>
+        <th style="text-align: center;">Warehouse Qty</th>
+        <th style="text-align: center;">Display Qty</th>
+        <th style="text-align: center;">Demo Qty</th>
+        <th style="text-align: center;">Qc. Qty</th>
+        <th style="text-align: center;">Select <input type="checkbox" [(ngModel)]="selectAll" (ngModelChange)="onSelectAll()"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.productId }}</td>
+        <td>{{ product.productDesc }}</td>
+        <td style="text-align: center;">{{ product.stockQty }}</td>
+        <td style="text-align: center;">{{ product.warehouseQty }}</td>
+        <td style="text-align: center;">{{ product.displayQty }}</td>
+        <td style="text-align: center;">{{ product.demoQty }}</td>
+        <td style="text-align: center;">{{ product.qcQty }}</td>
+        <td><input type="checkbox" [(ngModel)]="product.select"></td>
+      </tr>
+
+
+    </tbody>
+
+  </table>
+</div>
+
+<div class="pagination-wrapper" *ngIf="prodLength > 150">
+  <app-pagination class="pagination" [ItemsCount]="prodLength" [PageSize]="150" [PagePos]="prodPos"></app-pagination>
+</div>
+
+<ng-container *ngIf="showSelectCategory">
+  <app-select-category
+    [category1Id]="cat1IdSelect.refCategoryId"
+    [category2Id]="cat2IdSelect.refCategoryId"
+    [category3Id]="cat3IdSelect.refCategoryId"
+    (selectCategoryResult)="onSelectCategory($event)"
+    (closeEvent)="closeCategoryEvent($event)"
+  >
+  </app-select-category>
+</ng-container>
+
+<ng-container *ngIf="showSelectBrands">
+  <app-select-brand (closeEvent)="closeBrandEvent($event)" (selectItem)="onSelectBrand($event)"></app-select-brand>
+</ng-container>

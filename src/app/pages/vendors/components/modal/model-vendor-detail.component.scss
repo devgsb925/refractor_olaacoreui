@@ -1,0 +1,125 @@
+  .modal-wrapper {
+    .modal-content {
+      height: 750px;
+      width: 700px;
+      padding: 2rem !important;
+
+      .title {
+        position: absolute;
+        left: -20px;
+
+        button {
+          background: #ff4747;
+          border-radius: 50px;
+          color: white;
+          border: none;
+          display: flex;
+          align-items: center;
+          padding: 5px;
+          width: 150px;
+
+          span {
+            margin-right: 10px;
+          }
+        }
+      }
+
+      .bnt-save {
+        margin-top: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+
+        button {
+          display: flex;
+          align-items: center;
+          padding: 4px;
+          margin-bottom: 0.5rem;
+          color: white;
+          background-color: #555;
+
+          &:hover {
+            background: #ff4747;
+          }
+
+          span {
+            font-size: 15px;
+            margin-right: 5px;
+          }
+        }
+
+        .has-update {
+          background: #ff4747;
+        }
+      }
+
+      .form-item {
+        .form-border {
+          border: 1px solid gainsboro;
+          border-radius: 8px;
+          padding: 1.5rem;
+
+          .input {
+            .input-item {
+              display: flex;
+              justify-content: space-between;
+
+              .item,
+              input {
+                margin-bottom: 0.5rem;
+
+                width: 280px;
+              }
+
+              .item {
+                input {
+                  padding: 6px 10px;
+
+                  &::placeholder {
+                    color: rgb(233, 230, 230);
+                    font-weight: 50;
+                    font-family: "Nunito Sans", sans-serif;
+                  }
+                }
+
+                .model-id {
+                  background-color: rgb(242, 235, 235);
+                  border: gainsboro 1px solid;
+                  text-align: center;
+                }
+              }
+            }
+          }
+
+          .productType {
+            margin-bottom: 0.5rem;
+
+            input {
+              padding: 4px 10px;
+
+              &::placeholder {
+                color: rgb(233, 230, 230);
+                font-weight: 50;
+                font-family: "Nunito Sans", sans-serif;
+              }
+            }
+          }
+
+          .address {
+            textarea {
+              padding: 4px 10px;
+
+              &::placeholder {
+                color: rgb(233, 230, 230);
+                font-weight: 50;
+                font-family: "Nunito Sans", sans-serif;
+              }
+            }
+          }
+
+          .footer {
+            margin-bottom: 1rem;
+          }
+        }
+      }
+    }
+  }

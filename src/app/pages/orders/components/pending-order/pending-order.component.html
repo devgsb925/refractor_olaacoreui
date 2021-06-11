@@ -1,0 +1,234 @@
+<div class="container">
+  <div class="card-wrapper">
+    <div class="tab-container">
+      <div class="item-container">
+
+        <div class="item grid-left">
+
+          <div class="search">
+            <input type="text" class="form-control" placeholder="Search by vendor id, vendor name"
+              [(ngModel)]="searchValue" (keyup.enter)="searchVendorList()" />
+            <span class="material-icons"> search </span>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>V.ID</th>
+                  <th>Vendor&nbsp;Name</th>
+                  <th>Contact</th>
+                </tr>
+              </thead>
+
+              <tbody *ngIf="vmOrpending.VendorList$ | async as vendors">
+                <tr *ngFor="let vendor of vendors" (click)="selectOrderDetailByVendorid(vendor)"
+                  [ngClass]="{'sel-active': vmOrpending.selTableVendorId === vendor.purchasingVendorId}">
+                  <td>{{ vendor.purchasingVendorId }}</td>
+                  <td>
+                    <p *ngIf="!chackToolTip(vendor.vendorName.length, 35)">
+                      {{ vendor.vendorName }}
+                    </p>
+                    <div class="tooltip" *ngIf="chackToolTip(vendor.vendorName.length, 35)">
+                      <p>{{ vendor.vendorName }}</p>
+                      <span class="tooltiptext text-overflow">
+                        {{ vendor.vendorName }}</span>
+                    </div>
+                  </td>
+                  <td>
+
+                    <p *ngIf="!chackToolTip( vendor.contactName.length, 20)">
+                      {{vendor.contactName }}
+                    </p>
+                    <div class="tooltip" *ngIf="chackToolTip(vendor.contactName.length, 20)">
+                      <p>{{ vendor.contactName }}</p>
+                      <span class="tooltiptext text-overflow">
+                        {{ vendor.contactName }}</span>
+                    </div>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+
+        <div class="item grid-right" *ngIf="vmOrpending.getStocks() | async as pendigOrderList">
+
+          <div class="search search-pod">
+            <input type="text" class="form-control" placeholder="Search by product id, sku, product description, brand"
+              [(ngModel)]="orderSearchValue" (keyup.enter)="searchVendorProductList()" />
+            <span class="material-icons">search</span>
+          </div>
+
+          <div class="button-action">
+
+            <button class="btn btn-success animation-ripple" (click)="buttonSubmit()">
+              <span class="material-icons">
+                send
+              </span>
+              Submit
+            </button>
+
+            <button class="btn btn-success animation-ripple" (click)="removeSubmit()">
+              <span class="material-icons"> cancel </span> Remove
+            </button>
+
+            <button type="submit" class="btn btn-success animation-ripple" [ngClass]="{
+                  'has-update': vmOrpending.checkHasupdate(pendigOrderList)}" (click)="saveSubmit()">
+              <span class="material-icons"> save </span> Save
+            </button>
+
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th class="pid">P.ID</th>
+                  <th class="sku">SKU</th>
+                  <th class="image">Image</th>
+                  <th class="pod-dse">Product Description</th>
+                  <th class="pod-number">Product&nbsp;Number</th>
+                  <th class="brand">Brand</th>
+                  <th class="stock">Stock</th>
+                  <th class="otw">OTW</th>
+                  <th class="order">Order</th>
+                  <th class="remark">Remarks</th>
+                  <th class="cbx">
+                    <label class="containerB cb">
+                      <input type="checkbox" [(ngModel)]="select" (change)="checkAllFunction()">
+                      <span class="checkmark"></span>
+                    </label>
+                  </th>
+                  <th class="dot"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let pendingOrder of pendigOrderList" (click)="selTable = pendingOrder.pendingOrderId"
+                  [ngClass]="{'sel-active': selTable === pendingOrder.pendingOrderId}">
+                  <td class="pid">{{ pendingOrder.stockId }}</td>
+
+                  <td class="sku">
+                    <ng-container *ngIf="!pendingOrder.sku">
+                      -
+                    </ng-container>
+                    <ng-container *ngIf="pendingOrder.sku">
+                      {{pendingOrder.sku}}
+                    </ng-container>
+
+                  </td>
+                  <td class="image">
+                    <img src="{{pendingOrder.productImage ? pendingOrder.productImage : '../../../../../assets/images/no-image.png'}}" alt="" class="thumb">
+                    <img src="{{pendingOrder.productImage ? pendingOrder.productImage : '../../../../../assets/images/no-image.png'}}" alt="" class="preview">
+                  </td>
+                  <td class="pod-dse">
+                    <ng-container *ngIf="!chackToolTip(pendingOrder.productDescription.length, 30)">
+                      <p>
+                        {{ pendingOrder.productDescription }}
+                      </p>
+                    </ng-container>
+
+                    <ng-container *ngIf="chackToolTip(pendingOrder.productDescription.length, 30)">
+                      <div class="tooltip" style="margin-top: 5px;">
+                        <p style="width: 180px;">{{ pendingOrder.productDescription }}</p>
+                        <span class="tooltiptext text-overflow">
+                          {{ pendingOrder.productDescription }}</span>
+                      </div>
+                    </ng-container>
+                  </td>
+
+                  <td class="pod-number">
+                    <ng-container *ngIf="!pendingOrder.productNo">
+                      -
+                    </ng-container>
+
+                    <ng-container *ngIf="pendingOrder.productNo">
+                      <p *ngIf="!chackToolTip( pendingOrder.productNo.length, 15)">
+                        {{ pendingOrder.productNo }}
+                      </p>
+
+                      <div class="tooltip" *ngIf="chackToolTip( pendingOrder.productNo.length, 15)">
+                        <p style="width: 90px;">{{ pendingOrder.productNo }}</p>
+                        <span class="tooltiptext text-overflow">
+                          {{ pendingOrder.productNo }}</span>
+                      </div>
+                    </ng-container>
+
+                  </td>
+
+                  <td class="brand">
+                    <p *ngIf="!chackToolTip( pendingOrder.brandName.length, 9)">
+                      {{ pendingOrder.brandName }}
+                    </p>
+                    <div class="tooltip" *ngIf="chackToolTip( pendingOrder.brandName.length, 9)">
+                      <p>{{ pendingOrder.brandName }}</p>
+                      <span class="tooltiptext text-overflow">
+                        {{ pendingOrder.brandName }}</span>
+                    </div>
+
+                  </td>
+                  <td class="stock">{{ pendingOrder.stockQty }}</td>
+
+                  <td class="otw">{{pendingOrder.otw}}</td>
+
+                  <td class="order" [ngClass]="{'active-border': pendingOrder.pendingOrderId == selTable}">
+                    <input class="form-control" type="number" [(ngModel)]="pendingOrder.requestedQty"
+                      (ngModelChange)="pendingOrder.hasUpdate = true" [ngModelOptions]="{ standalone: true }" />
+                  </td>
+
+                  <td class="remark">
+                    <ng-container *ngIf="!pendingOrder.remarks && pendingOrder.pendingOrderId !== selTable">
+                      -
+                    </ng-container>
+
+                    <ng-container *ngIf="pendingOrder.remarks && pendingOrder.pendingOrderId !== selTable">
+                      <p  *ngIf="!chackToolTip( pendingOrder.remarks.length, 10)"  style="max-width: 300px;">
+                        {{ pendingOrder.remarks }}
+                      </p>
+                      <div class="tooltip"  *ngIf="chackToolTip( pendingOrder.remarks.length, 10)">
+                        <p>{{ pendingOrder.remarks }}</p>
+                        <span class="tooltiptext text-overflow" >
+                          {{ pendingOrder.remarks }}</span>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="pendingOrder.pendingOrderId == selTable">
+                      <input type="text" [(ngModel)]="pendingOrder.remarks"
+                        (ngModelChange)="pendingOrder.hasUpdate = true">
+                    </ng-container>
+                  </td>
+
+                  <td class="cbx">
+                    <label class="containerB cb">
+                      <input type="checkbox" [(ngModel)]="pendingOrder.hasSelect"
+                        (change)="pOrderSelect(pendingOrder)" />
+                      <span class="checkmark"></span>
+                    </label>
+                  </td>
+
+                  <td class="dot">
+                    <div class="has-update" *ngIf="pendingOrder.hasUpdate"></div>
+                  </td>
+                </tr>
+              </tbody>
+
+
+            </table>
+          </div>
+
+          <div class="footer">
+            <div></div>
+            <app-pagination [ItemsCount]="vmOrpending.getItemCount()" [PageSize]="20" [PagePos]="vmOrpending.position"
+              (PositionEventEmitter)="vmOrpending.getPagePosition($event)" *ngIf="vmOrpending.pedingOrder.length > 0">
+            </app-pagination>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

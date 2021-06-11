@@ -1,0 +1,458 @@
+<div class="modal-container">
+  <div class="page-container2 card">
+    <div class="grid-tab">
+
+      <div class="title">
+        <label for=""><span class="material-icons">
+            local_offer
+          </span>Barcode&nbsp;&&nbsp;UID</label>
+      </div>
+
+      <div class="button-action">
+        <button (click)="closeBarCodeUIDModal()"><span class="material-icons">
+            close
+          </span></button>
+      </div>
+
+    </div>
+
+    <div class="grid">
+      <div class="grid-barcode">
+        <div class="grid-fieldset">
+          <fieldset class="color-border">
+            <legend>Barcode</legend>
+
+
+            <div class="print-fieldset">
+              <div class="print">
+                <div class="input-group">
+                  <label >Paper&nbsp;Size&nbsp;<span>*</span></label>
+
+                  <select name="" id="" [(ngModel)]="selectBarcodeSize">
+                    <option [ngValue]="0">60 x 40mm</option>
+                    <option [ngValue]="1">50 x 30mm</option>
+                  </select>
+
+                  <button type="button" (click)="printerService.printDiv('idOfDivToPrint')">
+                    <span class="material-icons">
+                      local_printshop
+                    </span>
+                    Print
+                  </button>
+                </div>
+              </div>
+            </div>
+
+
+
+
+            <div class="barcode-preview-container" *ngIf="vmPendingShipment.barcodeSelete as bc">
+              <div class="title">
+                <label for="">Barcode Preview</label>
+              </div>
+
+
+              <div class="barcode-preview card">
+                  <h1>{{bc.productDescription}}</h1>
+                <div class="imei-barcod" *ngIf="bc.barcode !== '' ">
+                  <ngx-barcode style="width: auto;" [bc-value]="bc.barcode" [bc-height]="50" [bc-width]="1.3"
+                    [bc-format]="barcodeFormat" [bc-font-size]="12">
+                  </ngx-barcode>
+                  <span>{{bc.barcode}}</span>
+
+                </div>
+
+                <div class="imei-barcod" *ngIf="selUid && selUid !=='NONE'">
+                  <ngx-barcode style="width: auto;" [bc-value]="selUid" [bc-height]="50" [bc-font-size]="12"
+                    [bc-format]="barcodeFormat" [bc-width]="1.3">
+                  </ngx-barcode>
+                  <span>{{selectedRadioGroup+': '+selUid}}</span>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- 60 x 40 -->
+            <ng-container *ngIf="selectBarcodeSize == 0">
+
+              <ng-container *ngIf="selUid">
+                <div style="margin-left: -1500px;">
+                  <div id="idOfDivToPrint" ngxPrintItemMarker directPrint="true">
+                    <div *ngFor="let bc of vmPendingShipment.UidGroupForPrin$ | async">
+                      <div class="barcode-preview prin-60x40" *ngIf="vmPendingShipment.barcodeSelete as barcode"
+                        style="height: 151px; width: 226px; border-radius: 3px;   margin-left: 0.5rem;">
+                          <h1 style="font-size: 14px;">{{barcode.productDescription}}</h1>
+                        <div class="imei-barcod" *ngIf="barcode.barcode">
+                          <ngx-barcode [bc-value]="barcode.barcode" [bc-height]="26" [bc-width]="1.3"
+                            [bc-format]="barcodeFormat" [bc-font-size]="9" [bc-margin]="0" [bc-margin-bottom]="0"
+                            [bc-margin-left]="0" [bc-margin-right]="0" [bc-margin-top]="0">
+                          </ngx-barcode>
+                          <span style="font-size: 8px;">{{barcode.barcode}}</span>
+                        </div>
+
+                        <div class="imei-barcod" *ngIf="selUid">
+                          <ngx-barcode [bc-value]="bc.uidValue" [bc-height]="26" [bc-font-size]="9"
+                            [bc-format]="barcodeFormat" [bc-width]="1.3" [bc-margin]="0" [bc-margin-bottom]="0"
+                            [bc-margin-left]="0" [bc-margin-right]="0" [bc-margin-top]="0">
+                          </ngx-barcode>
+                          <span style="font-size: 8px;">{{selectedRadioGroup+': '+bc.uidValue}}</span>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="!selUid && selUid !== 'NONE' ">
+                <div style="margin-left: -1500px;">
+                  <div id="idOfDivToPrint" ngxPrintItemMarker directPrint="true">
+                    <div class="barcode-preview prin-60x40" *ngIf="vmPendingShipment.barcodeSelete as barcode"
+                      style="height: 151px; width: 226px; border-radius: 3px;  margin-top: 0.5rem; margin-left: 0.5rem;">
+
+
+                        <h1 style="font-size: 14px; margin-top: -5px;">{{barcode.productDescription}}</h1>
+
+                      <div class="imei-barcod" *ngIf="barcode.barcode">
+                        <ngx-barcode [bc-value]="barcode.barcode" [bc-height]="75" [bc-width]="1.3"
+                          [bc-format]="barcodeFormat" [bc-font-size]="9" [bc-margin]="0" [bc-margin-bottom]="0"
+                          [bc-margin-left]="0" [bc-margin-right]="0" [bc-margin-top]="0">
+                        </ngx-barcode>
+                        <span>{{barcode.barcode}}</span>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+            </ng-container>
+
+
+            <!-- 50 x 30 -->
+            <ng-container *ngIf="selectBarcodeSize == 1">
+
+              <ng-container *ngIf="selUid">
+                <div style="margin-left: -1500px;">
+                  <div id="idOfDivToPrint" ngxPrintItemMarker directPrint="true">
+                    <div *ngFor="let bc of vmPendingShipment.UidGroupForPrin$ | async">
+                      <div class="barcode-preview prin-60x40" *ngIf="vmPendingShipment.barcodeSelete as barcode"
+                        style="height: 151px; width: 226px; border-radius: 3px;   margin-left: 0.5rem;">
+
+                          <h1 style="font-size: 14px;">{{barcode.productDescription}}</h1>
+
+
+                        <div class="imei-barcod" *ngIf="barcode.barcode">
+                          <ngx-barcode [bc-value]="barcode.barcode" [bc-height]="16" [bc-width]="1.3"
+                            [bc-format]="barcodeFormat" [bc-font-size]="9" [bc-margin]="0" [bc-margin-bottom]="0"
+                            [bc-margin-left]="0" [bc-margin-right]="0" [bc-margin-top]="0">
+                          </ngx-barcode>
+                          <span style="font-size: 8px;">{{barcode.barcode}}</span>
+                        </div>
+
+                        <div class="imei-barcod" *ngIf="selUid">
+                          <ngx-barcode [bc-value]="bc.uidValue" [bc-height]="16" [bc-font-size]="9"
+                            [bc-format]="barcodeFormat" [bc-width]="1.3" [bc-margin]="0" [bc-margin-bottom]="0"
+                            [bc-margin-left]="0" [bc-margin-right]="0" [bc-margin-top]="0">
+                          </ngx-barcode>
+                          <span style="font-size: 8px;">{{selectedRadioGroup+': '+bc.uidValue}}</span>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="!selUid">
+                <div style="margin-left: -1500px;">
+                  <div id="idOfDivToPrint" ngxPrintItemMarker directPrint="true">
+                    <div class="barcode-preview prin-60x40" *ngIf="vmPendingShipment.barcodeSelete as barcode"
+                      style="height: 151px; width: 226px; border-radius: 3px;  margin-left: 0.5rem;">
+
+
+                        <h1 style="font-size: 14px;">{{barcode.productDescription}}</h1>
+
+                      <div class="imei-barcod" *ngIf="barcode.barcode">
+                        <ngx-barcode [bc-value]="barcode.barcode" [bc-height]="42" [bc-width]="1.3"
+                          [bc-format]="barcodeFormat" [bc-font-size]="9" [bc-margin]="0" [bc-margin-bottom]="0"
+                          [bc-margin-left]="0" [bc-margin-right]="0" [bc-margin-top]="0">
+                        </ngx-barcode>
+                        <span>{{barcode.barcode}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="grid-barcode-details">
+        <div class="display-grid" *ngIf="vmPendingShipment.productBarcodeList as barcode">
+
+          <div class="grid-top">
+
+            <div class="table-wrapper table-top">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="pod-id">P.ID</th>
+                    <th class="sku">SKU</th>
+                    <th class="product-dec">Product&nbsp;Description</th>
+                    <th class="product-number">Product&nbsp;Number</th>
+                    <th class="re-qty">Recieves&nbsp;Qty</th>
+                    <th class="barcode">Barcode</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  <tr *ngFor="let item of barcode; let i = index" (click)="generateBarcode(item , i+1)"
+                  [ngClass]="{'sel-active': selectIndex === i+1}">
+
+                    <td class="pod-id">{{item.productId}}</td>
+                    <td class="sku">SKU</td>
+
+                    <td class="product-dec">
+                      <p *ngIf="!chackToolTip( item.productDescription.length, 70)">
+                        {{ item.productDescription }}
+                      </p>
+                      <div class="tooltip" *ngIf="chackToolTip( item.productDescription.length, 70)">
+                        <p>{{ item.productDescription }}</p>
+                        <span class="tooltiptext text-overflow">
+                          {{ item.productDescription }}</span>
+                      </div>
+                    </td>
+
+                    <td class="product-number">
+                      1122336644
+                    </td>
+                    <td class="re-qty">{{item.receivedQty}}</td>
+                    <td class="barcode">{{item.barcode}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="grid-bottom">
+            <fieldset class="imei-group">
+              <legend>UID</legend>
+              <div class="bottom-grid-wrapper">
+                <div class="bottom-grid-option">
+
+                  <input type="text" class="search" placeholder="Add New UID ..." [(ngModel)]="addBarcode"
+                    (keyup.enter)="submitAddbarcod()" [readonly]="selectedRadioGroup === 'NONE'"
+                    [ngClass]="{'dc-noen': selectedRadioGroup === 'NONE'}">
+
+                  <div class="bottom-item" *ngFor="let rb of uidRadioGroup">
+                    <input type="radio" id="{{rb.uidTypeId}}" [(ngModel)]="selectedRadioGroup" [value]="rb.valueStr"
+                      [disabled]="disableUidOption(rb.uidTypeId,getUidType(rb.uidTypeId))">
+                    <label for="{{ rb.uidTypeId }}">{{ rb.valueStr }}</label>
+                  </div>
+
+
+
+                  <div class="bnt-save">
+                    <button (click)="submitSave()">
+                      <span class="material-icons">
+                        save
+                      </span>
+                      Save</button>
+                    <button (click)="onDeleteSubmit(vmPendingShipment.modelBarcodeList)">
+                      <span class="material-icons">
+                        delete
+                      </span>Delete
+                    </button>
+                  </div>
+                </div>
+
+                <div class="bottom-grid-content">
+
+                  <div class="uid-data">
+                    <!-- <div class="grid-li-group" *ngIf="getUidGroup(0, 11) as group">
+
+                      <div class="title">
+                        <label for="">No.</label>
+                        <label for="">{{selectedRadioGroup}}</label>
+                        <input type="checkbox" [(ngModel)]="selectAll"
+                          (change)="checkAllFunction(vmPendingShipment.modelBarcodeList)">
+                      </div>
+
+                      <ol start="{{i+1}}" *ngFor="let item of group ;let i = index">
+                        <li>{{item.uidValue}}</li>
+                        <input type="checkbox" [(ngModel)]="item.hasSel"
+                          (ngModelChange)="onChangeProductHasSelect(vmPendingShipment.modelBarcodeList, i)">
+                      </ol>
+
+                    </div>
+
+                    <div class="grid-li-group" *ngIf="getUidGroup(11, 22) as group">
+                      <div class="title">
+
+                      </div>
+                      <ol start="{{12+i}}" *ngFor="let item of group ;let i = index">
+                        <li>{{item.uidValue}}</li>
+                        <input type="checkbox" [(ngModel)]="item.hasSel"
+                          (ngModelChange)="onChangeProductHasSelect(vmPendingShipment.modelBarcodeList, i)"
+                          (click)="selUid = item.uidValue">
+                      </ol>
+                    </div>
+
+                    <div class="grid-li-group" *ngIf="getUidGroup(22, 33) as group">
+                      <div class="title">
+
+                      </div>
+                      <ol start="{{23+i}}" *ngFor="let item of group ;let i = index">
+                        <li>{{item.uidValue}}</li>
+                        <input type="checkbox" [(ngModel)]="item.hasSel"
+                          (ngModelChange)="onChangeProductHasSelect(vmPendingShipment.modelBarcodeList, i)"
+                          (click)="selUid = item.uidValue">
+                      </ol>
+                    </div>
+
+                    <div class="grid-li-group" *ngIf="getUidGroup(33, 44) as group">
+                      <div class="title">
+
+                      </div>
+                      <ol start="{{34+i}}" *ngFor="let item of group ;let i = index">
+                        <li>{{item.uidValue}}</li>
+                        <input type="checkbox" [(ngModel)]="item.hasSel"
+                          (ngModelChange)="onChangeProductHasSelect(vmPendingShipment.modelBarcodeList, i)"
+                          (click)="selUid = item.uidValue">
+                      </ol>
+                    </div> -->
+
+
+                    <div class="table-wrapper" *ngIf="getUidGroup(0, 10) as group">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>{{selectedRadioGroup}}</th>
+                            <th style="padding-left: 8px;">
+                                <label class="container cb">
+                                  <input type="checkbox" [(ngModel)]="selectAll"
+                                  (change)="checkAllFunction(vmPendingShipment.modelBarcodeList)" />
+                                  <span class="checkmark"></span>
+                                </label>
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr *ngFor="let pod of group; let i =index">
+                            <td>{{i+1}}</td>
+                            <td>{{pod.uidValue}}</td>
+                            <td>
+                              <label class="container cb">
+                                <input type="checkbox" [(ngModel)]="pod.hasSel"
+                                 (ngModelChange)="onChangeProductHasSelect(vmPendingShipment.modelBarcodeList, i)" (click)="selUid = pod.uidValue" />
+                                <span class="checkmark"></span>
+                              </label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="table-wrapper" *ngIf="getUidGroup(10, 20) as group">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr *ngFor="let pod of group; let i =index">
+                            <td>{{i+11}}</td>
+                            <td>{{pod.uidValue}}</td>
+                            <td>
+                              <label class="container cb">
+                                <input type="checkbox" [(ngModel)]="pod.hasSel"
+                                 (ngModelChange)="onChangeProductHasSelect(vmPendingShipment.modelBarcodeList, i)" (click)="selUid = pod.uidValue" />
+                                <span class="checkmark"></span>
+                              </label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="table-wrapper" *ngIf="getUidGroup(20, 30) as group">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr *ngFor="let pod of group; let i =index">
+                            <td>{{i+21}}</td>
+                            <td>{{pod.uidValue}}</td>
+                            <td>
+                              <label class="container cb">
+                                <input type="checkbox" [(ngModel)]="pod.hasSel"
+                                 (ngModelChange)="onChangeProductHasSelect(vmPendingShipment.modelBarcodeList, i)" (click)="selUid = pod.uidValue" />
+                                <span class="checkmark"></span>
+                              </label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="table-wrapper" *ngIf="getUidGroup(30, 40) as group">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th></th>
+                            <th ></th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr *ngFor="let pod of group; let i =index">
+                            <td>{{i+31}}</td>
+                            <td>{{pod.uidValue}}</td>
+                            <td>
+                              <label class="container cb">
+                                <input type="checkbox" [(ngModel)]="pod.hasSel"
+                                 (ngModelChange)="onChangeProductHasSelect(vmPendingShipment.modelBarcodeList, i)" (click)="selUid = pod.uidValue" />
+                                <span class="checkmark"></span>
+                              </label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+
+                  </div>
+                </div>
+
+                <div class="bottom-grid-footer">
+                  <app-pagination [ItemsCount]="getItemsCount()" [PageSize]="44" [PagePos]="posBarcode"
+                    (PositionEventEmitter)="posEventEmmit($event)" *ngIf="barcodeList().length > 43">
+                  </app-pagination>
+                </div>
+
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

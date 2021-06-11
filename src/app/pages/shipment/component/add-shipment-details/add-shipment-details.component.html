@@ -1,0 +1,107 @@
+<div class="modal">
+
+  <div class="card modal-form-wrapper">
+
+
+
+    <div class="title">
+      <button>
+        <span class="material-icons">
+          description
+        </span>
+        Add&nbsp;Shipment&nbsp;Details
+      </button>
+    </div>
+
+    <div class="modal-close" (click)="closeAddShipmentDetaiModal()">
+      <button type="button">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <div class="table-wrapper">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Order&nbsp;ID</th>
+            <th>Product&nbsp;ID</th>
+            <th>SKU</th>
+            <th>Product&nbsp;Description</th>
+            <th>Product&nbsp;Number</th>
+            <th>Brand</th>
+            <th>Remaining&nbsp;Qty</th>
+            <th>Shipped&nbsp;Qty</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let prod of addShipmentDetailList()" [ngClass]="{'tactive-tr':  activeTr === prod.orderDetailId}"(click)="activeTr = prod.orderDetailId">
+            <td>
+              {{ prod.orderId }}
+            </td>
+            <td>
+              {{ prod.productId }}
+            </td>
+
+            <td>
+              <ng-container *ngIf="!prod.productNo">-</ng-container>
+              <ng-container *ngIf="prod.productNo">{{ prod.productNo }}</ng-container>
+            </td>
+
+            <td>
+              <!-- {{ prod.productDescription }} -->
+              <p *ngIf="chackToolTip(prod.productDescription.length, 70) === false">
+                {{ prod.productDescription }}
+              </p>
+              <div class="tooltip" *ngIf="chackToolTip(prod.productDescription.length, 70)">
+                <p>{{ prod.productDescription }}</p>
+                <span class="tooltiptext text-overflow">
+                  {{ prod.productDescription }}</span>
+              </div>
+            </td>
+            <td>
+              {{ prod.productNo }}
+            </td>
+            <!-- <td>
+              {{ getVariant(prod.productVariants, 4) }}
+
+            </td>
+            <td>
+              {{ getVariant(prod.productVariants, 2) }}
+            </td>
+            <td>
+              {{ getVariant(prod.productVariants, 3) }}
+            </td> -->
+            <td>
+              {{ prod.brand }}
+            </td>
+
+            <td>
+              {{ prod.remainingQty }}
+            </td>
+            <td>
+              <input type="number" [(ngModel)]="prod.shippedQty" (ngModelChange)="validateShippedQty(prod)"
+                [disabled]="prod.remainingQty == 0">
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <app-pagination class="pagination" [ItemsCount]="getItemsCount()" [PageSize]="20"
+      [PagePos]="vmShipment.posAddShipmentDetail" (PositionEventEmitter)="posEventEmmit($event)"></app-pagination>
+
+    <button type="button" class="btn-submit btn btn-success animation-ripple"
+      (click)="postAddNewShipmentDetailsItems()">
+      <span class="material-icons">
+        send
+      </span>
+      Submit
+    </button>
+
+  </div>
+
+</div>

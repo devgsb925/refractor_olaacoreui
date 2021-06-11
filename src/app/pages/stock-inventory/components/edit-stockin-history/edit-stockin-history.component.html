@@ -1,0 +1,66 @@
+<div class="grid">
+    <div class="grid-option">
+
+        <div class="title">
+            <h3>Edit Inventory History</h3>
+            <button (click)="vmInventory.editPage = false">
+              <span class="material-icons">
+                close
+              </span>
+            </button>
+        </div>
+
+        <div class="search-warpper">
+            <input type="text" placeholder="Search ...">
+            <span class="material-icons">
+              search
+            </span>
+        </div>
+
+    </div>
+
+    <div class="grid-table">
+
+      <div class="table-wrapper">
+          <table>
+              <thead>
+                <tr>
+                  <th>Inventory&nbsp;Date</th>
+                  <th>LastUpdate</th>
+                  <th>Product Id</th>
+                  <th>Product Description</th>
+                  <th>Stock Qty</th>
+                  <th>Warehouse Qty</th>
+                  <th>Display Qty</th>
+                  <th>Demo Qty</th>
+                  <th>QC Qty</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let es of vmInventory.inventoryList; let i = index" (click)="selRow = i+1">
+                  <td>{{es.inventoryDate | date:'d/M/yy' }}</td>
+                  <td>{{es.lastUpdate | date:'d/M/yy'}}</td>
+                  <td>{{es.productId}}</td>
+                  <td>{{es.productDescription}}</td>
+                  <td>{{es.stockQty}}</td>
+                  <td><input type="number" [ngClass]="{'active-border': selRow === i+1}" (ngModelChange)="es.hasUpdate = true" [(ngModel)]="es.unitsOnWarehouse"></td>
+                  <td><input type="number" [ngClass]="{'active-border': selRow === i+1}" (ngModelChange)="es.hasUpdate = true" [(ngModel)]="es.unitsOnDisplay"></td>
+                  <td><input type="number" [ngClass]="{'active-border': selRow === i+1}" (ngModelChange)="es.hasUpdate = true" [(ngModel)]="es.unitsOnDemo"></td>
+                  <td><input type="number" [ngClass]="{'active-border': selRow === i+1}" (ngModelChange)="es.hasUpdate = true" [(ngModel)]="es.unitsOnQC"></td>
+                  <td><button (click)="saveSubmit(es)">Save</button></td>
+                </tr>
+              </tbody>
+          </table>
+      </div>
+
+      <div class="pagination">
+        <app-pagination class="pagination" [ItemsCount]="40" [PageSize]="20" [PagePos]="0"
+        (PositionEventEmitter)="0">
+        </app-pagination>
+      </div>
+
+    </div>
+
+</div>

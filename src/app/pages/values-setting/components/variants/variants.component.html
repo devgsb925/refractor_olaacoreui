@@ -1,0 +1,73 @@
+<main>
+  <div class="container">
+    <section class="information">
+      <h3>
+        {{
+          variantId > 0
+            ? "Update " + refVariantName + " Value"
+            : "Add New " + refVariantName + " Value"
+        }}
+      </h3>
+      <p>{{refVariantName}}</p>
+      <input type="text" placeholder="enter variant value" [(ngModel)]="variantValue" />
+      <button class="btn btn-add" *ngIf="variantId == 0" (click)="addFunc()">
+        <span class="material-icons"> add_circle </span>
+        <p>Add</p>
+      </button>
+      <button class="btn btn-save" *ngIf="variantId > 0" (click)="updateFunc()">
+        <span class="material-icons"> save </span>
+        <p>Save</p>
+      </button>
+      <button class="btn btn-cancel" (click)="cancelFunc()">
+        <span class="material-icons"> clear </span>
+        <p>Cancel</p>
+      </button>
+    </section>
+
+    <section class="list">
+      <header>
+        <div class="search-wrap">
+          <span class="material-icons">search</span>
+          <input
+            type="text"
+            [(ngModel)]="searchValue"
+            (change)="searchFunc()"
+            placeholder="search variant by id or value"
+          />
+        </div>
+      </header>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="id">
+                <p>ID</p>
+              </th>
+              <th class="name">
+                <p>{{refVariantName}}</p>
+              </th>
+              <th class="edit">
+                <p>Edit</p>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of variantList">
+              <td class="id">
+                <p>{{ item.variantId }}</p>
+              </td>
+              <td class="name">
+                <p>{{ item.variantValue }}</p>
+              </td>
+              <td class="edit">
+                <button class="btn btn-edit" (click)="selectFunc(item)">
+                  <span class="material-icons"> edit </span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>

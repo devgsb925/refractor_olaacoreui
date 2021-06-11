@@ -1,0 +1,188 @@
+<div class="stock-container" *ngIf="vm.Stocks$ | async as stocks">
+  <div class="col2">
+    <div class="search-wrapper">
+      <button><span class="material-icons"> search </span></button>
+      <input
+        type="text"
+        placeholder="Search by product id, SKU, product description, brand"
+        [(ngModel)]="search"
+        (keyup.enter)="searchProduct()"
+      />
+    </div>
+  </div>
+
+  <div class="bnt-save">
+    <div></div>
+    <button
+      class="animation-ripple btn-add-action"
+      (click)="updateStock(stocks)"
+      [ngClass]="{ 'has-update': checkHasUpdate() }"
+    >
+      <span class="material-icons"> save </span>
+      Save
+    </button>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>P.ID</th>
+          <th>SKU</th>
+          <th class="image">Image</th>
+          <th>Product&nbsp;Description</th>
+          <th>Product&nbsp;Number</th>
+          <th>Brand</th>
+          <th>V.ID</th>
+          <th>Stock</th>
+          <th>OTW</th>
+          <th>Reorder</th>
+          <th>Remarks</th>
+          <th>Add</th>
+          <th style="width: 20px"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let stock of sliceFunc(stocks); let pos = index"
+          [ngClass]="{
+            'active-sele-row': stock.quickEditStock == true,
+            'active-tr': quickEdit === stock.productId
+          }"
+          (click)="quickEdit = stock.productId"
+        >
+          <td>{{ stock.productId }}</td>
+          <td>
+            <ng-container *ngIf="stock.sku">
+              {{ stock.sku }}
+            </ng-container>
+
+            <ng-container *ngIf="!stock.sku"> - </ng-container>
+          </td>
+          <td class="image">
+            <img class="thumb" src="{{stock.productImage ? stock.productImage : '../../../../../assets/images/no-image.png'}}" alt="">
+            <img src="{{stock.productImage ? stock.productImage : '../../../../../assets/images/no-image.png'}}" alt="" class="preview">
+          </td>
+          <td>
+            <p *ngIf="!chackToolTip(stock.productDescription.length, 45)">
+              {{ stock.productDescription }}
+            </p>
+            <div
+              class="tooltip"
+              *ngIf="chackToolTip(stock.productDescription.length, 45)"
+            >
+              <p>{{ stock.productDescription }}</p>
+              <span class="tooltiptext text-overflow">
+                {{ stock.productDescription }}</span
+              >
+            </div>
+          </td>
+          <td>
+            <ng-container *ngIf="!stock.productNo"> - </ng-container>
+            <ng-container *ngIf="stock.productNo">
+              {{ stock.productNo }}
+            </ng-container>
+          </td>
+          <td>{{ vm.BrandById(stock.refBrandId) }}</td>
+          <td>
+            <div class="tooltip">
+              <p>{{ getVendorId(stock.vendorList) }}</p>
+              <span class="tooltiptext text-overflow">
+                Vendor&nbsp;Name&nbsp;:&nbsp;{{
+                  getVendordetail(stock.vendorList, 1)
+                }},&nbsp;Contact&nbsp;Name&nbsp;:&nbsp;{{
+                  getVendordetail(stock.vendorList, 2)
+                }}</span
+              >
+            </div>
+          </td>
+
+          <td>{{ stock.stockQty }}</td>
+          <td>{{ stock.uow }}</td>
+
+          <td [ngClass]="{ 'active-border': quickEdit === stock.productId }">
+            <input
+              type="number"
+              [(ngModel)]="stock.reOrder"
+              (ngModelChange)="stock.hasUpdate = true"
+              [readonly]="quickEdit !== stock.productId"
+            />
+          </td>
+
+          <td [ngClass]="{ 'active-border': quickEdit === stock.productId }">
+            <ng-container
+              *ngIf="!stock.remarks && quickEdit !== stock.productId"
+            >
+              <p>-</p>
+            </ng-container>
+
+            <ng-container
+              *ngIf="stock.remarks && quickEdit !== stock.productId"
+            >
+              <p *ngIf="!chackToolTip(stock.remarks.length, 15)">
+                {{ stock.remarks }}
+              </p>
+
+              <div
+                class="tooltip"
+                *ngIf="chackToolTip(stock.remarks.length, 15)"
+              >
+                <p style="width: 130px">{{ stock.remarks }}</p>
+                <span class="tooltiptext text-overflow">
+                  {{ stock.remarks }}</span
+                >
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="quickEdit === stock.productId">
+              <input
+                type="text"
+                style="margin-left: 10px"
+                [(ngModel)]="stock.remarks"
+                (ngModelChange)="stock.hasUpdate = true"
+              />
+            </ng-container>
+          </td>
+
+          <td class="add-btn">
+            <button
+              *ngIf="stock.hasPendingOrder"
+              type="button"
+              class="animation-ripple btn-add-action"
+              [disabled]="stock.hasPendingOrder"
+              id="added"
+            >
+              Added
+            </button>
+
+            <button
+              *ngIf="!stock.hasPendingOrder"
+              type="button"
+              class="animation-ripple btn-add-action"
+              (click)="addpendingOrder(stock)"
+              [disabled]="stock.hasPendingOrder"
+            >
+              Add
+            </button>
+          </td>
+
+          <td>
+            <div class="has-updaterow" *ngIf="stock.hasUpdate == true"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <div></div>
+    <app-pagination
+      [ItemsCount]="stocks.length"
+      [PageSize]="pageSize"
+      [PagePos]="pos"
+      (PositionEventEmitter)="pos = $event"
+      *ngIf="stocks.length > pageSize"
+    >
+    </app-pagination>
+  </div>
+</div>

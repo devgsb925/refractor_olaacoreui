@@ -1,0 +1,72 @@
+<div class="container card">
+
+  <div class="grid">
+
+    <div class="grid-option">
+
+        <div class="item-group">
+          <button class="search-btn">
+            <span class="material-icons">
+              search
+            </span>
+          </button>
+          <input type="text" [(ngModel)]="searchValue"  (ngModelChange)="searchUserRole()">
+
+        </div>
+
+        <div class="item-group">
+            <button class="btn btn-success animation-ripple add-btn" (click)="vmUserRoles.addModal = true">
+              <span class="material-icons">
+                add_circle
+              </span>
+                Add New User
+            </button>
+        </div>
+
+    </div>
+
+    <div class="grid-table">
+      <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>First&nbsp;Name</th>
+                <th>Last&nbsp;Name</th>
+                <th>Role</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let user of userRoleList()">
+                <td>{{user.userId}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td>{{user.role}}</td>
+                <td>
+                  <button (click)="detailSubmit(user)" class="btn-edit">
+                    <span class="material-icons">
+                      mode_edit
+                      </span>
+                  </button>
+              </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+
+    <div class="grid-pagination">
+      <app-pagination class="pagination" [ItemsCount]="getItemsCount()" [PageSize]="20" [PagePos]="userPos"
+      (PositionEventEmitter)="posEventEmmit($event)">
+    </app-pagination>
+
+    </div>
+
+  </div>
+
+  <app-user-role-modal *ngIf="vmUserRoles.addModal"></app-user-role-modal>
+  <app-edit-user-role *ngIf="vmUserRoles.editModel"></app-edit-user-role>
+
+</div>

@@ -1,0 +1,42 @@
+<main class="card">
+  <div class="container">
+    <section class="layout layout-tab">
+      <div class="wrapper wrapper-tab">
+        <div class="wrap wrap-tab" (click)="tabPos = 0" [ngClass]="{'wrap-tab-active': tabPos === 0 }">
+          <div class="tab tab-information">
+
+            <p>Edit Product</p>
+          </div>
+
+        </div>
+        <div class="wrap wrap-tab" (click)="tabPos = 1" [ngClass]="{'wrap-tab-active': tabPos === 1 }">
+          <div class="tab tab-information" >
+            <p>Product Content</p>
+          </div>
+        </div>
+      </div>
+      <div class="wrapper wrapper-btn">
+        <div class="wrap wrap-btn">
+          <a class="btn btn-close" (click)="closeFunc()">
+            <span class="material-icons">
+              close
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="layout layout-product-detail">
+      <ng-container *ngIf="tabPos === 0">
+        <app-edit-product></app-edit-product>
+      </ng-container>
+      <ng-container *ngIf="tabPos === 1">
+        <app-product-content></app-product-content>
+      </ng-container>
+    </section>
+  </div>
+</main>
+
+
+

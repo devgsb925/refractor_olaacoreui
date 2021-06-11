@@ -1,0 +1,40 @@
+main.ng-jselect-modal {
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0,0,0, 0.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .ng-jselect-form {
+    height: 100%;
+    width: 100%;
+    max-height: 800px;
+    max-width: 600px;
+
+    background-color: #FFF;
+    position: relative;
+
+    .ng-jselect-modal-title {
+
+      position: absolute;
+      top: 10px;
+      left: -30px;
+
+      background-color: #FFF;
+      // border: 1px solid gainsboro;
+
+      padding: 6px 12px;
+      border-radius: 20px;
+      background-color: #FF4747;
+      color: #FFF;
+      font-weight: 600;
+    }
+  }
+}

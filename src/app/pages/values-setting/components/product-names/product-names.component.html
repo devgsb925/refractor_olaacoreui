@@ -1,0 +1,73 @@
+<main>
+  <div class="container">
+    <section class="information">
+      <h3>
+        {{ productNameId > 0 ? "Update Product Name" : "Add New Product Name" }}
+      </h3>
+      <p>Product Name</p>
+      <input type="text" placeholder="enter product name" [(ngModel)]="productNameValue">
+      <button class="btn btn-add" *ngIf="productNameId == 0" (click)="addFunc()">
+        <span class="material-icons">
+          add_circle
+        </span>
+        <p>Add</p>
+      </button>
+      <button class="btn btn-save" *ngIf="productNameId > 0" (click)="updateFunc()">
+        <span class="material-icons">
+          save
+        </span>
+        <p>Save</p>
+      </button>
+      <button class="btn btn-cancel" (click)="cancelFunc()">
+        <span class="material-icons">
+          clear
+        </span>
+        <p>Cancel</p>
+      </button>
+    </section>
+
+    <section class="list">
+      <header>
+        <div class="search-wrap">
+          <span class="material-icons">search</span>
+          <input type="text" [(ngModel)]="searchValue" (change)="searchFunc()" placeholder="search product name by id or value">
+
+        </div>
+      </header>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="id">
+                <p>ID</p>
+              </th>
+              <th class="name">
+                <p>Product Name</p>
+              </th>
+              <th class="edit">
+                <p>Edit</p>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of productNameList">
+              <td class="id">
+                <p>{{item.refModelId}}</p>
+              </td>
+              <td class="name">
+                <p>{{item.name}}</p>
+              </td>
+              <td class="edit">
+                <button class="btn btn-edit" (click)="selectFunc(item)">
+                  <span class="material-icons">
+                    edit
+                  </span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>

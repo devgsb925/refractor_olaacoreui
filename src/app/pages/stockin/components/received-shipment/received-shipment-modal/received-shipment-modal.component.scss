@@ -1,0 +1,391 @@
+* {
+  font-size: 12px;
+}
+
+.page-container2 {
+  width: 95vw;
+  height: 95vh;
+  background: white;
+  border-radius: 10px;
+
+  .grid2 {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    .grid-tabs2 {
+      display: flex;
+      justify-content: space-between;
+      border: none;
+
+      .title {
+        margin-left: -35px;
+
+        label {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #ff4747;
+          padding: 4px 10px;
+          color: white;
+          border-radius: 15px;
+
+          span {
+            margin-right: 10px;
+          }
+        }
+      }
+
+      .button-action {
+        button {
+          border: none;
+          background: none;
+          margin-top: -0.5rem;
+          color: #ff4747;
+
+          span {
+            font-size: 20px;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+
+    .grid-options2 {
+      border: none;
+      display: grid;
+      grid-template-rows: 50px 30px;
+      position: relative;
+
+      .option-input {
+        display: flex;
+        grid-row: 1/2;
+        grid-column: 1/2;
+
+        .input-group2 {
+          display: block;
+          margin-left: 1rem;
+
+          input {
+            margin: 0;
+            border: 1px solid gainsboro;
+            width: 100%;
+            padding: 4px;
+            background: rgb(228, 228, 228);
+          }
+
+          &:nth-child(1) {
+            width: 70px;
+            margin-left: 0;
+
+            input {
+              text-align: center;
+            }
+          }
+
+          &:nth-child(2) {
+            width: 120px;
+          }
+
+          &:nth-child(3) {
+            width: 150px;
+          }
+
+          &:nth-child(4),
+          &:nth-child(5),
+          &:nth-child(6) {
+            width: 70px;
+          }
+
+          &:nth-child(7),
+          &:nth-child(8) {
+            width: 150px;
+          }
+
+          &:nth-child(8) {
+            input {
+              width: 100%;
+            }
+          }
+        }
+
+        .btn-action {
+          position: absolute;
+          right: 1rem;
+          top: 1rem;
+          display: flex;
+
+          button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 35px;
+            background: #555;
+            color: white;
+            margin-left: 5px;
+
+            span {
+              margin-right: 5px;
+              font-size: 20px;
+            }
+
+            &:nth-child(1){
+              background: #2196F3;
+            }
+
+            &:nth-child(2){
+              background: #00A65A;
+            }
+          }
+
+          .save-active {
+            background: #ff4747;
+          }
+
+
+        }
+      }
+
+      .option-title {
+        margin-top: 1rem;
+        // border-top: 1px solid gainsboro;
+
+
+        label {
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+          span {
+            font-size: 20px;
+            margin-right: 5px;
+            color: #ff4747;
+          }
+        }
+      }
+    }
+
+    .grid-table2 {
+      grid-row: 3/4;
+      grid-column: 1/3;
+      border-top: 1px solid gainsboro;
+      margin: 0.5rem 0;
+      height: calc(100vh - 270px);
+      overflow-x: auto;
+
+
+      .table-wrapper {
+        height: 70.5vh;
+        width: 100%;
+
+
+        table {
+
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+
+          .has-update {
+            width: 10px;
+            height: 10px;
+            border-radius: 50px;
+            background: #ff4747;
+          }
+
+          .sel-tr {
+            border: 1px solid gainsboro;
+            background: white;
+          }
+
+          .text-overflow {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+          }
+
+          .received {
+            width: 20px;
+            height: 20px;
+            border-radius: 50px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 35px;
+          }
+
+          // input {
+          //   width: 90%;
+          // }
+
+          .orederid{
+            width: 80px;
+          }
+
+          .productid{
+            width: 100px;
+          }
+
+          .sku{
+            width: 130px;
+          }
+
+          .product-dsc{
+            width: 400px;
+          }
+
+          .product-number{
+            width: 120px;
+          }
+
+          .brand{
+            width: 100px;
+          }
+
+          .shipped{
+            width: 80px;
+          }
+
+          .re-qty{
+            width: 80px;
+          }
+
+          .barcode{
+            width: 120px;
+          }
+
+          .status{
+            width: 50px;
+            p{
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
+
+          .boxbox{
+            width: 35px;
+            .cb{
+              margin-top: -10px;
+            }
+
+            .containerB {
+              display: block;
+              position: relative;
+              cursor: pointer;
+              font-size: 22px;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+              left: 5px;
+
+            }
+
+            /* Hide the browser's default checkbox */
+            .containerB input {
+              position: absolute;
+              opacity: 0;
+              cursor: pointer;
+              height: 0;
+              width: 0;
+            }
+
+            /* Create a custom checkbox */
+            .checkmark {
+              position: absolute;
+              top: 0;
+              left: 0;
+              height: 20px;
+              width: 20px;
+              background-color: white;
+              border: 1px solid gainsboro;
+            }
+
+            /* On mouse-over, add a grey background color */
+            .containerB:hover input~.checkmark {
+              background-color: #ccc;
+            }
+
+            /* When the checkbox is checked, add a blue background */
+            .containerB input:checked~.checkmark {
+              background-color: #2196F3;
+            }
+
+            /* Create the checkmark/indicator (hidden when not checked) */
+            .checkmark:after {
+              content: "";
+              position: absolute;
+              display: none;
+            }
+
+            /* Show the checkmark when checked */
+            .containerB input:checked~.checkmark:after {
+              display: block;
+            }
+
+            /* Style the checkmark/indicator */
+            .containerB .checkmark:after {
+              left: 6px;
+              top: 3px;
+              width: 5px;
+              height: 10px;
+              border: solid white;
+              border-width: 0 3px 3px 0;
+              -webkit-transform: rotate(45deg);
+              -ms-transform: rotate(45deg);
+              transform: rotate(45deg);
+            }
+
+          }
+
+          .dot{
+            width: 40px;
+          }
+
+
+        }
+      }
+    }
+
+    .grid-pagination2 {
+      grid-row: 5/6;
+      padding-right: 1rem;
+
+      .pagination {
+        display: flex;
+        flex-direction: row-reverse;
+      }
+
+      .tab-next{
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        bottom: 50vh;
+        button{
+          background: gainsboro;
+          border: none;
+          border-radius: 50%;
+          outline: none;
+          width: 40px;
+          height: 40px;
+
+          &:nth-child(1){
+            margin-left: -60px;
+          }
+
+          &:nth-child(2){
+            margin-right: -75px;
+          }
+
+          span{
+            font-size: 25px;
+          }
+        }
+      }
+    }
+
+
+  }
+}

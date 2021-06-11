@@ -1,0 +1,129 @@
+<div class="invoice-warpper" id="idOfDivToPrint">
+    <div class="invice-head">
+        <img src="../../../../../../../assets/invoice/logo olaa01-01.svg" alt="">
+
+        <div class="social">
+          <div class="so-item">
+            <span class="material-icons">facebook</span>
+            <p>: Olaa</p>
+          </div>
+          <div class="so-item">
+            <span class="material-icons">language</span>
+            <p>: www.olaa.la</p>
+          </div>
+        </div>
+        <div class="head-title">
+            <h4>(Copy) Receipt</h4>
+        </div>
+    </div>
+
+    <div class="infor">
+      <div class="infor-item">
+        <label>Invice No: <Span>{{SetInvoice.invoiceNo}}</Span></label>
+      </div>
+
+      <div class="infor-item">
+        <ng-container *ngIf="SetInvoice.sellingType === 'Normal' ">
+          <label>Sell Type: <span>{{SetInvoice.sellingType}}</span></label><br>
+        </ng-container>
+        <ng-container *ngIf="SetInvoice.sellingType !== 'Normal' ">
+          <label>Sell Type: {{SetInvoice.sellingType}} ({{SetInvoice.leasingName}})</label><br>
+        </ng-container>
+      </div>
+
+      <div class="infor-item">
+        <label>Payment:
+          <ng-container >
+            <span *ngIf="SetInvoice.paymentMethod === 'Cash, Bank'">Cash, Bank Transfer ({{SetInvoice.bankName}})</span>
+            <span *ngIf="SetInvoice.paymentMethod === 'Bank'">Bank Transfer ({{SetInvoice.bankName}})</span>
+            <span *ngIf="SetInvoice.paymentMethod === 'Cash'">Cash</span>
+          </ng-container>
+        </label>
+      </div>
+
+      <div class="infor-item">
+        <label>Sell Date: <Span>{{SetInvoice.sellDate | date:'d/M/yy'}}</Span></label>
+      </div>
+      <div class="infor-item">
+        <label>Print: <Span>{{datimeFunc()}}</Span></label>
+      </div>
+      <div class="infor-item" >
+        <label class="userid">
+          <span class="material-icons">badge</span>ID : <span class="in">{{SetInvoice.customerId}}</span>
+        </label><br>
+        <label class="user-info">
+          <span class="material-icons">perm_identity</span>:&nbsp;
+          <span>{{SetInvoice.customerName}}</span>
+        </label>
+        <label class="user-info">
+          <span class="material-icons">call</span>:&nbsp;
+          <span>{{SetInvoice.phoneNumber}}</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="product-list">
+
+        <div class="pod-title">
+          <p class="pod-dsc">Product</p>
+          <p class="price">Price</p>
+          <p class="qty">Qty</p>
+          <p class="pod-total">Total</p>
+        </div>
+
+        <div class="pod-list" *ngFor="let pod of SetInvoice.productList">
+
+            <div class="pod-dsc">
+              <span>{{pod.productDescription}}</span>
+              <div class="uid" *ngFor="let uid of pod.uidList">
+                <span >{{uid}}</span>
+              </div>
+            </div>
+
+            <p class="price">{{pod.srp | currency: ' ':'':'0.0'}}</p>
+            <p class="qty">{{pod.sellQty}}</p>
+            <ng-container >
+              <p *ngIf="!pod.free" class="pod-total">{{pod.srp * pod.sellQty | currency: ' ':'':'0.0'}}</p>
+              <p *ngIf="pod.free" class="pod-total">Free</p>
+            </ng-container>
+        </div>
+
+    </div>
+
+  <div class="service" *ngIf="SetInvoice.services.length > 0">
+    <span class="service-title">Services:</span>
+    <ng-container *ngFor="let sv of SetInvoice.services">
+      <div class="service-item">
+        <span>{{sv.description}}</span>
+        <span>{{sv.fee| currency: ' ':'':'0.0'}}</span>
+      </div>
+
+    </ng-container>
+
+  </div>
+
+    <div class="total">
+      <div class="total-item">
+          <label>Total Amount:</label>
+          <label >{{ SetInvoice.totalAmount| currency: ' ':'':'0.0'}}&nbsp;ກີບ</label>
+      </div>
+      <div class="total-item">
+        <label for="">Discounts:</label>
+        <label *ngIf="SetInvoice.discountAmount > 0">-{{SetInvoice.discountAmount | currency: ' ':'':'0.0'}}&nbsp;ກີບ</label>
+        <label *ngIf="SetInvoice.discountAmount === 0">0</label>
+      </div>
+      <div class="total-item">
+        <label for="">Grand Total Amount:</label>
+        <label style="font-weight: bold;">{{ SetInvoice.grandTotalAmount | currency: ' ':'':'0.0'}}&nbsp;ກີບ</label>
+      </div>
+    </div>
+
+    <div class="footer">
+        <h5 class="message">ຂໍຂອບໃຈທຸກທ່ານທີ່ມາອຸດໜຸນ</h5>
+        <h5 class="note">ໝາຍເຫດ :</h5>
+        <p>- ໃບຮັບເງີນນີ້ຄືໃບຮັບປະກັນສີນຄ້າກະລຸນາເກັບຮັກສາໄວ້.</p>
+        <p>- ຂໍສະຫງວນສິດບໍ່ຮັບຄືນສີນຄ້າ ຫຼື ປ່ຽນຂ້າມລຸ້ນທຸກກໍລະນີ.</p>
+        <p *ngIf="SetInvoice.sellingType === 'Leasing' ">- ສິນຄ້າທີ່ເຂົ້າຮ່ວມ Leasing ຈະບໍ່ສາມາດຍົກເລີກ ແລະ ສົ່ງຄືນໄດ້ທຸກກໍລະນີ</p>
+        <p class="message">***No Exchange and No Refund***</p>
+    </div>
+</div>

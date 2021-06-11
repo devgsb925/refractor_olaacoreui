@@ -1,0 +1,59 @@
+<div class="side-nav-container">
+  <div class="side-nav-list">
+
+    <div class="main-side-nav-list" *ngFor="let smenu of getMainCategories()">
+
+        <a href="javascript:void(0);" class="side-menu-item" (click)="onClickedSideMenuItem(smenu)">
+          <div class="icon">
+
+            <span class="material-icons color" [ngClass]="{ 'activeColor': false  }">
+              {{smenu.menuIcon}}
+            </span>
+
+          </div>
+          <div class="text">{{ smenu.menuDisplayName }}</div>
+        </a>
+
+    </div>
+
+    <div class="sub-side-nav-list" *ngIf="vmNavigation.showSubNavSideMenu">
+
+      <ng-container *ngIf="this.vmAuthenticate.subId > 0">
+
+        <div class="sub-menu">
+          <a class="sub-menu-cate-item" *ngFor="let smenu of getSubMenus()" [routerLink]="[smenu.menuUrl]"
+            routerLinkActive="router-link-active" (click)="updatePageTitle(smenu.menuDisplayName)">
+            <div class="sub-icon">
+              <span class="material-icons">
+                {{ smenu.menuIcon }}
+              </span>
+            </div>
+            <div class="sub-name">
+              {{ smenu.menuDisplayName }}
+            </div>
+          </a>
+
+        </div>
+
+        <!-- <ng-container *ngIf="getStoreMenu()">
+
+          <div class="sub-menu">
+            <a class="sub-menu-cate-item" href="{{ posUrl + '?token=' + getToken() }}" target="_self">
+              <div class="sub-icon">
+                <span class="material-icons">point_of_sale</span>
+              </div>
+              <div class="sub-name">
+                POS
+              </div>
+            </a>
+
+          </div>
+
+        </ng-container> -->
+
+      </ng-container>
+
+    </div>
+
+  </div>
+</div>

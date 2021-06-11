@@ -1,0 +1,871 @@
+<main>
+  <div class="wrapper wrapper-btn">
+    <div class="wrap">
+      <button class="btn btn-update" (click)="updateFunc()">Save</button>
+    </div>
+  </div>
+  <div class="wrapper wrapper-form">
+    <form [formGroup]="productDetailForm" (change)="onFormChange()" novalidate>
+      <section class="side side-1">
+        <div class="wrap wrap-detail">
+          <fieldset>
+            <legend>Product Detail</legend>
+
+            <div class="fields fields-detail">
+              <div class="form-control-group product-id">
+                <label for="productId">Product ID</label>
+                <input
+                  type="number"
+                  formControlName="productId"
+                  readonly
+                  class="read-only"
+                  id="productId"
+                />
+              </div>
+
+              <div class="form-control-group sku">
+                <label for="sku">SKU</label>
+                <input type="text" id="sku" formControlName="sku" />
+
+                <div *ngIf="checkValidators('sku')" class="alert alert-danger">
+                  <div *ngIf="checkError('sku')">SKU is required.</div>
+                </div>
+              </div>
+
+              <div class="form-control-group image">
+                <ng-container *ngIf="imgUrl !== ''">
+                  <img [src]="imgUrl" alt="" />
+                </ng-container>
+                <ng-container *ngIf="imgUrl === ''">
+                  <img src="../../../../../assets/images/no-image.png" alt="" />
+                </ng-container>
+              </div>
+
+              <div class="form-control-group product-number">
+                <label for="productNo">Product Number</label>
+                <input type="text" id="productNo" formControlName="productNo" />
+
+                <div
+                  *ngIf="checkValidators('productNo')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('productNo')">
+                    product number is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group model-name">
+                <label for="modelId">Product Name</label>
+                <input type="text" readonly formControlName="modelName" />
+                <a class="btn btn-edit">
+                  <span class="material-icons" (click)="showModelModal = true">
+                    create
+                  </span>
+                  <span
+                    class="material-icons"
+                    (click)="clearSelectModel()"
+                    style="color: red"
+                  >
+                    clear
+                  </span>
+                </a>
+              </div>
+
+              <div class="form-control-group brand-name">
+                <label for="brandId">Brand</label>
+                <input type="text" readonly formControlName="brandName" />
+                <a class="btn btn-edit">
+                  <span class="material-icons" (click)="showBrandModal = true">
+                    create
+                  </span>
+                  <span
+                    class="material-icons"
+                    (click)="clearSelectBrand()"
+                    style="color: red"
+                  >
+                    clear
+                  </span>
+                </a>
+              </div>
+
+              <div class="form-control-group product-desc">
+                <label for="productDesc">Product Description</label>
+                <input
+                  type="text"
+                  id="productDesc"
+                  readonly
+                  class="read-only"
+                  formControlName="productDesc"
+                />
+
+                <div
+                  *ngIf="checkValidators('productDesc')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('productDesc')">
+                    product number is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group product-type">
+                <label for="productType">Product Type</label>
+                <input
+                  type="text"
+                  id="productType"
+                  formControlName="productType"
+                />
+
+                <div
+                  *ngIf="checkValidators('productType')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('productType')">
+                    product type is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group keywords">
+                <label for="keywords">Product Keywords</label>
+                <input type="text" id="keywords" formControlName="keywords" />
+
+                <div
+                  *ngIf="checkValidators('keywords')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('keywords')">
+                    product type is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="wrap wrap-variants">
+          <fieldset>
+            <legend>Variants</legend>
+            <div class="fields fields-variants">
+              <div class="form-control-group version">
+                <div class="select select-version">
+                  <label for="version">Version</label>
+                  <select formControlName="versionId">
+                    <option [ngValue]="0">None</option>
+                    <ng-container
+                      *ngFor="let item of refViewModel.getVersions()"
+                    >
+                      <option [ngValue]="item.variantId">
+                        {{ item.variantValue }}
+                      </option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-control-group size">
+                <label for="size">Size</label>
+                <input
+                  type="text"
+                  id="size"
+                  readonly
+                  formControlName="sizeName"
+                />
+
+                <a class="btn btn-edit">
+                  <span class="material-icons" (click)="showSizeModal = true">
+                    create
+                  </span>
+                  <span
+                    class="material-icons"
+                    (click)="clearSelectSize()"
+                    style="color: red"
+                  >
+                    clear
+                  </span>
+                </a>
+              </div>
+
+              <div class="form-control-group color">
+                <label for="color">Color</label>
+                <input
+                  type="text"
+                  readonly
+                  id="color"
+                  formControlName="colorName"
+                />
+
+                <a class="btn btn-edit">
+                  <span class="material-icons" (click)="showColorModal = true">
+                    create
+                  </span>
+                  <span
+                    class="material-icons"
+                    (click)="clearSelectColor()"
+                    style="color: red"
+                  >
+                    clear
+                  </span>
+                </a>
+              </div>
+
+              <div class="form-control-group category">
+                <label for="cat1Id">Category ID</label>
+                <input
+                  type="text"
+                  id="cat1Id"
+                  readonly
+                  [value]="getCategoryName()"
+                />
+
+                <a class="btn btn-edit">
+                  <span
+                    class="material-icons"
+                    (click)="showCategoryModal = true"
+                  >
+                    create
+                  </span>
+                  <span
+                    class="material-icons"
+                    (click)="clearSelectCategory()"
+                    style="color: red"
+                  >
+                    clear
+                  </span>
+                </a>
+              </div>
+
+              <div class="form-control-group order-index">
+                <label for="orderIndex">Ranking Index</label>
+                <input
+                  type="number"
+                  id="orderIndex"
+                  formControlName="orderIndex"
+                />
+              </div>
+              <div class="form-control-group public-status">
+                <label for="publishStatus">Display Staus</label>
+                <select id="publishStatus" formControlName="publishStatus">
+                  <option [ngValue]="2">Unpublish</option>
+                  <option [ngValue]="1">Publish</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="wrap wrap-flag">
+          <fieldset>
+            <legend>Flag</legend>
+            <div class="fields">
+              <div class="form-control-group lifecycle-flag">
+                <label for="lifecycleFlagId">Lifecycle Flag</label>
+                <select id="lifecycleFlagId" formControlName="lifecycleFlagId">
+                  <option [ngValue]="9">New</option>
+                  <option [ngValue]="10">Normal</option>
+                  <option [ngValue]="11">EOL</option>
+                </select>
+              </div>
+
+              <div class="form-control-group ship-flag">
+                <label for="shipFlagId">Shipping Flag</label>
+                <select id="shipFlagId" formControlName="shipFlagId">
+                  <option [ngValue]="0">No Shipping</option>
+                  <option [ngValue]="7">Vientiane Free</option>
+                  <option [ngValue]="8">Shipping Free</option>
+                </select>
+              </div>
+
+              <div class="form-control-group promotion">
+                <label for="promotionFlagId">Promotion</label>
+                <select id="promotionFlagId" formControlName="promotionFlagId">
+                  <option [ngValue]="0">None</option>
+                  <option [ngValue]="1">New</option>
+                  <option [ngValue]="2">Super Deal</option>
+                  <option [ngValue]="3">Best Seller</option>
+                  <option [ngValue]="4">Top Brand</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="wrap wrap-unknown">
+          <fieldset>
+            <div class="fields">
+              <div class="form-control-group content-url">
+                <label for="lifecycleFlagId">Content Url</label>
+                <input type="text" id="contentUrl" formControlName="link" />
+              </div>
+
+              <div class="form-control-group remarks">
+                <label for="lifecycleFlagId">Remarks</label>
+                <input type="text" id="remark" formControlName="remark" />
+              </div>
+
+              <div class="form-control-group warranty-period">
+                <label for="warrantyPeriod">Warranty Period</label>
+                <select id="warrantyPeriod" formControlName="warrantyPeriod">
+                  <ng-container *ngFor="let war of getWarranty()">
+                    <option [ngValue]=war.variantId>{{war.variantValue}}</option>
+                  </ng-container>
+
+                </select>
+              </div>
+
+              <div class="form-control-group selling-date">
+                <label for="dateUpdated">Selling Date</label>
+                <input
+                  type="text"
+                  id="dateUpdated"
+                  class="read-only"
+                  readonly
+                  formControlName="dateUpdated"
+                />
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </section>
+
+      <section class="side side-2">
+        <div class="wrap wrap-vendor">
+          <fieldset>
+            <legend>Vendor</legend>
+            <div class="fields">
+              <div class="form-control-group vendor-id">
+                <label for="vendorId">Vendor ID</label>
+                <input type="text" readonly formControlName="vendorName" />
+                <a class="btn btn-edit" (click)="showVendorModal = true">
+                  <span class="material-icons"> create </span>
+                </a>
+              </div>
+
+              <div class="form-control-group vendor-product-name">
+                <label for="vendorProductName">Vendor Product Name</label>
+                <input
+                  type="text"
+                  id="vendorProductName"
+                  formControlName="vendorProductName"
+                />
+
+                <div
+                  *ngIf="checkValidators('vendorProductName')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('vendorProductName')">
+                    vendor product name is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="wrap wrap-pricing">
+          <fieldset>
+            <legend>Pricing</legend>
+            <div class="fields fields-pricing">
+              <div class="form-control-group srp">
+                <label for="srp">Sale Unit Price (LAK)</label>
+                <input type="number" id="srp" formControlName="srp" />
+              </div>
+
+              <div class="form-control-group rrp">
+                <label for="rrp">Regular Units Price (LAK)</label>
+                <input type="number" id="rrp" formControlName="rrp" />
+              </div>
+
+              <div class="form-control-group retail-price-thb">
+                <label for="retailPriceThb">Retail Price (THB)</label>
+                <input
+                  type="number"
+                  readonly
+                  class="read-only"
+                  id="retailPriceThb"
+                  [value]="getRetailThb()"
+                />
+              </div>
+
+              <div class="form-control-group retail-price-usd">
+                <label for="retailPriceUsd">Retail Price (USD)</label>
+                <input
+                  type="number"
+                  class="read-only"
+                  id="retailPriceUsd"
+                  readonly
+                  [value]="getRetailUsd()"
+                />
+              </div>
+
+              <div class="form-control-group msrp-usd">
+                <label for="msrpUsd">MSRP (USD)</label>
+                <input type="number" id="msrpUsd" formControlName="msrpUsd" />
+
+                <div
+                  *ngIf="checkValidators('msrpUsd')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('msrpUsd')">
+                    MSRP (USD) is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group competitor-thb">
+                <label for="competitorThb">Competitor (THB)</label>
+                <input
+                  type="number"
+                  id="competitorThb"
+                  formControlName="competitorThb"
+                />
+
+                <div
+                  *ngIf="checkValidators('competitorThb')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('competitorThb')">
+                    Competitor is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group buying-price">
+                <label for="buyingPrice">Buying Price</label>
+                <input
+                  type="number"
+                  class="read-only"
+                  id="buyingPrice"
+                  formControlName="buyingPrice"
+                  readonly
+                />
+              </div>
+              <div class="form-control-group currency">
+                <label for="refCurrencyTypeId">Buying Currency</label>
+                <input
+                  type="text"
+                  class="read-only"
+                  readonly
+                  formControlName="buyingCurrency"
+                />
+              </div>
+              <div class="form-control-group ship-cost">
+                <label for="shippingCost">Shipping Cost (LAK)</label>
+                <input
+                  type="number"
+                  id="shippingCost"
+                  formControlName="shippingCost"
+                />
+
+                <div
+                  *ngIf="checkValidators('shippingCost')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('shippingCost')">
+                    Shipping Cost is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="table table-wrapper">
+              <table>
+                <colgroup>
+                  <col span="1" style="width: calc(100% / 5)" />
+                  <col span="1" style="width: calc(100% / 5)" />
+                  <col span="1" style="width: calc(100% / 5)" />
+                  <col span="1" style="width: calc(100% / 5)" />
+                  <col span="1" style="width: calc(100% / 5)" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>
+                      <p>Unit Cost (LAK)</p>
+                    </th>
+                    <th>
+                      <p>Margin (LAK)</p>
+                    </th>
+                    <th>
+                      <p>Margin Percent</p>
+                    </th>
+                    <th>
+                      <p>Price Ratio</p>
+                    </th>
+                    <th>
+                      <p>Margin Ratio (LAK)</p>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <p>{{ getUnitCost() | number: "1.0-0" }}</p>
+                    </td>
+                    <td>
+                      <p>{{ getMargin() | number: "1.0-0" }}</p>
+                    </td>
+                    <td>
+                      <p>{{ getMarginPercent() | number: "1.2-2" }}%</p>
+                    </td>
+                    <td>
+                      <p>{{ getRatio() | number: "1.2-2" }}</p>
+                    </td>
+                    <td>
+                      <p>{{ getMarginRatio() | number: "1.0-0" }}</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="wrap wrap-unknown-2">
+          <fieldset>
+            <legend>Barcode</legend>
+            <div class="form-control-group input">
+              <input
+                type="text"
+                id="barcode"
+                formControlName="barcode"
+                placeholder="enter Barcode"
+              />
+              <a
+                class="btn btn-cached"
+                [ngClass]="{ spin: spinBarcode }"
+                (click)="randomBarcode()"
+              >
+                <span class="material-icons"> cached </span>
+              </a>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>UID</legend>
+            <div class="radios">
+              <div class="btn">
+                <input
+                  type="radio"
+                  [checked]="uid == 0"
+                  [disabled]="uid != 0"
+                />
+                <label for="none">none</label><br />
+              </div>
+              <div class="btn">
+                <input
+                  type="radio"
+                  [checked]="uid == 1"
+                  [disabled]="uid != 1"
+                />
+                <label for="imei">IMEI</label><br />
+              </div>
+              <div class="btn">
+                <input
+                  type="radio"
+                  [checked]="uid == 2"
+                  [disabled]="uid != 2"
+                />
+                <label for="sn">S/N</label><br />
+              </div>
+              <div class="btn">
+                <input
+                  type="radio"
+                  [checked]="uid == 3"
+                  [disabled]="uid != 3"
+                />
+                <label for="mac">MAC</label><br />
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="wrap wrap-stock-details-distribution">
+          <fieldset>
+            <legend>Stock details & distribution</legend>
+            <div class="fields fields-stock-details-distribution">
+              <div class="form-control-group stock-qty">
+                <label for="stockQty">Stock Qty</label>
+                <input
+                  type="number"
+                  id="stockQty"
+                  class="read-only"
+                  readonly
+                  formControlName="stockQty"
+                />
+              </div>
+
+              <div class="form-control-group units-in-warehouse">
+                <label for="unitInWarehouse">Units In Warehouse</label>
+                <input
+                  type="number"
+                  id="unitsInWarehouse"
+                  class="read-only"
+                  readonly
+                  formControlName="unitsInWarehouse"
+                />
+
+                <div
+                  *ngIf="checkValidators('unitsInWarehouse')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('unitsInWarehouse')">
+                    Unit In Warehouse.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group units-on-display">
+                <label for="unitsOnDisplay">Units On Display</label>
+                <input
+                  type="number"
+                  id="unitsOnDisplay"
+                  class="read-only"
+                  readonly
+                  formControlName="unitsOnDisplay"
+                />
+
+                <div
+                  *ngIf="checkValidators('unitsOnDisplay')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('unitsOnDisplay')">
+                    Unit On Display is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group units-on-demo">
+                <label for="unitsOnDemo">Units On Demo</label>
+                <input
+                  type="number"
+                  id="unitsOnDemo"
+                  readonly
+                  class="read-only"
+                  formControlName="unitsOnDemo"
+                />
+
+                <div
+                  *ngIf="checkValidators('unitsOnDemo')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('unitsOnDemo')">
+                    Unit On Demo is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group units-on-qc">
+                <label for="unitsOnQc">Units On Qc</label>
+                <input
+                  type="number"
+                  id="unitsOnQc"
+                  readonl
+                  class="read-only"
+                  formControlName="unitsOnQc"
+                />
+
+                <div
+                  *ngIf="checkValidators('unitsOnQc')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('unitsOnQc')">
+                    Unit On Qc is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group reorder">
+                <label for="reorder">Reorder Qty</label>
+                <input
+                  type="number"
+                  id="reorderQty"
+                  formControlName="reorderQty"
+                />
+                <div
+                  *ngIf="checkValidators('reorderQty')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('reorderQty')">
+                    Reorder Qty is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group units-on-the-way">
+                <label for="unitOnTheWay">Units OTW</label>
+                <input
+                  type="number"
+                  id="unitOnTheWay"
+                  class="read-only"
+                  readonly
+                  formControlName="unitsOnTheWay"
+                />
+
+                <div
+                  *ngIf="checkValidators('unitsOnTheWay')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('unitsOnTheWay')">
+                    Unit On The Way is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group units-on-deposit">
+                <label for="unitsOnDeposit">Units On Desposit</label>
+                <input
+                  type="number"
+                  id="unitsOnDesposit"
+                  class="read-only"
+                  readonly
+                  formControlName="unitsOnDesposit"
+                />
+
+                <div
+                  *ngIf="checkValidators('unitsOnDesposit')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('unitsOnDesposit')">
+                    Unit On The Way is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group warehouse-location">
+                <label for="warehouseLocation">Warehouse Location</label>
+                <input
+                  type="text"
+                  id="warehouseLocation"
+                  formControlName="warehouseLocation"
+                />
+
+                <div
+                  *ngIf="checkValidators('warehouseLocation')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('warehouseLocation')">
+                    Warehouse location is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="waiting"></div>
+
+              <div class="form-control-group uom">
+                <label for="uom">Unit of Measure</label>
+                <input type="number" id="uom" formControlName="uom" />
+
+                <div *ngIf="checkValidators('uom')" class="alert alert-danger">
+                  <div *ngIf="checkError('uom')">
+                    Unit of Measure is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group units-weight">
+                <label for="unitsWeight">Units Weight</label>
+                <input
+                  type="number"
+                  id="unitsWeight"
+                  formControlName="unitsWeight"
+                />
+
+                <div
+                  *ngIf="checkValidators('unitsWeight')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('unitsWeight')">
+                    Unit Weight is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-control-group volumn">
+                <label for="volumn">Volumn (CBM)</label>
+                <input type="number" id="volumn" formControlName="volumn" />
+                <div
+                  *ngIf="checkValidators('volumn')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('volumn')">Volumn is required.</div>
+                </div>
+              </div>
+
+              <div class="form-control-group box-size">
+                <label for="boxSize">Box Size</label>
+                <input type="number" id="boxSize" formControlName="boxSize" />
+                <div
+                  *ngIf="checkValidators('boxSize')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('boxSize')">Box size is required.</div>
+                </div>
+              </div>
+
+              <div class="form-control-group selling-shipping">
+                <label for="sellingShipping">Selling Shipping</label>
+                <input
+                  type="number"
+                  id="sellingShipping"
+                  formControlName="sellingShipping"
+                />
+                <div
+                  *ngIf="checkValidators('sellingShipping')"
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="checkError('sellingShipping')">
+                    Selling Shipping is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </section>
+    </form>
+  </div>
+</main>
+
+<ng-container *ngIf="showModelModal">
+  <app-select-model
+    (closeEvent)="showModelModal = false"
+    (selectItem)="selectModel($event)"
+  ></app-select-model>
+</ng-container>
+
+<ng-container *ngIf="showVendorModal">
+  <app-select-vendor
+    (closeEvent)="showVendorModal = false"
+    (selectItem)="selectVendor($event)"
+  ></app-select-vendor>
+</ng-container>
+
+<ng-container *ngIf="showBrandModal">
+  <app-select-brand
+    (closeEvent)="showBrandModal = false"
+    (selectItem)="selectBrand($event)"
+  ></app-select-brand>
+</ng-container>
+
+<ng-container *ngIf="showSizeModal">
+  <app-select-size
+    (closeEvent)="showSizeModal = false"
+    (selectItem)="selectSize($event)"
+  ></app-select-size>
+</ng-container>
+
+<ng-container *ngIf="showColorModal">
+  <app-select-color
+    (closeEvent)="showColorModal = false"
+    (selectItem)="selectColor($event)"
+  ></app-select-color>
+</ng-container>
+
+<ng-container *ngIf="showCategoryModal">
+  <app-select-category
+    [category1Id]="productDetailForm.controls.cat1Id.value"
+    [category2Id]="productDetailForm.controls.cat2Id.value"
+    [category3Id]="productDetailForm.controls.cat3Id.value"
+    (closeEvent)="showCategoryModal = false"
+    (selectCategoryResult)="selectCategory($event)"
+  ></app-select-category>
+</ng-container>

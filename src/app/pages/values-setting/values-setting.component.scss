@@ -1,0 +1,42 @@
+* {
+  color: #505050;
+}
+main,
+.container {
+  display: grid;
+  padding: 10px;
+}
+main {
+  height: calc(100vh - 80px);
+
+  .container {
+    grid-template-rows: 40px auto;
+    header {
+      border-bottom: #f5f5f5 solid 1px;
+      display: flex;
+      font-size: 14px;
+      nav {
+        width: 150px;
+        background: #f5f5f5;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+      }
+      nav:first-child {
+        border-top-left-radius: 10px;
+      }
+      nav:last-child {
+        border-top-right-radius: 10px;
+      }
+      nav.active {
+        background: #ff4747;
+        p {
+          color: white;
+        }
+      }
+    }
+
+
+  }
+}
+

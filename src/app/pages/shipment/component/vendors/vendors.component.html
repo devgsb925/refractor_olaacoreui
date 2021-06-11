@@ -1,0 +1,68 @@
+<div class="modal">
+
+  <div class="card modal-form-wrapper">
+
+
+    <div class="title">
+      <button>
+        <span class="material-icons"> supervisor_account </span>
+        Vendors
+      </button>
+    </div>
+
+    <div class="modal-close">
+      <button type="button" (click)="vmShipment.closeCloseVendorModal()">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+
+    <div class="border">
+      <div class="search-wrapper">
+
+        <!-- <div class="select-wrap">
+          <select [(ngModel)]="searchVendorOption" (ngModelChange)="searchVendorValue = ''">
+            <option [ngValue]=0>Vendor Name</option>
+            <option [ngValue]=1>ID</option>
+            <option [ngValue]=2>Contact Name</option>
+          </select>
+        </div> -->
+
+        <div class="input-wrap">
+          <span class="material-icons">
+            search
+          </span>
+          <input type="text" [(ngModel)]="searchVendorValue" placeholder="Search by vendor name, id ,contact name" (keyup.enter)="searchVendor()">
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Vendor Name</th>
+              <th>Contact Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let vendor of vmShipment.vendors" [ngClass]="{ 'active-vendor': vendor.selected}"
+              (click)="vmShipment.preSelectVendor(vendor)">
+              <td>{{ vendor.purchasingVendorId }}</td>
+              <td>{{ vendor.vendorName }}</td>
+              <td>{{ vendor.contactName }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+    <button class="select-vendor btn btn-success animation-ripple" type="button" (click)="addShipment()" [disabled]="vmShipment.selectedVendor.purchasingVendorId === 0">Select
+      Vendor</button>
+
+  </div>
+
+</div>

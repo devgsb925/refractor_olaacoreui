@@ -1,0 +1,29 @@
+<main style="margin-left: -5000;">
+  <div class="container" id="idOfDivToPrint" *ngIf="lable as ls">
+
+    <div class="logo" *ngIf="title">
+      <img [src]="title.logo" alt="" *ngIf="title.logo !== ''">
+      <h3>{{title.headT}}</h3>
+    </div>
+    <div class="date-detail">
+      <label for="" class="date-start" *ngFor="let head of ls.headDp">{{head.lable}}:&nbsp;{{head.value}}</label>
+    </div>
+    <hr>
+    <div class="total-detail">
+      <h5 *ngIf="title">{{title.bodyT}}</h5>
+      <div class="item" *ngFor="let bo of ls.bodyDp">
+        <label for="">{{bo.lable}}:</label>
+        <label
+          [ngClass]="{'bold': bo.lable === 'Grand Total'}">{{bo.value | currency: ' ':'':'0.0'}}&nbsp;{{currency}}</label>
+      </div>
+    </div>
+    <hr *ngIf="sellingType !== 2">
+    <div class="summary-detail" *ngIf="sellingType !== 2">
+      <h5 *ngIf="title">{{title.footerT}}</h5>
+      <div class="item" *ngFor="let fo of getBodyDate()">
+        <label for="">{{fo.lable}}:</label>
+        <label class="bold">{{fo.value | currency: ' ':'':'0.0'}}&nbsp;{{currency}}</label>
+      </div>
+    </div>
+  </div>
+</main>

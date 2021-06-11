@@ -1,0 +1,191 @@
+main.main{
+    font-size: 16px;
+    height: 100%;
+    padding: 10px;
+    display: grid;
+    background: #eee;
+    .container{
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        padding: 10px;
+        .layout-header{
+            display: flex;
+            padding-bottom: 10px;
+            .wrapper-search{
+                display: flex;
+                width: 100%;
+            }
+            .wrapper-btn{
+                .btn{
+                    justify-self: end;
+                    display: flex;
+                    align-items: center;
+                    outline: none;
+                    background-color: #333;
+                    color: white;
+                    border-radius: 5px;
+                    font-size: 1.2em;
+                    padding: 5px 20px;
+                    span{
+                        margin-right: 5px;
+                    }
+                }
+            }
+        }
+        .layout-shipment{
+            display: grid;
+            height: 100%;
+            grid-template-columns: 1fr 2.5fr;
+            .wrapper{
+                th{
+                    padding: 2px;
+                    font-size: .9em;
+                    text-align: center;
+                }
+                td{
+                    font-size: .9em;
+                    padding: 2px;
+                    text-align: center;
+                    input{
+                        text-align: center;
+                    }
+                    .btn{
+                        margin: 0;
+                        justify-self: center;
+                    }
+                }
+            }
+            .wrapper-shipment{
+                border-right: #555 1px solid;
+                padding-right: 5px;
+            }
+            .wrapper-shipment-detail{
+                padding-left: 5px;
+            }
+        }
+
+        .layout-pagenation{
+            height: 40px;
+            display: flex;
+            flex-direction: row-reverse;
+            
+        }
+    }
+}
+
+main.modal{
+    z-index: 5;
+    background-color: rgba(51, 51, 51, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .container{
+        width: 50%;
+        height: 50%;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        .layout-btn{
+            display:flex;
+            flex-direction: row-reverse;
+            .btn{
+                margin-left: 10px;
+                width: 150px;
+                background-color: #333;
+                border-radius: 5px;
+                color: #fff;
+                font-size: 1.2em;
+            }
+        }
+    }
+    
+}
+
+main.modal-add-imei{
+    .container{
+        width: 80vw;
+        height: 90vh;
+        .layout-top{
+            display: grid;
+            grid-template-columns: 1fr auto;
+            border-bottom:rgba(51, 51, 51, 0.3) solid 1px;
+            .wrap-imei-code{
+                display: flex;
+                padding-bottom: 20px;
+                align-items: center;
+                input{
+                    width: 200px;
+                    margin-left: 1rem;
+                }
+            }
+        }
+        .layout-table{
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-columns: repeat(auto-fill, 300px);
+            overflow: hidden;
+            overflow-x: auto;
+            .table{
+                padding: 0 1rem;
+                border-right: #555 1px solid;
+                width: 300px;
+                cursor: default;
+                thead{
+                    th{
+                        text-align: center;
+                        padding: 0;
+                    }
+                    th:nth-child(1){
+                        width: 10%;
+                    }
+                    th:nth-child(2){
+                        width: 80%;
+                    }
+                    th:nth-child(3){
+                        width: 10%;
+                    }
+                }
+                tbody{
+                    tr{
+                       border-right: 1px solid gainsboro; 
+                    }
+                    td{
+                        text-align: center;
+                    }
+                    td:last-child{
+                        height: 30px;
+                        padding: 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .btn{
+                        padding: 0;
+                        background: none;
+                        border: none;
+                        span{
+                            color: red;
+                            font-size: 1.2em;
+                        }
+                    }
+                }
+                &:first-child{
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 1024px) {
+    main {
+        min-width: 1000px;
+    }
+}

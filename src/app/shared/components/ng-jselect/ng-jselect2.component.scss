@@ -1,0 +1,103 @@
+.ngj-select-container {
+  width: 100%;
+  height: 40px;
+
+  .ngj-input-wrapper {
+    display: flex;
+    align-items: center;
+    height: inherit;
+    width: 100%;
+
+    position: relative;
+
+    span, input {
+      border: 1px solid gainsboro;
+      height: inherit;
+    }
+
+    input {
+      border-left: none;
+      border-right: none;
+    }
+
+
+    .input-border-icon {
+      border-left: 1px solid gainsboro;
+      padding-left: 0;
+
+    }
+
+    .no-input-icon {
+      padding-left: 15px;
+      border-right: 1px solid gainsboro;
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+    }
+
+
+    .action-border-icon {
+      padding-right: 0;
+
+    }
+
+    .no-action-icon {
+      padding-right: 15px;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+
+
+    span {
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+    }
+
+    span:nth-child(1) {
+      border-right: none;
+
+       border-top-left-radius: 50%;
+       border-bottom-left-radius: 50%;
+       border-bottom-left-radius: 50%;
+    }
+
+    button {
+      height: inherit;
+      padding: 0;
+      outline: none;
+
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
+
+      border-left: none;
+      background-color: inherit;
+
+      padding-right: 2px;
+      span {
+        border: none;
+      }
+    }
+
+    .ngj-select-ul {
+      list-style: none;
+      width: 100%;
+      position: absolute;
+      top: 45px;
+      left: 0;
+      background: #222;
+      color: #FFF;
+
+      li {
+        padding: 4px 7px;
+      }
+
+      li:hover {
+        background-color: gainsboro;
+        color: #222;
+        transition: 0.3sec  ease-in-out all;
+        cursor: pointer;
+      }
+    }
+
+  }
+}

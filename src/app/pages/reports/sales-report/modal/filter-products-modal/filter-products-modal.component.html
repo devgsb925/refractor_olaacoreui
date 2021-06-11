@@ -1,0 +1,108 @@
+<div class="modal-wrapper">
+  <div class="modal-content card">
+    <div class="close-button">
+      <button type="button" (click)="vmSalesReport.productFilter.show=false">
+        <span class="material-icons"> close </span>
+      </button>
+    </div>
+    <div class="title">
+      <span>Filter Settings</span>
+    </div>
+    <div class="drodown-wraper">
+      <div class="select-transaction">
+        <span>Transaction Type</span>
+        <select [(ngModel)]="vmSalesReport.productFilter.transationType">
+          <option value="Sold" selected>Sold</option>
+          <option value="Least Sold">Least Sold</option>
+        </select>
+      </div>
+      <div class="select-date">
+        <span>Date</span>
+        <select [(ngModel)]="vmSalesReport.productFilter.prodDate">
+          <option value="All" selected>All</option>
+          <option value="1">Last 1 Month</option>
+          <option value="3">Last 3 Month</option>
+          <option value="12">Last 1 Year</option>
+          <option value="Custom">Custom</option>
+        </select>
+      </div>
+      <div class="categories">
+        <span>Catagories</span>
+        <div class="input-wraper">
+          <!-- <div class="input">
+            <input type=""  [(ngModel)]="vmSalesReport.productFilter.categories" (keyup.enter)='searchProduct()'>
+            <div class="result-wraper" *ngIf="showCategories === true">
+             <ng-container *ngFor="let item of vmSalesReport.categories">
+              <a (click)="onSelectCat(item.name)">{{item.name}}</a>
+             </ng-container>
+
+            </div>
+          </div>
+          <button (click)="searchProduct()"><span class="material-icons">
+            search
+            </span></button> -->
+
+          <div class="input">
+            <input type="text"  [(ngModel)]="vmSalesReport.productFilter.categories" readonly>
+            <button *ngIf="vmSalesReport.productFilter.categories !== 'ALL Categories' "
+             (click)="closeCategoryEvent($event)">
+              <span class="material-icons">
+                clear
+              </span>
+            </button>
+          </div>
+          <button (click)="cat = true">
+            <span class="material-icons">
+              edit
+            </span>
+          </button>
+        </div>
+
+
+      </div>
+      <div class="brand" (click)="showBrands = false">
+        <span>Brand</span>
+        <div class="input-wraper">
+          <div class="input">
+            <input type="text" [(ngModel)]="brandSearch" (ngModelChange)="searchBrnadV2()" placeholder="All Brands">
+
+            <button type="button" *ngIf="vmSalesReport.productFilter.brand !== 'ALL Brands'" (click)="cancelBrand()">
+             <span class="material-icons">
+               clear
+             </span>
+           </button>
+
+            <div class="result-wraper" *ngIf="showBrands === true">
+              <ng-container *ngFor="let item of vmSalesReport.brands">
+                <a (click)="onSelectBrand(item.name)">{{item.name}}</a>
+               </ng-container>
+
+            </div>
+          </div>
+          <button (click)="searchBrnadV2()"><span class="material-icons">
+            search
+            </span></button>
+        </div>
+
+      </div>
+      <div class="btn-save">
+        <button type="button" (click)="saveSettings()">
+          <span class="material-icons">
+            save
+            </span>
+            SAVE
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<app-select-category *ngIf="cat"
+[category1Id]="vmSalesReport.cat1IdSelect.refCategoryId"
+[category2Id]="vmSalesReport.cat2IdSelect.refCategoryId"
+[category3Id]="vmSalesReport.cat3IdSelect.refCategoryId"
+(selectCategoryResult)="onSelectCategory($event)"
+(closeEvent)="closeCategoryEvent($event)"
+>
+</app-select-category>

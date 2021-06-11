@@ -1,0 +1,288 @@
+<main>
+  <header class="main">
+    <button (click)="deleteFunc()" class="btn btn-delete">
+      <span class="material-icons"> delete </span> Delete
+    </button>
+  </header>
+  <section class="main">
+    <div class="wrapper box-shadow">
+      <header>
+        <p>Mega Menus</p>
+      </header>
+      <section class="content">
+        <div class="box">
+          <div class="item">
+            <div class="logo">
+              <span class="material-icons"> widgets </span>
+            </div>
+            <div class="name">
+              <p>Categories</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Main Category -->
+    <div class="wrapper warpper-main box-shadow">
+      <header>
+        <p>Main Categories</p>
+        <button class="btn btn-add" (click)="showAddModalFunc(0)">
+          <span class="material-icons"> add </span>Add
+        </button>
+        <input
+          type="checkbox"
+          (click)="selectAll(0)"
+          [checked]="checkSelectAll(0)"
+        />
+      </header>
+
+      <section
+        class="content"
+        id="all"
+        cdkDropList
+        [cdkDropListData]="mainCategories"
+        (cdkDropListDropped)="drop($event, 0)"
+        [cdkDropListEnterPredicate]="false"
+      >
+        <div
+          class="box"
+          [ngClass]="{ 'box-active': item.refCategoryId == cat1Id }"
+          *ngFor="let item of mainCategories"
+          [cdkDragData]="item"
+          cdkDrag
+        >
+          <div class="item">
+            <div class="logo">
+              <img
+                src="{{
+                  item.icon != ''
+                    ? item.icon
+                    : '../../../../assets/images/no-image.png'
+                }}"
+                alt=""
+              />
+            </div>
+            <div class="name" (click)="onSelectItem(item.refCategoryId, 0)">
+              {{ item.name }}
+            </div>
+            <div class="edit">
+              <span
+                class="material-icons"
+                (click)="showEditModalFunc(item.refCategoryId, 0, item.name)"
+              >
+                create
+              </span>
+            </div>
+            <div class="checkbox">
+              <input
+                type="checkbox"
+                (click)="onSelectId(item.refCategoryId, 0)"
+                [checked]="checkSelectId(item.refCategoryId, 0)"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Sub Category 1 -->
+    <div class="wrapper wrapper-sub-1 box-shadow">
+      <header>
+        <p>Sub Categories 1</p>
+        <button class="btn btn-add" (click)="showAddModalFunc(1)">
+          <span class="material-icons"> add </span>Add
+        </button>
+        <input
+          type="checkbox"
+          (click)="selectAll(1)"
+          [checked]="checkSelectAll(1)"
+        />
+      </header>
+
+      <section
+        class="content"
+        id="sub1Categories"
+        cdkDropList
+        [cdkDropListData]="sub1Categories"
+        (cdkDropListDropped)="drop($event, 1)"
+        [cdkDropListEnterPredicate]="false"
+      >
+        <div
+          class="box"
+          [ngClass]="{ 'box-active': item.refCategoryId == cat2Id }"
+          *ngFor="let item of sub1Categories"
+          [cdkDragData]="item"
+          cdkDrag
+        >
+          <div class="item">
+            <div class="logo">
+              <img
+                src="{{
+                  item.icon != ''
+                    ? item.icon
+                    : '../../../../assets/images/no-image.png'
+                }}"
+                alt=""
+              />
+            </div>
+            <div class="name" (click)="onSelectItem(item.refCategoryId, 1)">
+              {{ item.name }}
+            </div>
+            <div class="edit">
+              <span
+                class="material-icons"
+                (click)="showEditModalFunc(item.refCategoryId, 1, item.name)"
+              >
+                create
+              </span>
+            </div>
+            <div class="checkbox">
+              <input
+                type="checkbox"
+                (click)="onSelectId(item.refCategoryId, 1)"
+                [checked]="checkSelectId(item.refCategoryId, 1)"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Sub Cateogry 2 -->
+    <div class="wrapper wrapper-sub-2 box-shadow">
+      <header>
+        <p>Sub Categories 2</p>
+        <button class="btn btn-add" (click)="showAddModalFunc(2)">
+          <span class="material-icons"> add </span>Add
+        </button>
+        <input
+          type="checkbox"
+          (click)="selectAll(2)"
+          [checked]="checkSelectAll(2)"
+        />
+      </header>
+      <section
+        class="content"
+        id="sub2Categories"
+        cdkDropList
+        [cdkDropListData]="sub2Categories"
+        (cdkDropListDropped)="drop($event, 2)"
+        [cdkDropListEnterPredicate]="false"
+      >
+        <div
+          class="box"
+          [ngClass]="{ 'box-active': item.refCategoryId == cat3Id }"
+          *ngFor="let item of sub2Categories"
+          [cdkDragData]="item"
+          cdkDrag
+        >
+          <div class="item">
+            <div class="logo">
+              <img
+                src="{{
+                  item.icon != ''
+                    ? item.icon
+                    : '../../../../assets/images/no-image.png'
+                }}"
+                alt=""
+              />
+            </div>
+            <div class="name" (click)="onSelectItem(item.refCategoryId, 2)">
+              {{ item.name }}
+            </div>
+            <div class="edit">
+              <span
+                class="material-icons"
+                (click)="showEditModalFunc(item.refCategoryId, 2, item.name)"
+              >
+                create
+              </span>
+            </div>
+            <div class="checkbox">
+              <input
+                type="checkbox"
+                (click)="onSelectId(item.refCategoryId, 2)"
+                [checked]="checkSelectId(item.refCategoryId, 2)"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+</main>
+
+<input type="file" hidden #cateFile (change)="onDropFile(cateFile.files)" />
+
+<ng-container *ngIf="showAddModal">
+  <main class="modal">
+    <div class="container container-edit">
+      <section
+        (drop)="onDropFile($event.target.files)"
+
+      >
+        <img
+        (click)="cateFile.click()"
+          src="{{
+            this.previewFile != ''
+              ? this.previewFile
+              : '../../../../assets/images/no-image.png'
+          }}"
+          alt=""
+        />
+
+        <button class="btn btn-clear-icon" (click)="clearIconFunc()">
+          <span class="material-icons"> clear </span>
+        </button>
+      </section>
+      <section>
+        <input type="text" [(ngModel)]="name" />
+        <div>
+          <p>Parent Id : {{ parentId }}</p>
+          <button class="btn btn-save" (click)="addFunc()">Save</button>
+          <button class="btn btn-cancel" (click)="showAddModalFunc(0)">
+            Cancel
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+</ng-container>
+
+<ng-container *ngIf="showEditModal">
+  <main class="modal">
+    <div class="container container-edit">
+      <section class="icon"
+        (drop)="onDropFile($event.target.files)"
+
+      >
+        <img (click)="cateFile.click()"
+          src="{{
+            this.previewFile != ''
+              ? this.previewFile
+              : getCatIcon() != ''
+              ? getCatIcon()
+              : '../../../../assets/images/no-image.png'
+          }}"
+          alt=""
+        />
+          <button class="btn btn-clear" (click)="deleteIconFunc()">
+            <span class="material-icons">
+              clear
+            </span>
+          </button>
+      </section>
+      <section>
+        <input type="text" [(ngModel)]="name" />
+        <div>
+          <p>Parent Id : {{ parentId }}</p>
+          <button class="btn btn-save" (click)="updateNameFunc()">Save</button>
+          <button class="btn btn-cancel" (click)="showEditModalFunc(0, 0, '')">
+            Cancel
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+</ng-container>

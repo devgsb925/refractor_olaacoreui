@@ -1,0 +1,229 @@
+.page-container {
+  margin: 1rem;
+  padding: 1rem;
+  height: calc(100vh - 110px) !important;
+
+  .action {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    position: relative;
+
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      margin-left: 1rem;
+      color: #666666;
+
+      &:nth-child(1) {
+        margin-left: 1px;
+      }
+
+      label {
+        font-size: 13px;
+        padding-right: 1rem;
+        white-space: nowrap;
+        margin-bottom: 0.5rem;
+      }
+
+      input,
+      select {
+        margin-right: 15px;
+        height: 35px;
+      }
+
+      .btn,
+      .btn-1 {
+        display: flex;
+        align-items: center;
+        background: #444;
+        color: white;
+
+        span {
+          margin-right: 5px;
+          font-size: 15px;
+        }
+      }
+
+      select {
+        width: 180px;
+      }
+
+    }
+
+    .btn {
+      width: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      right: 1rem;
+      height: 35px;
+      bottom: -0.5rem;
+
+      span {
+        margin-right: 5px;
+        font-size: 16px;
+      }
+
+      .plan {
+        transform: rotate(-30deg);
+        margin-top: -5px;
+
+      }
+    }
+
+    .btn-print {
+      right: 8.5rem;
+      background: #17a2b8;
+      color: white;
+    }
+
+    .submit {
+      background: #446a81;
+      color: white;
+    }
+  }
+
+  .grid {
+    margin-top: 12px;
+
+    display: grid;
+    grid-template-columns: 75% 25%;
+    grid-auto-rows: auto;
+
+    * {
+      font-size: 13px;
+      color: #666666;
+    }
+
+    .table-grid {
+      grid-column: span 1;
+      overflow: auto;
+
+      .table-wrapper {
+        margin-top: 1rem;
+        overflow-x: auto;
+        height: calc(100vh - 290px);
+        margin-bottom: 10px;
+        width: calc(100vw - 250px);
+
+        .sales-table {
+          border-collapse: collapse;
+          border-spacing: 0;
+          width: 100%;
+
+          tr {
+            &:hover {
+              background: #ffe9e9 !important;
+            }
+
+            &:nth-child(odd) {
+              background-color: white !important;
+
+              &:hover {
+                background: #ffe9e9 !important;
+              }
+            }
+
+            &:nth-child(even) {
+              background-color: #fcfcfc;
+            }
+          }
+
+          td,
+          th {
+            padding: 4px 8px;
+            text-align: end;
+
+            &:nth-child(1) {
+              text-align: center;
+              width: 120px;
+            }
+
+            &:nth-child(2) {
+              text-align: center;
+            }
+
+
+
+          }
+
+          th {
+            height: 35px;
+            background: #efefef;
+            font-weight: 500;
+
+
+
+          }
+
+          td {
+            height: 40px;
+            border-bottom: 0.5px solid #f1f1f1;
+          }
+
+          .info:hover {
+            cursor: pointer;
+            background-color: #eeb5b542 !important;
+            transition: ease-in-out 0.2s all;
+          }
+        }
+      }
+
+      .pagination-wrapper {
+        position: absolute;
+        height: 40px;
+        display: flex;
+        right: 23.8%;
+        align-items: center;
+      }
+    }
+
+    .summary-grid {
+      padding: 0 1rem;
+      grid-column: span 1;
+      padding-top: 1.5rem;
+      padding-left: 2rem;
+
+      h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #666666;
+        display: inline-block;
+
+      }
+
+      .label-wrapper {
+        width: 100%;
+        margin-top: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #f1f1f1;
+
+        label {
+          font-size: 16px;
+        }
+
+        label:nth-child(2) {
+          font-size: 1.2rem;
+        }
+
+        .for-total {
+          font-weight: bold;
+        }
+      }
+
+      .grand-total {
+        border: none;
+      }
+
+      .leasing {
+        border: none;
+      }
+    }
+  }
+}

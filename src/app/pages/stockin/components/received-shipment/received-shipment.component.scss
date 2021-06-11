@@ -1,0 +1,126 @@
+* {
+  font-size: 13px;
+  color: #666666;
+
+}
+
+.search {
+  width: 50% !important;
+  margin: 0;
+  margin-left: 0 !important;
+}
+
+.table-wrapper {
+  height: calc(100vh - 280px);
+  overflow: auto;
+  table {
+
+    table-layout: fixed;
+
+    .active-tr{
+      td{
+        background: #FFE9E9;
+      }
+    }
+
+    th,
+    td {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    th {
+      background: #efefef;
+      height: 35px !important;
+      padding: 0;
+    }
+    td {
+      height: 40px !important;
+      border-bottom: 1px solid #f1f1f1;
+      padding: 0;
+    }
+
+    tr:nth-child(odd) {
+      background-color: white !important;
+      &:hover {
+        background: #ffe9e9 !important;
+      }
+    }
+
+    tr:nth-child(even) {
+      background-color: #fcfcfc !important;
+
+      &:hover {
+        background: #ffe9e9 !important;
+      }
+    }
+
+    .re-date{
+      width: 120px;
+    }
+
+    .s-id{
+      width: 100px;
+      text-align: center;
+    }
+
+    .status-ship{
+      width: 120px;
+      text-align: center;
+      .status{
+        display: flex;
+        justify-content: center;
+        width: 100px;
+        margin-left: 10px;
+        p{
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+    }
+
+    .forwarder{
+      width: 130px;
+      padding-left: 20px;
+    }
+
+    .track-no{
+      width: 130px;
+      padding-left: 20px;
+    }
+
+    .boxcount{
+      width: 80px;
+      text-align: center;
+    }
+
+    .weight{
+      width: 80px;
+      text-align: center;
+    }
+
+    .volume{
+      width: 80px;
+      text-align: center;
+    }
+
+    .s-date{
+      padding:0 20px;
+    }
+
+    .detail{
+      width: 80px;
+    }
+
+
+
+  }
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row-reverse;
+}

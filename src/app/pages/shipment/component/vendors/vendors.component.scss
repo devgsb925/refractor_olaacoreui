@@ -1,0 +1,121 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba($color: #000000, $alpha: 0.9);
+  z-index: 99;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .modal-form-wrapper {
+
+    width: 500px;
+    height: 700px;
+    background-color: #FFF;
+
+    position: relative;
+
+    .title {
+      position: absolute;
+      left: -20px;
+
+      button {
+        background: #ff4747;
+        border-radius: 50px;
+        color: white;
+        border: none;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        width: 100px;
+
+        span {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .modal-title {
+      font-size: large;
+      font-weight: bold;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: .5rem;
+      top: .5rem;
+
+      button {
+        outline: none;
+        border: none;
+        background-color: transparent;
+
+        span {
+          color: #ff4747;
+        }
+      }
+    }
+
+    .select-vendor {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      background-color: #222;
+      color: #FFF;
+
+    }
+
+    .border {
+      border: 1px solid gainsboro;
+      margin-top: 2.5rem;
+      padding: 1rem;
+      .search-wrapper{
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: 35px;
+
+
+        .input-wrap{
+          display: flex;
+          align-items: center;
+          span{
+            height: 35px;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            border: 1px solid gainsboro;
+            border-right: none;
+            color: #666666;
+          }
+
+          input{
+            border-left: none;
+            width: 280px;
+          }
+        }
+        input,select{
+          height: 35px;
+        }
+
+      }
+
+      .table-wrapper {
+        height: 500px;
+        margin-bottom: -1rem;
+      }
+
+      .active-vendor {
+        background-color: #ff474715;
+      }
+    }
+
+
+  }
+
+}

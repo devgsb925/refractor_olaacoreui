@@ -1,0 +1,221 @@
+<main class="main">
+  <div class="container">
+    <section class="layout layout-header">
+      <div class="wrapper wrapper-search">
+        <div class="input input-select">
+          <select [(ngModel)]="searchOption" (change)="onSearchOptionChange()">
+            <option value="0">Shipment Id</option>
+            <option value="1">ForwarderNo</option>
+            <option value="2">TrackingNo</option>
+          </select>
+        </div>
+        <div class="input input-search">
+          <input placeholder="search ..." type="{{searchOption == 0 ? 'number' : 'text'}}" [(ngModel)]="searchValue">
+        </div>
+      </div>
+      <div class="wrapper wrapper-btn">
+        <button class="btn btn-success animation-ripple" (click)="saveFunc()">
+          <span class="material-icons">
+            save
+          </span>
+          Save
+        </button>
+      </div>
+
+    </section>
+
+    <section class="layout layout-shipment">
+      <div class="wrapper wrapper-shipment table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 30px;">S.ID</th>
+              <th style="width: 80px;">TrackingNo</th>
+              <th style="width: 85px;">ForwarderNo</th>
+              <th style="width: 43px;">Box Count</th>
+              <th style="width: 50px;">Weigth</th>
+              <th style="width: 50px;">Volume</th>
+              <th style="width: 20px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="getGetShipFunc().length > 0">
+              <tr *ngFor="let item of getGetShipFunc()" (click)="changeShipmentFunc(item.shipmentId)">
+                <td>{{item.shipmentId}}</td>
+                <td>{{item.trackingNo}}</td>
+                <td>{{item.forwarderNo}}</td>
+                <td style="text-align: center;">{{item.noOfBoxes}}</td>
+                <td style="text-align: center;">{{item.weight}}</td>
+                <td style="text-align: center;">{{item.volume}}</td>
+                <td>
+                  <ng-container *ngIf="vmStockinnActives.checkStatusShipmentById(item.shipmentId)">
+                    <span class="material-icons" style="color: green; font-weight: bold; font-size: 15px;">
+                      done
+                    </span>
+                  </ng-container>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <div class="wrapper wrapper-shipment-detail table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 50px;">O.ID</th>
+              <th style="width: 50px;">P.ID</th>
+              <th style="width: 75px;">Brand</th>
+              <th style="width: 170px;">Product Name</th>
+              <th style="width: 85px;">M.Name</th>
+              <th style="width: 90px;">M.Number</th>
+              <th style="width: 70px;">Size</th>
+              <th style="width: 70px;">Color</th>
+              <th style="width: 60px;">O.Qty</th>
+              <th style="width: 60px;">S.Qty</th>
+              <th style="width: 60px;">Recieved</th>
+              <th style="width: 120px;">Barcode</th>
+              <th style="width: 50px;">Remarks</th>
+              <th style="width: 50px;"></th>
+
+            </tr>
+          </thead>
+
+          <tbody>
+            <ng-container *ngIf="vmStockinnActives.getShipmentDetail().length > 0">
+              <tr
+                *ngFor="let item of vmStockinnActives.getShipmentDetail().slice(20*shipDetailPos,20*(shipDetailPos+1))"
+                (click)="shipmentDetailIdActive = item.purchasingShipmentDetailId">
+                <td>{{item.orderId}}</td>
+                <td>{{item.productId}}</td>
+                <td>{{item.brand}}</td>
+                <td>{{item.productName}}</td>
+                <td>{{item.modelName}}</td>
+                <td>{{item.modelNumber}}</td>
+                <td>{{item.size}}</td>
+                <td>{{item.color}}</td>
+                <td>{{item.orderQty}}</td>
+                <td>{{item.shippedQty}} </td>
+
+                <td [ngClass]="{'active-border': shipmentDetailIdActive == item.purchasingShipmentDetailId}">
+                  <input type="number" style=" text-align: center; padding: 3px 0;" #recieved
+                    (change)="onRecievedChange(item.purchasingShipmentDetailId, recieved.value)"
+                    value="{{item.recieved}}">
+                </td>
+                <td [ngClass]="{'active-border': shipmentDetailIdActive == item.purchasingShipmentDetailId}">
+                  <input #barcode (change)="onBarcodeChange(item.productId,barcode.value)" value="{{item.barcode}}"
+                    type="text">
+                </td>
+                <td>
+                  <div class="wrap wrap-remark"
+                    (click)="showRemarkModalFunc(item.purchasingShipmentDetailId,item.remarks)">
+                    <span class="material-icons" [ngStyle]="{'color': item.remarks != '' ? 'red' : '#333'}">
+                      info
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <button class="btn btn-success animation-ripple edit-input"
+                    (click)="showEmeiModalFunc(item.productId,item.purchasingShipmentDetailId)">
+                    IMEI
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+
+      </div>
+    </section>
+
+    <section class="layout layout-pagenation">
+      <ng-container *ngIf="vmStockinnActives.getShipmentDetail().length > 20">
+        <app-pagination [ItemsCount]="vmStockinnActives.getShipmentDetail().length" [PageSize]="20"
+          [PagePos]="shipDetailPos" (PositionEventEmitter)="setShipDetailPos($event)"></app-pagination>
+      </ng-container>
+
+    </section>
+  </div>
+</main>
+
+
+<ng-container *ngIf="showRemarkModal">
+  <main class="modal modal-remark">
+    <div class="container">
+      <div class="layout layout-text">
+        <textarea [(ngModel)]="remarkValue" cols="30" rows="30"></textarea>
+      </div>
+      <div class="layout layout-btn">
+        <button class="btn btn-save" (click)="saveRemark()">
+          Save
+        </button>
+        <button class="btn btn-cancel" (click)="showRemarkModal = false">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </main>
+</ng-container>
+
+
+<ng-container *ngIf="showImeiModal">
+  <main class="modal modal-add-imei">
+    <div class="container">
+      <div class="layout layout-top">
+        <div class="wrap wrap-imei-code">
+          <label for="">IMEI</label>
+          <input type="text" [(ngModel)]="imeiValue" (change)="onImeiChange()">
+        </div>
+        <div class="wrap wrap-btn">
+          <button class="btn btn-close" (click)="showImeiModal = false">
+            <span class="material-icons">
+              close
+            </span>
+          </button>
+        </div>
+
+      </div>
+
+      <div class="layout layout-table">
+
+        <ng-container *ngFor="let item of getTableLength(); let i = index">
+          <div class="table table-wrapper">
+
+            <table>
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>IMEI</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <ng-container *ngIf="vmStockinnActives.getImeiListByTableIndex(i+1) as imeis">
+                <tbody>
+                  <ng-container *ngFor="let imei of imeis;let pos = index">
+                    <tr>
+                      <td>{{(pos+1)+(i*20)}}</td>
+                      <td>
+                        <p>{{imei.imeiCode}}</p>
+                      </td>
+                      <td>
+                        <button class="btn btn-delete-imei">
+                          <span class="material-icons" (click)="vmStockinnActives.deleteImei(imei.imeiCode)">
+                            close
+                          </span>
+                        </button>
+                      </td>
+                    </tr>
+                  </ng-container>
+
+                </tbody>
+              </ng-container>
+
+            </table>
+
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
+  </main>
+</ng-container>

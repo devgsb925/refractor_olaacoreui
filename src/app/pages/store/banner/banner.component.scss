@@ -1,0 +1,29 @@
+main {
+  padding: 10px;
+  .container {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    height: calc(100vh - 100px);
+    nav {
+      display: flex;
+      border-bottom: #eae9eb solid 1px;
+      a {
+        padding: 5px 0;
+        width: 100px;
+        text-align: center;
+        background: #efefef;
+        height: 24px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        text-decoration: none;
+        color: #333;
+        font-size: 11px;
+      }
+      a.router-link-active {
+        background-color: #ff4747;
+        color: #fff;
+      }
+    }
+  }
+}

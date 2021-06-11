@@ -1,0 +1,141 @@
+*{
+  font-size: 12px;
+}
+
+.container{
+  padding: 1rem;
+  margin: 1rem;
+  height: calc(100vh - 110px);
+
+  .grid{
+    display: grid;
+    grid-template-rows: 50px 1fr 50px;
+
+    .grid-option{
+      grid-row:1/2;
+      display: flex;
+      justify-content: space-between;
+
+      .item-group{
+        display: flex;
+
+        input{
+          height: 35px;
+          border-left: none;
+          width: 600px;
+
+          &::placeholder{
+            color: gainsboro;
+          }
+        }
+
+        .search-btn{
+          height: 35px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-right: none;
+          background: none;
+          color: gainsboro;
+         span{
+           font-size: 20px;
+         }
+        }
+
+        .add-btn{
+          height: 35px;
+          background: #00A65A;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+
+          span{
+            font-size: 25px;
+            margin-right: 5px;
+          }
+
+          &:hover{
+            background:#02BB66;
+          }
+        }
+      }
+
+    }
+
+    .grid-table{
+      grid-row: 2/3;
+      .table-wrapper{
+        height: calc(100vh - 235px);
+
+        overflow-x: auto;
+
+        th,td{
+          padding: 0;
+        }
+        .tactive-tr{
+          td{
+            background:#FFE9E9;
+          }
+        }
+
+        th {
+          background: #efefef;
+          font-weight: 500;
+          height: 35px !important;
+          padding: 0;
+        }
+        td {
+          height: 40px !important;
+          border-bottom: 1px solid #f1f1f1;
+          padding: 0;
+        }
+
+        tr:nth-child(odd) {
+          background-color: white !important;
+          &:hover {
+            background: #ffe9e9 !important;
+          }
+        }
+        tr:nth-child(even) {
+          background-color: #fcfcfc !important;
+
+          &:hover {
+            background: #ffe9e9 !important;
+          }
+        }
+
+          th:nth-child(2){
+            width: 250px;
+          }
+
+          th:nth-child(3){
+            width: 250px;
+          }
+
+          th:nth-child(4){
+            width: calc(100% - 39%);
+          }
+
+          th:nth-child(5){
+            text-align: center;
+            padding-right: 18px;
+            width: 70px;
+          }
+          td:nth-child(5){
+            width: 100px;
+          }
+
+      }
+    }
+
+    .grid-pagination{
+      grid-row: 3/4;
+      display: flex;
+      flex-direction: row-reverse;
+    }
+
+  }
+
+}

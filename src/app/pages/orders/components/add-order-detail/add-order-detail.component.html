@@ -1,0 +1,125 @@
+<div class="modal-wrapper">
+  <div class="modal-content card">
+
+    <div class="title">
+      <button>
+        <span class="material-icons">dns</span>
+        Inventory
+      </button>
+    </div>
+
+    <div class="close-button">
+      <div></div>
+      <button type="button" (click)='ordersViewModel.showAddOrderDetail = false'>
+        <span class="material-icons"> close </span>
+      </button>
+    </div>
+
+    <div class="search-wrapper search-search">
+      <input placeholder="search..." type="text" [(ngModel)]="searchValue" (ngModelChange)="searchProduct()" />
+      <span class="material-icons"> search </span>
+    </div>
+
+    <div class="content">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>P.ID</th>
+              <th>SKU</th>
+              <th>Product&nbsp;Description</th>
+              <th>Product&nbsp;Number</th>
+              <!-- <th>Version</th>
+              <th>Size</th>
+              <th>Color</th> -->
+              <th>Brand</th>
+              <th>V.ID</th>
+              <th>Stock</th>
+              <th>OTW</th>
+              <th>Reorder</th>
+              <th>Remark</th>
+              <th>Add</th>
+            </tr>
+          </thead>
+
+          <tbody *ngIf="getProductList() | async as products">
+
+            <tr *ngFor="let item of products" (click)="selTableRow = item.productId">
+              <td class="product-id">
+                <p>{{item.productId}}</p>
+              </td>
+              <td>
+                <ng-container *ngIf="!item.sku">-</ng-container>
+                <ng-container *ngIf="item.sku">{{item.sku}}</ng-container>
+              </td>
+
+              <td class="product-name">
+                <p *ngIf="!chackToolTip(item.productDescription.length, 49)">
+                  {{ item.productDescription }}
+                </p>
+                <div class="tooltip" *ngIf="chackToolTip(item.productDescription.length, 49)">
+                  <p>{{ item.productDescription }}</p>
+                  <span class="tooltiptext text-overflow">
+                    {{ item.productDescription }}</span>
+                </div>
+              </td>
+
+              <td>
+                <p *ngIf="!chackToolTip(item.productNo.length, 25)">
+                  {{ item.productNo }}
+                </p>
+                <div class="tooltip" *ngIf="chackToolTip(item.productNo.length, 25)">
+                  <p>{{ item.productNo }}</p>
+                  <span class="tooltiptext text-overflow">
+                    {{ item.productNo }}</span>
+                </div>
+              </td>
+
+              <!-- <td>{{getVariantVersion(item.productId)}}</td>
+
+              <td>{{getVariantSize(item.productId)}}</td>
+
+              <td>{{getVariantColor(item.productId)}}</td> -->
+              <td>{{getBrand(item.brandId)}}</td>
+
+              <td>
+                <div class="tooltip">
+                  <p>{{getVendorId(item.productId)}}</p>
+                  <span class="tooltiptext text-overflow">
+                    <ng-container *ngFor="let venn of getVendorDetail(item.productId)">
+                      Vendor&nbsp;Name&nbsp;:&nbsp;{{venn.vendorName}},&nbsp;
+                      Vendor&nbsp;Contact&nbsp;:&nbsp;{{venn.vendorContact}}
+                    </ng-container>
+                  </span>
+                </div>
+
+              </td>
+
+              <td>{{item.stockQty}}</td>
+              <td>{{item.otw}}</td>
+              <td>{{item.reorderQty}}</td>
+              <td>{{item.remarks}}</td>
+              <td>
+
+                <button class="btn btn-success animation-ripple add-btn"
+                  *ngIf="!addOrderDetailViewModel.checkHasItemInOrder(item.productId)"
+                  (click)="addSubmit(item.vendorProductId)">Add</button>
+                <button class="btn btn-success animation-ripple add-btn" style="background-color: #ff4747;"
+                  *ngIf="addOrderDetailViewModel.checkHasItemInOrder(item.productId)" disabled>Added</button>
+
+              </td>
+
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+
+      <div class="footer">
+        <app-pagination [ItemsCount]="getItemCount()" [PageSize]="20" [PagePos]="position"
+          (PositionEventEmitter)="getPagePosition($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </div>
+</div>

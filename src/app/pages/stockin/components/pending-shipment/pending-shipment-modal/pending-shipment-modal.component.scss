@@ -1,0 +1,385 @@
+* {
+  font-size: 13px;
+  color: #666666;
+}
+
+.page-container2 {
+  width: 95vw;
+  height: 95vh;
+  background: white;
+  border-radius: 10px;
+
+  .grid2 {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+
+    .grid-tabs2 {
+      display: flex;
+      justify-content: space-between;
+      border: none;
+
+      .title {
+        margin-left: -35px;
+
+        label {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #ff4747;
+          padding: 4px 10px;
+          color: white;
+          border-radius: 15px;
+
+          span {
+            margin-right: 8px;
+            font-size: 20px;
+            color: white;
+
+          }
+        }
+      }
+
+      .button-action {
+        button {
+          border: none;
+          background: none;
+          margin-top: -0.5rem;
+          color: #ff4747;
+
+          span {
+            font-size: 20px;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+
+    .grid-options2 {
+      border: none;
+      display: grid;
+      grid-template-rows: 50px 30px;
+      position: relative;
+
+      .option-input {
+        display: flex;
+        grid-row: 1/2;
+        grid-column: 1/2;
+
+        .input-group2 {
+          display: block;
+          margin-left: 1rem;
+
+          input {
+            margin: 0;
+            border: 1px solid gainsboro;
+            width: 100%;
+            padding: 4px;
+            background: rgb(228, 228, 228);
+          }
+
+          &:nth-child(1) {
+            width: 70px;
+            margin-left: 0;
+          }
+
+          &:nth-child(2) {
+            width: 120px;
+          }
+
+          &:nth-child(3) {
+            width: 150px;
+          }
+
+          &:nth-child(4),
+          &:nth-child(5),
+          &:nth-child(6) {
+            width: 70px;
+          }
+
+          &:nth-child(7),
+          &:nth-child(8) {
+            width: 150px;
+          }
+
+          &:nth-child(8) {
+            input {
+
+              width: 100%;
+              padding: 4px;
+            }
+          }
+        }
+
+        .btn-action {
+          position: absolute;
+          right: 1rem;
+          top: 1.5rem;
+
+          button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 25px;
+            background: #2196F3;
+            color: white;
+
+            span {
+              margin-right: 5px;
+              color: white;
+            }
+          }
+
+          .save-active {
+            background: #ff4747;
+          }
+
+
+        }
+
+        .btn-action {
+          button {
+            background: #2196F3;
+            padding: 15px 20px;
+            border-radius: 3px;
+
+
+            &:hover {
+              background: #31A4FF;
+            }
+
+            span {
+              font-size: 25px;
+              padding-right: 3px;
+            }
+          }
+        }
+      }
+
+      .option-title {
+        margin-top: 0.5rem;
+        border-top: 1px solid gainsboro;
+        padding: 0.75rem 0;
+
+        label {
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+
+          span {
+            font-size: 20px;
+            margin-right: 5px;
+            color: #ff4747;
+          }
+        }
+      }
+    }
+
+    .grid-table2 {
+      grid-row: 3/4;
+      grid-column: 1/3;
+      margin: 0.5rem 0;
+      height: calc(100vh - 270px);
+      overflow-x: auto;
+
+      .table-wrapper {
+        // overflow-x: auto;
+        height: 70.5vh;
+        width: 100%;
+
+
+        table {
+
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+
+          th, td{
+            padding: 0 !important;
+            input{
+              height: 28px;
+              border: none;
+            }
+          }
+
+          .tactive-tr {
+            td {
+              background: #FFE9E9;
+
+            }
+          }
+
+          th {
+            background: #efefef;
+            height: 35px !important;
+            padding: 0;
+            font-weight: 500;
+
+            &:nth-child(10) {
+              width: 30px;
+            }
+          }
+
+          td {
+            height: 40px !important;
+            border-bottom: 1px solid #f1f1f1;
+            padding: 0;
+          }
+
+          tr:nth-child(odd) {
+            background-color: white !important;
+
+            &:hover {
+              background: #ffe9e9 !important;
+            }
+          }
+
+          tr:nth-child(even) {
+            background-color: #fcfcfc !important;
+
+            &:hover {
+              background: #ffe9e9 !important;
+            }
+          }
+
+          th:nth-child(8),
+          td:nth-child(8) {
+            width: 80px;
+            text-align: center;
+          }
+
+          th:nth-child(9),
+          td:nth-child(9) {
+            input{
+              width: 95%;
+            }
+
+          }
+
+          th {
+            &:nth-child(1) {
+              width: 80px;
+            }
+
+            &:nth-child(2) {
+              width: 80px;
+            }
+
+            &:nth-child(3) {
+              width: 70px;
+            }
+
+            &:nth-child(4) {
+              width: 450px;
+
+              .tool-wrap {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+            }
+
+            &:nth-child(5) {
+              width: 180px;
+              padding-left: 5px;
+            }
+
+            &:nth-child(6) {
+              width: 70px;
+            }
+
+            &:nth-child(7) {
+              width: 100px;
+              text-align: center;
+            }
+
+            &:nth-child(9) {
+              width: 350px;
+            }
+
+          }
+
+          td {
+
+            .has-update {
+              width: 10px;
+              height: 10px;
+              border-radius: 50px;
+              background: #ff4747;
+            }
+
+
+            &:nth-child(2) {
+              width: 70px;
+            }
+
+            &:nth-child(4) {
+              padding-top: 5px;
+              align-items: center;
+
+              .flag {
+                margin-left: 5px;
+                background: rgb(3, 199, 3);
+                color: white;
+                height: 12px;
+                width: 25px;
+                display: flex;
+                align-items: center;
+
+                p {
+                  font-size: 10px;
+                }
+              }
+            }
+
+            &:nth-child(4) {
+              padding-left: 5px;
+            }
+
+            &:nth-child(7) {
+              text-align: center;
+            }
+
+            .sel-tr {
+              border: 1px solid gainsboro;
+              background: white;
+              text-align: center;
+
+            }
+
+            .text-overflow {
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+            }
+
+            .received {
+              width: 20px;
+              height: 20px;
+              border-radius: 50px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-left: 35px;
+            }
+
+            input {
+              width: 90%;
+            }
+          }
+        }
+      }
+    }
+
+    .grid-pagination2 {
+      grid-row: 5/6;
+      padding-right: 1rem;
+
+      .pagination {
+        display: flex;
+        flex-direction: row-reverse;
+      }
+    }
+  }
+}

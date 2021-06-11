@@ -1,0 +1,60 @@
+.container {
+  width: 350px;
+  padding: 0 1rem;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    img {
+      width: 100px;
+    }
+
+    p {
+      margin-top: 0.5rem;
+    }
+
+    margin-bottom: 1rem;
+  }
+
+  .date-detail {
+    display: flex;
+    flex-direction: column;
+
+    .date-start {
+      font-size: 16px;
+    }
+
+    label {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .total-detail,
+  .summary-detail {
+    h5 {
+      margin: 1rem 0;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem !important;
+
+      label {
+        margin-bottom: 0.5rem;
+      }
+
+      .bold {
+        font-weight: bold;
+      }
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+  }
+
+}

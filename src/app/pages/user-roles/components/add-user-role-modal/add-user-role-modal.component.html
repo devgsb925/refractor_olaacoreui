@@ -1,0 +1,206 @@
+<div class="modal-container">
+  <div class="card">
+    <div class="option">
+      <div class="title">
+        <label for="">
+          <span class="material-icons"> add </span>
+          Add New User
+        </label>
+      </div>
+
+      <button
+        class="btn-close btn btn-success animation-ripple"
+        (click)="closeFunc()"
+      >
+        <span class="material-icons"> close </span>
+      </button>
+    </div>
+
+    <div class="content-warpper">
+      <div class="grid-l">
+        <div class="grid-l-content">
+          <div class="item-group">
+            <label for="">Image</label>
+            <div class="img-item">
+              <img src="{{ imgURL }}" alt="" *ngIf="imgURL" />
+              <span
+                style="font-size: 120px"
+                class="material-icons"
+                *ngIf="!imgURL"
+              >
+                panorama
+              </span>
+              <div class="form-group">
+                <input
+                  type="file"
+                  id="file"
+                  (change)="handleFileInput($event.target.files)"
+                  [(ngModel)]="addUserRoleModel.avatar"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="item-group">
+            <label for="">User&nbsp;ID</label>
+            <input
+              type="text"
+              value="0"
+              readonly
+              style="background-color: rgb(153, 153, 153)"
+            />
+          </div>
+
+          <div class="item-group">
+            <label for="">First&nbsp;Name</label>
+            <input
+              type="text"
+              [(ngModel)]="addUserRoleModel.firstName"
+              (ngModelChange)="addUserRoleModel.hasAdd = true"
+            />
+          </div>
+
+          <div class="item-group">
+            <label for="">Last&nbsp;Name</label>
+            <input
+              type="text"
+              [(ngModel)]="addUserRoleModel.lastName"
+              (ngModelChange)="addUserRoleModel.hasAdd = true"
+            />
+          </div>
+
+          <div class="item-group">
+            <label for="">Contact&nbsp;Number</label>
+            <input
+              type="text"
+              [(ngModel)]="addUserRoleModel.contactNo"
+              (ngModelChange)="addUserRoleModel.hasAdd = true"
+            />
+          </div>
+
+          <div class="item-group">
+            <label for="">Role</label>
+            <input
+              type="text"
+              [(ngModel)]="addUserRoleModel.roleName"
+              (ngModelChange)="addUserRoleModel.hasAdd = true"
+            />
+          </div>
+
+          <div class="item-group packer">
+
+            <label class="chk-container">Packer
+              <input type="checkbox"  [(ngModel)]="packer">
+              <span class="chk-checkmark"></span>
+            </label>
+
+
+            <label class="chk-container">Deliver
+              <input type="checkbox"  [(ngModel)]="deliver">
+              <span class="chk-checkmark"></span>
+            </label>
+
+          </div>
+
+          <div class="item-group">
+            <label for="">User&nbsp;Name</label>
+            <input
+              type="text"
+              [(ngModel)]="addUserRoleModel.userName"
+              (ngModelChange)="addUserRoleModel.hasAdd = true"
+            />
+          </div>
+
+          <div class="item-group">
+
+            <div class="input-group">
+              <label for="">Password</label>
+              <input
+                *ngIf="hidenPassword"
+                class="hiden"
+                type="password"
+                [(ngModel)]="addUserRoleModel.password"
+                (ngModelChange)="addUserRoleModel.hasAdd = true"
+              />
+              <button *ngIf="hidenPassword" (click)="hidenPassword = false">
+                <span class="material-icons"> visibility </span>
+              </button>
+
+              <input
+                *ngIf="!hidenPassword"
+                class="hiden"
+                type="text"
+                [(ngModel)]="addUserRoleModel.password"
+                (ngModelChange)="addUserRoleModel.hasAdd = true"
+              />
+              <button *ngIf="!hidenPassword" (click)="hidenPassword = true">
+                <span class="material-icons"> visibility_off </span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-r">
+        <div class="grid-r-content">
+          <div class="gird-option">
+            <label for="">
+              <span class="material-icons"> lock_open </span>
+              Permissions
+            </label>
+
+            <button
+              class="btn btn-success animation-ripple"
+              (click)="addUserRoleSubmit(addUserRoleModel)"
+            >
+              <span class="material-icons"> save </span>
+              Save
+            </button>
+          </div>
+
+          <div class="role-item" *ngIf="vmUserRoles.roleCheckBox as roles">
+            <div class="role-group">
+              <input
+                type="checkbox"
+                id="all"
+                name="all"
+                value="all"
+                [(ngModel)]="roles.selectAll"
+                (click)="selectAllFunc(roles)"
+              />
+              <label for="all">Select All</label><br />
+            </div>
+            <ng-container *ngFor="let rs of roles.groupRoles">
+              <div class="role-group">
+                <input
+                  type="checkbox"
+                  [id]="rs.groupId"
+                  [name]="rs.groupId"
+                  [(ngModel)]="rs.groupSelect"
+                  (change)="clcikCheckBox()"
+                  (click)="checkChildren(rs.groupId)"
+                />
+                <label for="{{ rs.groupId }}">{{ rs.groupName }}</label
+                ><br />
+              </div>
+
+              <div class="role-sub" *ngFor="let rssub of rs.roles">
+                <input
+                  type="checkbox"
+                  [id]="rssub.id"
+                  [name]="rssub.id"
+                  [(ngModel)]="rssub.select"
+                  [disabled]="!rs.groupSelect"
+                  (change)="clcikCheckBox()"
+                />
+                <label for="{{ rssub.id }}">{{ rssub.name }}</label
+                ><br />
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

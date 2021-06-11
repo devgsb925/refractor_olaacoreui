@@ -1,0 +1,82 @@
+<main>
+  <div class="container">
+    <section class="layout layout-top">
+      <div class="wrap wrap-btn">
+        <button
+          class="btn btn-close"
+          (click)="ordersViewModelService.showExchangeRateModal = false"
+        >
+          <span class="material-icons"> close </span>
+        </button>
+      </div>
+    </section>
+    <section class="layout layout-current">
+      <!-- <ng-container *ngIf="ordersViewModelService.order.exchangeRate.purchasingExchangeRateId != 8">
+        <div class="wrap warp-currency">
+          <p>{{ordersViewModelService.order.exchangeRate.refCurrencyType}}</p>
+        </div>
+        <div class="wrap wrap-rate">
+          <p>{{ordersViewModelService.order.exchangeRate.rateCurrencyToKip}}</p>
+        </div>
+        <div class="wrap wrap-status">
+          <p>Current</p>
+        </div>
+      </ng-container> -->
+    </section>
+    <section class="layout layout-active">
+      <p class="label">Active Exchange Rate :</p>
+      <div class="table table-wrapper">
+        <table>
+          <colgroup>
+            <col span="1" style="width: 40%" />
+            <col span="1" style="width: 40%" />
+            <col span="1" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="currency">
+                <p>Currency</p>
+              </th>
+              <th class="rate">
+                <p>Rate</p>
+              </th>
+              <th class="select">
+                <p></p>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container
+              *ngIf="productReferencesViewModel.getExchangeRates().length > 0"
+            >
+              <ng-container
+                *ngFor="
+                  let item of productReferencesViewModel.getExchangeRates()
+                "
+              >
+                <ng-container *ngIf="item.rateId != 8">
+                  <tr>
+                    <td class="currency">
+                      <p>{{ item.currencyName }}</p>
+                    </td>
+                    <td class="rate">
+                      <p>{{ item.rate }}</p>
+                    </td>
+                    <td class="select">
+                      <button
+                        class="btn btn-select"
+                        (click)="selectNewCurrency(item)"
+                      >
+                        <p>Select</p>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>

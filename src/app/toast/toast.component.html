@@ -1,0 +1,27 @@
+<ng-container *ngIf="toaster.toast$ | async as toast">
+<div class="toast" *ngIf="toast.showToaster">
+  <div class="loader"></div>
+  <img src="../../assets/images/olaa-brand-logo.png" alt="logo">
+  
+  <h3 class="loader-msg">{{ toast.quotes[toast.quotePos].value }} 
+    <br>
+    <br>
+    <br>
+    {{ toast.msg }}
+  </h3>
+  
+
+</div>
+
+</ng-container>
+
+<ng-container *ngIf="toaster.notification$ | async as notification">
+  
+  <div class="notifications bounceInUp" *ngIf="notification.showNotification">
+    
+    <div class="notice">
+        <p>{{ notification.msg }}</p>
+    </div>
+    <!-- <div class="close">&times;</div> -->
+  </div>
+</ng-container>

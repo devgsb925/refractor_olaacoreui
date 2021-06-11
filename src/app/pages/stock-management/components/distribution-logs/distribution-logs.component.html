@@ -1,0 +1,99 @@
+<div class="page-container">
+
+
+  <div class="search-warpper">
+
+    <div class="search">
+      <input type="text" class="form-control" placeholder="Search by id, sku, description, barcode..." [(ngModel)]="searchValue" (keyup.enter)="searchDistributionFunc()"/>
+    <span class="material-icons"> search </span>
+    </div>
+
+  </div>
+
+  <div class="table-wrapper" >
+    <table>
+      <thead>
+        <tr>
+          <th>
+            <label class="check" for="check" >
+              Date
+              <span class="material-icons">
+                arrow_drop_down
+                </span>
+            </label>
+          </th>
+          <th>Move&nbsp;by</th>
+          <th>Request&nbsp;by</th>
+          <th>P.ID</th>
+          <th>SKU</th>
+          <th>Product&nbsp;Description</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Qty</th>
+          <th>UID</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr  [ngClass]="{'tr-select': activeTr === di.distributionId}" (click)="activeTr = di.distributionId" *ngFor="let di of distributionList">
+          <td>{{di.moveDate | date:'d/M/yy, h:mm'}}</td>
+          <td>{{di.moveBy}}</td>
+          <td>{{di.requestBy}}</td>
+          <td>{{di.productId}}</td>
+          <td>
+            <ng-container *ngIf="!di.sku" >-</ng-container>
+            <ng-container *ngIf="di.sku">{{di.sku}}</ng-container>
+          </td>
+          <td>
+
+            <p *ngIf="chackToolTip(di.description.length, 30) === false">
+              {{ di.description }}
+            </p>
+            <div class="tooltip" *ngIf="chackToolTip(di.description.length, 30)">
+              <p>{{ di.description }}</p>
+              <span class="tooltiptext text-overflow">
+                {{ di.description }}
+              </span>
+            </div>
+
+          </td>
+          <td>{{di.fromLoc}}</td>
+          <td>{{di.toLoc}}</td>
+          <td>{{di.qty}}</td>
+          <td>
+
+            <ng-container *ngIf="di.uids.length === 0">-</ng-container>
+
+            <div style="display: flex;" *ngIf="di.uids.length > 0" >
+              <label >{{getUidType(di.uids[0].uidType) }}</label>
+                <span *ngFor="let ui of di.uids">
+                  <!-- {{ui.uidValue}}, -->
+
+                  <p *ngIf="chackToolTip(ui.uidValue.length, 13) === false">
+                    {{ ui.uidValue}}
+                  </p>
+
+                  <div class="tooltip" *ngIf="chackToolTip(ui.uidValue.length, 13)">
+                    <p>{{ ui.uidValue }},</p>
+                    <span class="tooltiptext text-overflow">
+                      {{ ui.uidValue }},</span>
+                  </div>
+
+                </span>
+              </div>
+
+          </td>
+          <td>
+            <ng-container *ngIf="!di.remarks">-</ng-container>
+            <ng-container *ngIf="di.remarks">{{di.remarks}}</ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <app-pagination class="pagination" [ItemsCount]="getDistributionCount()" [PageSize]="100" [PagePos]="position"
+    (PositionEventEmitter)="getPagePosition($event)"></app-pagination>
+
+</div>

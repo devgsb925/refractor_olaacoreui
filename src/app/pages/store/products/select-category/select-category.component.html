@@ -1,0 +1,106 @@
+<main>
+    <div class="container">
+
+      <header>
+        <label>
+          <span class="material-icons">
+            supervisor_account
+          </span>
+          Category
+        </label>
+        <div class="wrap wrap-btn">
+          <button class="btn btn-close" (click)="closeEvent.next(false)">
+            <span class="material-icons">
+              close
+            </span>
+          </button>
+        </div>
+      </header>
+      <div class="layout layout-table">
+        <div class="table table-1 table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>
+
+                    <p>Category Menu Level 1</p>
+
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="getCategory(0).length > 0">
+                <ng-container *ngFor="let item of getCategory(0)">
+                  <tr (click)="selectCategory(item, 0)">
+                    <td class="cat-name" [ngClass]="{'cat-active': item.refCategoryId == category1Id}">
+                      <p>{{item.name}}</p>
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+
+
+        <div class="table table-2 table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>
+
+                    <p>Category Menu Level 2</p>
+
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="getCategory(1).length > 0">
+                <ng-container *ngFor="let item of getCategory(1)">
+                  <tr (click)="selectCategory(item, 1)">
+                    <td class="cat-name" [ngClass]="{'cat-active': item.refCategoryId == category2Id}">
+                      <p>{{item.name}}</p>
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table table-3 table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>
+
+                    <p>Category Menu Level 3</p>
+
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="getCategory(2).length > 0">
+                <ng-container *ngFor="let item of getCategory(2)">
+                  <tr (click)="selectCategory(item, 2)">
+                    <td class="cat-name" [ngClass]="{'cat-active': item.refCategoryId == category3Id}">
+                      <p>{{item.name}}</p>
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <footer>
+        <div class="wrap wrap-btn">
+          <button class="btn btn-save" (click)="saveFunc()">
+            SAVE
+          </button>
+        </div>
+      </footer>
+    </div>
+
+</main>

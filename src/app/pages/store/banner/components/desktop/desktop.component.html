@@ -1,0 +1,725 @@
+<main>
+  <section class="container">
+    <div class="wrapper wrapper-btns">
+      <button class="btn btn-save" (click)="uploadFunc()">
+        <span class="material-icons">save</span>Save
+      </button>
+      <button class="btn btn-delete" (click)="deleteFunc()">
+        <span class="material-icons">delete</span>Delete
+      </button>
+    </div>
+    <div class="wrapper wrapper-media">
+      <div class="media">
+        <article class="home-banners">
+          <header>
+            <strong>Homepage Banners</strong>
+            <div class="select-all">
+              <input
+                type="checkbox"
+                name="selectAllHomePage"
+                id="selectAllHomePage"
+                (click)="selectAllFunc(1)"
+                [checked]="checkSelectAllFunc(1)"
+              />
+              <label for="selectAllHomePage">Select All</label>
+            </div>
+          </header>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            hidden
+            #fileHomepageBanner
+            (change)="onDropFiles(fileHomepageBanner.files, 1, 0)"
+          />
+          <section
+            class="media-item-container"
+            appDnd
+            (fileDropped)="onDropFiles($event, 1, 0)"
+          >
+            <div class="items-wrapper">
+              <ng-container
+                *ngFor="
+                  let item of viewModel.getImageList(1) | sorting: 'orderIndex';
+                  let i = index
+                "
+              >
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="
+                      onDropToChangeOrderIndex(
+                        item.orderIndex,
+                        item.refBannerId
+                      )
+                    "
+                    *ngIf="
+                      homePageHoverIndex === i &&
+                      item.id !== selectItem.id &&
+                      selectItem.orderIndex > item.orderIndex
+                    "
+                  >
+                    <div class="wrap wrap-image">
+                      <span class="material-icons"> download_for_offline </span>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <div
+                  class="item item-banner"
+                  [style.opacity]="checkDrag(item.id) ? '.5' : '1'"
+                  (drop)="
+                    onDropToChangeOrderIndex(item.orderIndex, item.refBannerId)
+                  "
+                  (dragend)="onDragEnd()"
+                  (dragover)="homePageHoverIndex = selectItem != null ? i : 0"
+                  (dragstart)="onDragStart(item, i)"
+                >
+                  <div
+                    class="wrap wrap-image"
+                    [ngClass]="{
+                      'banner-select': viewModel.bannerSelectId == item.id
+                    }"
+                    (click)="viewModel.bannerSelectId = item.id"
+                  >
+                    <img src="{{ item.fileUrl }}" alt="" />
+                  </div>
+                  <div class="wrap wrap-select">
+                    <input
+                      type="checkbox"
+                      [checked]="checkSelectFunc(item.id)"
+                      (click)="selectIdFunc(item.id,1)"
+                    />
+                  </div>
+                  <div class="wrap wrap-link">
+                    <p
+                      [ngClass]="{ 'add-link': item.linkUrl === '' }"
+                      (click)="
+                        showSetLinkModalFunc(item.id, 0, true, item.linkUrl)
+                      "
+                    >
+                      {{ item.linkUrl !== "" ? "Link" : "Add Link" }}
+                    </p>
+                  </div>
+                </div>
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="
+                      onDropToChangeOrderIndex(
+                        item.orderIndex,
+                        item.refBannerId
+                      )
+                    "
+                    *ngIf="
+                      homePageHoverIndex === i &&
+                      item.id !== selectItem.id &&
+                      selectItem.orderIndex < item.orderIndex
+                    "
+                  >
+                    <div class="wrap wrap-image">
+                      <span class="material-icons"> download_for_offline </span>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+
+              <ng-container *ngFor="let item of viewModel.getPendingList(1)">
+                <div class="item item-pending">
+                  <div class="wrap wrap-image">
+                    <img src="{{ item.imgSource }}" alt="" />
+                    <div class="progress">
+                      <app-progress [progress]="item.progress"></app-progress>
+                    </div>
+                  </div>
+                  <div class="wrap wrap-clear">
+                    <span
+                      class="material-icons"
+                      (click)="viewModel.removePendingList(item.timeStamp)"
+                    >
+                      clear
+                    </span>
+                  </div>
+                  <div class="wrap wrap-link">
+                    <p
+                      [ngClass]="{ 'add-link': item.link === '' }"
+                      (click)="
+                        showSetLinkModalFunc(item.timeStamp, 1, true, item.link)
+                      "
+                    >
+                      {{ item.link !== "" ? "Link" : "Add Link" }}
+                    </p>
+                  </div>
+                </div>
+              </ng-container>
+              <div class="item item-dummy">
+                <div
+                  class="wrap wrap-image"
+                  (click)="fileHomepageBanner.click()"
+                >
+                  <p>+</p>
+                </div>
+                <div class="wrap wrap-link">
+                  <p>select file</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </article>
+        <article class="long-banners">
+          <header>
+            <strong>Long Banners</strong>
+            <div class="select-all">
+              <input
+                type="checkbox"
+                name="selectAllLongBanner"
+                id="selectAllLongBanner"
+
+                (click)="selectAllFunc(4)"
+
+                [checked]="checkSelectAllFunc(4)"
+              />
+              <label for="selectAllLongBanner">Select All</label>
+            </div>
+          </header>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            hidden
+            #fileLongBanner
+            (change)="onDropFiles(fileLongBanner.files, 4, 0)"
+          />
+          <section
+            class="media-item-container"
+            appDnd
+            (fileDropped)="onDropFiles($event, 4, 0)"
+          >
+            <div class="items-wrapper">
+              <ng-container
+                *ngFor="
+                  let item of viewModel.getImageList(4) | sorting: 'orderIndex';
+                  let i = index
+                "
+              >
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="
+                      onDropToChangeOrderIndex(
+                        item.orderIndex,
+                        item.refBannerId
+                      )
+                    "
+                    *ngIf="
+                      longBannerHoverIndex === i &&
+                      item.id !== selectItem.id &&
+                      selectItem.orderIndex > item.orderIndex
+                    "
+                  >
+                    <div class="wrap wrap-image">
+                      <span class="material-icons"> download_for_offline </span>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <div
+                  class="item item-banner"
+                  [style.opacity]="checkDrag(item.id) ? '.5' : '1'"
+                  (drop)="
+                    onDropToChangeOrderIndex(item.orderIndex, item.refBannerId)
+                  "
+                  (dragend)="onDragEnd()"
+                  (dragover)="longBannerHoverIndex = selectItem != null ? i : 0"
+                  (dragstart)="onDragStart(item, i)"
+                >
+                  <div
+                    class="wrap wrap-image"
+                    [ngClass]="{
+                      'banner-select': viewModel.bannerSelectId == item.id
+                    }"
+                    (click)="viewModel.bannerSelectId = item.id"
+                  >
+                    <img src="{{ item.fileUrl }}" alt="" />
+                  </div>
+                  <div class="wrap wrap-select">
+                    <input
+                      type="checkbox"
+                      [checked]="checkSelectFunc(item.id)"
+                      (click)="selectIdFunc(item.id, 4)"
+                    />
+                  </div>
+                  <div class="wrap wrap-link">
+                    <p
+                      [ngClass]="{ 'add-link': item.linkUrl === '' }"
+                      (click)="
+                        showSetLinkModalFunc(item.id, 0, true, item.linkUrl)
+                      "
+                    >
+                      {{ item.linkUrl !== "" ? "Link" : "AddLink" }}
+                    </p>
+                  </div>
+                </div>
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="
+                      onDropToChangeOrderIndex(
+                        item.orderIndex,
+                        item.refBannerId
+                      )
+                    "
+                    *ngIf="
+                      longBannerHoverIndex === i &&
+                      item.id !== selectItem.id &&
+                      selectItem.orderIndex < item.orderIndex
+                    "
+                  >
+                    <div class="wrap wrap-image">
+                      <span class="material-icons"> download_for_offline </span>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+
+              <ng-container *ngFor="let item of viewModel.getPendingList(4)">
+                <div class="item item-pending">
+                  <div class="wrap wrap-image">
+                    <img src="{{ item.imgSource }}" alt="" />
+                    <div class="progress">
+                      <app-progress [progress]="item.progress"></app-progress>
+                    </div>
+                  </div>
+                  <div class="wrap wrap-clear">
+                    <span
+                      class="material-icons"
+                      (click)="viewModel.removePendingList(item.timeStamp)"
+                    >
+                      clear
+                    </span>
+                  </div>
+                  <div class="wrap wrap-link">
+                    <p
+                      [ngClass]="{ 'add-link': item.link === '' }"
+                      (click)="
+                        showSetLinkModalFunc(item.timeStamp, 1, true, item.link)
+                      "
+                    >
+                      {{ item.link !== "" ? "Link" : "Add Link" }}
+                    </p>
+                  </div>
+                </div>
+              </ng-container>
+              <div class="item item-dummy">
+                <div class="wrap wrap-image" (click)="fileLongBanner.click()">
+                  <p>+</p>
+                </div>
+                <div class="wrap wrap-link">
+                  <p>select file</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </article>
+        <article class="small-banners">
+          <header>
+            <strong>Deal Banners</strong>
+            <div class="select-all">
+              <input
+                type="checkbox"
+                name="selectAllSmallBanner"
+                id="selectAllSmallBanner"
+
+                (click)="selectAllFunc(5)"
+                [checked]="checkSelectAllFunc(5)"
+              />
+              <label for="selectAllSmallBanner">Select All</label>
+            </div>
+          </header>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            hidden
+            #fileDealBanner
+            (change)="onDropFiles(fileDealBanner.files, 5, 0)"
+          />
+          <section
+            class="media-item-container"
+            appDnd
+            (fileDropped)="onDropFiles($event, 5, 0)"
+          >
+            <div class="items-wrapper">
+              <ng-container
+                *ngFor="
+                  let item of viewModel.getImageList(5) | sorting: 'orderIndex';
+                  let i = index
+                "
+              >
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="
+                      onDropToChangeOrderIndex(
+                        item.orderIndex,
+                        item.refBannerId
+                      )
+                    "
+                    *ngIf="
+                      dealBannerHoverIndex === i &&
+                      item.id !== selectItem.id &&
+                      selectItem.orderIndex > item.orderIndex
+                    "
+                  >
+                    <div class="wrap wrap-image">
+                      <span class="material-icons"> download_for_offline </span>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <div
+                  class="item item-banner"
+                  [style.opacity]="checkDrag(item.id) ? '.5' : '1'"
+                  (drop)="
+                    onDropToChangeOrderIndex(item.orderIndex, item.refBannerId)
+                  "
+                  (dragend)="onDragEnd()"
+                  (dragover)="dealBannerHoverIndex = selectItem != null ? i : 0"
+                  (dragstart)="onDragStart(item, i)"
+                >
+                  <div
+                    class="wrap wrap-image"
+                    [ngClass]="{
+                      'banner-select': viewModel.bannerSelectId == item.id
+                    }"
+                    (click)="viewModel.bannerSelectId = item.id"
+                  >
+                    <img src="{{ item.fileUrl }}" alt="" />
+                  </div>
+                  <div class="wrap wrap-select">
+                    <input
+                      type="checkbox"
+                      [checked]="checkSelectFunc(item.id)"
+                      (click)="selectIdFunc(item.id,5)"
+                    />
+                  </div>
+                  <div class="wrap wrap-link">
+                    <p
+                      [ngClass]="{ 'add-link': item.linkUrl === '' }"
+                      (click)="
+                        showSetLinkModalFunc(item.id, 0, true, item.linkUrl)
+                      "
+                    >
+                      {{ item.linkUrl !== "" ? "Link" : "Add Link" }}
+                    </p>
+                  </div>
+                </div>
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="
+                      onDropToChangeOrderIndex(
+                        item.orderIndex,
+                        item.refBannerId
+                      )
+                    "
+                    *ngIf="
+                      dealBannerHoverIndex === i &&
+                      item.id !== selectItem.id &&
+                      selectItem.orderIndex < item.orderIndex
+                    "
+                  >
+                    <div class="wrap wrap-image">
+                      <span class="material-icons"> download_for_offline </span>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+
+              <ng-container *ngFor="let item of viewModel.getPendingList(5)">
+                <div class="item item-pending">
+                  <div class="wrap wrap-image">
+                    <img src="{{ item.imgSource }}" alt="" />
+                    <div class="progress">
+                      <app-progress [progress]="item.progress"></app-progress>
+                    </div>
+                  </div>
+                  <div class="wrap wrap-clear">
+                    <span
+                      class="material-icons"
+                      (click)="viewModel.removePendingList(item.timeStamp)"
+                    >
+                      clear
+                    </span>
+                  </div>
+                  <div class="wrap wrap-link">
+                    <p
+                      [ngClass]="{ 'add-link': item.link === '' }"
+                      (click)="
+                        showSetLinkModalFunc(item.timeStamp, 1, true, item.link)
+                      "
+                    >
+                      {{ item.link !== "" ? "Link" : "Add Link" }}
+                    </p>
+                  </div>
+                </div>
+              </ng-container>
+              <div class="item item-dummy">
+                <div class="wrap wrap-image" (click)="fileDealBanner.click()">
+                  <p>+</p>
+                </div>
+                <div class="wrap wrap-link">
+                  <p>select file</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </article>
+        <article class="brands">
+          <header>
+            <strong>Brands</strong>
+            <div class="select-all">
+              <input
+                type="checkbox"
+                name="selectAllBrand"
+                id="selectAllBrand"
+
+                (click)="selectAllFunc(6)"
+                [checked]="checkSelectAllFunc(6)"
+              />
+              <label for="selectAllBrand">Select All</label>
+            </div>
+          </header>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            hidden
+            #fileBrand
+            (change)="onDropFiles(fileBrand.files, 6, 0)"
+          />
+          <section
+            class="media-item-container"
+            appDnd
+            (fileDropped)="onDropFiles($event, 6, 0)"
+          >
+            <div class="items-wrapper">
+              <ng-container
+                *ngFor="
+                  let item of viewModel.getImageList(6) | sorting: 'orderIndex';
+                  let i = index
+                "
+              >
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="
+                      onDropToChangeOrderIndex(
+                        item.orderIndex,
+                        item.refBannerId
+                      )
+                    "
+                    *ngIf="
+                      brandHoverIndex === i &&
+                      item.id !== selectItem.id &&
+                      selectItem.orderIndex > item.orderIndex
+                    "
+                  >
+                    <div class="wrap wrap-image">
+                      <span class="material-icons"> download_for_offline </span>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <div
+                  class="item item-banner"
+                  [style.opacity]="checkDrag(item.id) ? '.5' : '1'"
+                  (drop)="
+                    onDropToChangeOrderIndex(item.orderIndex, item.refBannerId)
+                  "
+                  (dragend)="onDragEnd()"
+                  (dragover)="brandHoverIndex = selectItem != null ? i : 0"
+                  (dragstart)="onDragStart(item, i)"
+                >
+                  <div
+                    class="wrap wrap-image"
+                    [ngClass]="{
+                      'banner-select': viewModel.bannerSelectId == item.id
+                    }"
+                    (click)="viewModel.bannerSelectId = item.id"
+                  >
+                    <img src="{{ item.fileUrl }}" alt="" />
+                  </div>
+                  <div class="wrap wrap-select">
+                    <input
+                      type="checkbox"
+                      [checked]="checkSelectFunc(item.id)"
+                      (click)="selectIdFunc(item.id,6)"
+                    />
+                  </div>
+                  <div class="wrap wrap-link">
+                    <p
+                      [ngClass]="{ 'add-link': item.linkUrl === '' }"
+                      (click)="
+                        showSetLinkModalFunc(item.id, 0, true, item.linkUrl)
+                      "
+                    >
+                      {{ item.linkUrl !== "" ? "Link" : "Add Link" }}
+                    </p>
+                  </div>
+                </div>
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="
+                      onDropToChangeOrderIndex(
+                        item.orderIndex,
+                        item.refBannerId
+                      )
+                    "
+                    *ngIf="
+                      brandHoverIndex === i &&
+                      item.id !== selectItem.id &&
+                      selectItem.orderIndex < item.orderIndex
+                    "
+                  >
+                    <div class="wrap wrap-image">
+                      <span class="material-icons"> download_for_offline </span>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+
+              <ng-container *ngFor="let item of viewModel.getPendingList(6)">
+                <div class="item item-pending">
+                  <div class="wrap wrap-image">
+                    <img src="{{ item.imgSource }}" alt="" />
+                    <div class="progress">
+                      <app-progress [progress]="item.progress"></app-progress>
+                    </div>
+                  </div>
+                  <div class="wrap wrap-clear">
+                    <span
+                      class="material-icons"
+                      (click)="viewModel.removePendingList(item.timeStamp)"
+                    >
+                      clear
+                    </span>
+                  </div>
+                  <div class="wrap wrap-link">
+                    <p
+                      [ngClass]="{ 'add-link': item.link === '' }"
+                      (click)="
+                        showSetLinkModalFunc(item.timeStamp, 1, true, item.link)
+                      "
+                    >
+                      {{ item.link !== "" ? "Link" : "Add Link" }}
+                    </p>
+                  </div>
+                </div>
+              </ng-container>
+              <div class="item item-dummy">
+                <div class="wrap wrap-image" (click)="fileBrand.click()">
+                  <p>+</p>
+                </div>
+                <div class="wrap wrap-link">
+                  <p>select file</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </article>
+        <article class="main-categories-banners">
+          <header class="categories">
+            <p><strong>Main Categories Banner</strong></p>
+          </header>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            hidden
+            #fileCategories
+            (change)="
+              onDropFiles(fileCategories.files, 0, viewModel.categorySelectId)
+            "
+          />
+          <section class="categories">
+            <div class="wrap wrap-main-categories">
+              <ng-container *ngFor="let item of viewModel.getCategories()">
+                <div
+                  (click)="viewModel.categorySelectId = item.id"
+                  [ngClass]="{
+                    'category-active': viewModel.categorySelectId == item.id
+                  }"
+                >
+                  <span class="material-icons">insert_photo</span>
+                  <p>{{ item.name }}</p>
+                </div>
+              </ng-container>
+            </div>
+            <div
+              class="wrap wrap-preview"
+              appDnd
+              (fileDropped)="onDropFiles($event, 0, viewModel.categorySelectId)"
+            >
+              <div class="wrap wrap-image">
+                <ng-container *ngIf="getPreviewCategory() !== ''">
+                  <img src="{{ getPreviewCategory() }}" alt="" />
+                </ng-container>
+                <ng-container *ngIf="getPreviewCategory() === ''">
+                  <img
+                    src="../../../../../../assets/images/no-image.png"
+                    alt=""
+                  />
+                </ng-container>
+              </div>
+
+              <div class="wrap wrap-link">
+                <p>
+                  <span
+                    class="change-category-banner"
+                    (click)="fileCategories.click()"
+                    >Change</span
+                  >
+                  |
+                  <ng-container *ngIf="getCategoryLink() !== ''">
+                    <span
+                      class="link"
+                      (click)="showSetLinkCategoryFunc(getCategoryLink())"
+                      >Link</span
+                    >
+                  </ng-container>
+                  <ng-container *ngIf="getCategoryLink() === ''">
+                    <span
+                      class="add-link"
+                      (click)="showSetLinkCategoryFunc(getCategoryLink())"
+                      >Add Link</span
+                    >
+                  </ng-container>
+                </p>
+              </div>
+            </div>
+          </section>
+        </article>
+      </div>
+    </div>
+  </section>
+  <aside class="preview">
+    <fieldset>
+      <legend>Preview</legend>
+      <section>
+        <ng-container *ngIf="getSelectBanner()">
+          <img src="{{ getSelectBanner().fileUrl }}" alt="" />
+        </ng-container>
+      </section>
+    </fieldset>
+  </aside>
+</main>
+
+<ng-container *ngIf="showSetLinkModal || showSetLinkCategoryModal">
+  <app-set-link-modal
+    [link]="viewModel.linkSelected"
+    (saveEvent)="saveLinkFunc($event)"
+    (closeEvent)="showSetLinkModalFunc(0, -1, false, '')"
+  ></app-set-link-modal>
+</ng-container>

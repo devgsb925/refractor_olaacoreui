@@ -1,0 +1,438 @@
+* {
+  font-size: 12px;
+}
+
+.page-container2 {
+  width: 95vw;
+  height: calc(100vh - 50px);
+  background: white;
+  border-radius: 10px;
+
+  display: grid;
+  grid-template-rows: 40px 1fr;
+
+  .grid-tab {
+    grid-row: 1/2;
+    grid-column: 1/2;
+
+    display: flex;
+    justify-content: space-between;
+
+    .title {
+      margin-left: -35px;
+
+      label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ff4747;
+        padding: 4px 10px;
+        color: white;
+        border-radius: 15px;
+
+        span {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .button-action {
+      button {
+        border: none;
+        background: none;
+        margin-top: -0.5rem;
+        color: #ff4747;
+
+        span {
+          font-size: 20px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .grid {
+    grid-row: 2/3;
+    grid-column: 1/2;
+    display: grid;
+    grid-template-columns: 25% 75%;
+
+    .grid-barcode {
+      grid-row: 1/2;
+      grid-column: 1/2;
+      padding-right: 1rem;
+      border-right: 1px solid rgb(155, 155, 155);
+      padding: 1rem;
+      margin-top: -1rem;
+      overflow: hidden;
+
+      .grid-fieldset {
+        fieldset {
+          height: calc(100vh - 120px);
+          padding: 1rem;
+          border: 1px solid gainsboro;
+          margin-top: -10px;
+
+          legend {
+            font-size: 14px;
+            font-weight: bold;
+            padding: 0 5px;
+          }
+
+          .size-group {
+            display: flex;
+
+            .item {
+              width: 100px;
+              display: flex;
+              align-items: center;
+
+              input,
+              label {
+                cursor: pointer;
+              }
+            }
+          }
+
+          .print {
+            margin-top: 1rem;
+            // height: 100px;
+
+            .input-group {
+              display: flex;
+              align-items: center;
+              // justify-content: space-between;
+
+              label{
+                margin-right: 5px;
+
+                span{
+                  color: #ff4747;
+                  font-size: 18px;
+                }
+              }
+
+              select {
+                height: 35px;
+                width: 100%;
+                color: #2196F3;
+                border-radius: 3px;
+              }
+
+              button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 35px;
+                background: #446A81;
+                color: white;
+                margin-left: 10px;
+                border-radius: 3px;
+                padding: 0 20px;
+
+                span {
+                  margin-right: 5px;
+                }
+              }
+            }
+          }
+
+          .barcode-preview-container {
+            margin-top: 1rem;
+
+            .title {
+              font-weight: bold;
+              font-size: 14px;
+            }
+
+            .barcode-preview {
+              border-radius: 15px;
+              padding: 1rem;
+
+              .variant {
+                display: flex;
+              }
+
+              .imei-barcod {
+                label {
+                  font-size: 12px;
+                }
+              }
+            }
+
+            .prin-60x40 {
+              padding: 0.5rem !important;
+            }
+
+            .prin-50x30 {
+              padding: 0.5rem !important;
+            }
+          }
+        }
+      }
+    }
+
+    .grid-barcode-details {
+      grid-row: 1/2;
+      grid-column: 2/3;
+      padding-left: 1rem;
+
+      .display-grid {
+        display: grid;
+        grid-template-rows: 290px 1fr;
+
+        .grid-top {
+          grid-row: 1/2;
+          border: 1px solid gainsboro;
+
+          .table-wrapper {
+            .sel-active {
+              background-color: #ff474715;
+            }
+
+            th,
+            td {
+              padding-left: 0;
+              padding-right: 0;
+            }
+
+          }
+
+          .table-top {
+            height: 290px;
+            tr{
+              .pod-id{
+                width: 100px;
+                text-align: center;
+              }
+
+              .sku{
+                width: 100px;
+              }
+
+              .product-number{
+                width: 200px;
+              }
+
+              .re-qty{
+                width: 100px;
+                text-align: center;
+              }
+
+              .barcode{
+                width: 200px;
+              }
+            }
+          }
+        }
+
+        .grid-bottom {
+          grid-row: 2/3;
+
+          .imei-group {
+            height: calc(100vh - 420px);
+            border: 1px solid gainsboro;
+            overflow: hidden;
+
+            legend {
+              padding: 0 5px;
+            }
+          }
+
+          .bottom-grid-wrapper {
+            padding: 1rem;
+            display: grid;
+            grid-template-rows: 50px 370px 40px;
+
+            .bottom-grid-option {
+              grid-row: 1/2;
+              display: flex;
+              align-items: center;
+              position: relative;
+
+              .search{
+                height: 35px;
+              }
+
+              input {
+                width: 300px;
+
+              }
+
+              .dc-noen {
+                background-color: #e4e4e4;
+              }
+
+              .bottom-item {
+                width: 60px;
+                display: flex;
+                align-items: center;
+
+                input,
+                label {
+                  cursor: pointer;
+                }
+              }
+
+              .bnt-save {
+                position: absolute;
+                right: 0;
+                display: flex;
+
+                button {
+                  background: #666;
+                  color: white;
+                  display: flex;
+                  align-items: center;
+
+                  span {
+                    margin-right: 5px;
+                    font-size: 20px;
+                  }
+
+                  &:nth-child(1){
+                    background:  #2196F3;
+                    margin-right: 5px;
+                  }
+
+                  &:nth-child(2){
+                    background:  #EB543A;
+                  }
+
+                }
+              }
+            }
+
+            .bottom-grid-content {
+              grid-row: 2/3;
+
+              .uid-data {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+
+                .table-wrapper {
+
+
+                  th {
+                    height: 35px;
+                    padding: 0;
+                    .search-warpper{
+                      display: flex;
+                      border: none;
+                      input, span{
+                        height: inherit;
+                      }
+
+                      span{
+                        display: flex;
+                        align-items: center;
+                        font-size: 25px;
+                        border: 1px solid gainsboro;
+                        border-left: none;
+                        color: #999999;
+                      }
+
+                      input{
+                        border-right: none;
+                      }
+
+                    }
+
+                    &:nth-child(3) {
+                      width: 35px;
+                    }
+                    &:nth-child(1) {
+                      width: 80px;
+                    }
+
+                  }
+
+                  th, td{
+                    .container {
+                      display: block;
+                      position: relative;
+                      cursor: pointer;
+                      font-size: 22px;
+                      -webkit-user-select: none;
+                      -moz-user-select: none;
+                      -ms-user-select: none;
+                      user-select: none;
+                      left: 5px;
+
+                    }
+
+                    .cb{
+                      margin-top: -10px;
+                    }
+
+                    /* Hide the browser's default checkbox */
+                    .container input {
+                      position: absolute;
+                      opacity: 0;
+                      cursor: pointer;
+                      height: 0;
+                      width: 0;
+                    }
+
+                    /* Create a custom checkbox */
+                    .checkmark {
+                      position: absolute;
+                      top: 0;
+                      left: 0;
+                      height: 20px;
+                      width: 20px;
+                      background-color: white;
+                      border: 1px solid gainsboro;
+                    }
+
+                    /* On mouse-over, add a grey background color */
+                    .container:hover input~.checkmark {
+                      background-color: #ccc;
+                    }
+
+                    /* When the checkbox is checked, add a blue background */
+                    .container input:checked~.checkmark {
+                      background-color: #2196F3;
+                    }
+
+                    /* Create the checkmark/indicator (hidden when not checked) */
+                    .checkmark:after {
+                      content: "";
+                      position: absolute;
+                      display: none;
+                    }
+
+                    /* Show the checkmark when checked */
+                    .container input:checked~.checkmark:after {
+                      display: block;
+                    }
+
+                    /* Style the checkmark/indicator */
+                    .container .checkmark:after {
+                      left: 6px;
+                      top: 3px;
+                      width: 5px;
+                      height: 10px;
+                      border: solid white;
+                      border-width: 0 3px 3px 0;
+                      -webkit-transform: rotate(45deg);
+                      -ms-transform: rotate(45deg);
+                      transform: rotate(45deg);
+                    }
+                  }
+
+                }
+              }
+            }
+
+            .bottom-grid-footer {
+              grid-row: 3/4;
+              display: flex;
+              flex-direction: row-reverse;
+            }
+          }
+        }
+      }
+    }
+  }
+}

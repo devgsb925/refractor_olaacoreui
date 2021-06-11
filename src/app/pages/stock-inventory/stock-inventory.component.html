@@ -1,0 +1,25 @@
+<main class="container grid" *ngIf="!vmInventory.editPage">
+  <div class="grid-options">
+    <h3>Inventory History</h3>
+
+    <div class="action-btn">
+
+      <button type="button" style="float: right;" (click)="addInventoryHistory()">
+        <span class="material-icons">add</span>
+      </button>
+      <select [(ngModel)]="operatorId">
+        <option value="0">--- Select Operator ---</option>
+        <ng-container *ngFor="let item of vmInventory.operator">
+          <option [ngValue]="item.id">{{item.name}}</option>
+        </ng-container>
+
+      </select>
+    </div>
+
+  </div>
+  <div class="grid-inventory-history">
+    <app-inventory-history></app-inventory-history>
+  </div>
+</main>
+
+<app-edit-stockin-history *ngIf="vmInventory.editPage"></app-edit-stockin-history>

@@ -1,0 +1,262 @@
+
+<main class="modal">
+
+  <div class="btn-next">
+    <button type="button" (click)="nextFunc(vmInvoice.invoiceDetail.invoiceId, 0)" [disabled]="dsBackbtn">
+       <span class="material-icons">keyboard_arrow_left</span>
+    </button>
+    <button type="button" (click)="nextFunc(vmInvoice.invoiceDetail.invoiceId, 1)" [disabled]="dsNextbtn">
+      <span class="material-icons" >keyboard_arrow_right</span>
+    </button>
+  </div>
+
+  <div class="container card">
+    <div class="grid">
+      <div class="grid-title">
+        <div class="title">
+          <label for=""><span class="material-icons"> assignment </span>Invoice
+            Details</label>
+        </div>
+
+        <div class="btn-close">
+          <button (click)="closeFunc()">
+            <span class="material-icons"> clear </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="grid-scroll"  *ngIf="vmInvoice.invoiceDetail as detail">
+
+        <div class="grid-info">
+
+          <div class="infor-invoice" >
+
+            <div class="item inno">
+              <div class="item-label">
+                <label>INVOICE&nbsp;NO:</label>
+              </div>
+              <span>{{vmInvoice.invoiceNo}}</span>
+            </div>
+
+            <div class="item">
+              <div class="item-label">
+                <label for="">Sell&nbsp;Date:</label>
+              </div>
+              <span>{{detail.sellDate| date: "d/M/yy" }}</span>
+            </div>
+
+            <div class="item">
+              <div class="item-label c-name">
+                <label for="">Customer&nbsp;Name:</label>
+              </div>
+              <span class="c-name">{{detail.customerName}}</span>
+            </div>
+
+            <div class="item">
+              <div class="item-label">
+                <label for="">Phone&nbsp;Namber:</label>
+              </div>
+              <span>{{detail.customerPhoneNo}}</span>
+            </div>
+
+            <div class="item">
+              <div class="item-label">
+                <label for="">Payment&nbsp;Method:</label>
+              </div>
+              <span *ngIf="
+              detail.paymentMethod !== 'Cash, Bank' &&
+              detail.paymentMethod !== 'Bank'
+                ">{{ detail.paymentMethod }}</span>
+
+              <span *ngIf="detail.paymentMethod === 'Cash, Bank'">{{ detail.paymentMethod }} Transfer
+                ({{ detail.bankName }})</span>
+              <span *ngIf="detail.paymentMethod === 'Bank'">{{ detail.paymentMethod }} Transfer ({{ detail.bankName }})</span>
+            </div>
+
+            <div class="item">
+              <div class="item-label">
+                <label for="">Sell&nbsp;Method:</label>
+              </div>
+              <span>{{detail.sellMethod}}</span>
+            </div>
+
+            <div class="item">
+              <div class="item-label"><label for="">Operator Name:</label></div>
+              <span>{{detail.operatorName}}</span>
+            </div>
+
+            <div class="item">
+              <div class="item-label">
+                <label for="">Sale&nbsp;Note:</label>
+              </div>
+              <input type="text" value="{{detail.saleNote}}" readonly />
+            </div>
+          </div>
+
+          <ng-container *ngIf="detail as cacel">
+            <div class="cancel-detail" *ngIf="cacel.invoiceStatus === 0" >
+              <label >CANCEL DETAILS</label>
+
+              <div class="cancel-item">
+                <div class="label-item">
+                  <label >Cancel Date:</label>
+                </div>
+                <span>{{cacel.cancelDate}}</span>
+              </div>
+
+              <div class="cancel-item">
+                <div class="label-item">
+                  <label >Cancel By:</label>
+                </div>
+                <span>{{cacel.cancelBy}}</span>
+              </div>
+
+              <div class="cancel-item">
+                <div class="label-item">
+                  <label >Cancel Remarks</label>
+                </div>
+                <input type="text" value="{{cacel.cancelRemarks}}" readonly  style="border: none; outline: none;"/>
+              </div>
+
+            </div>
+          </ng-container>
+        </div>
+
+        <table >
+          <thead>
+            <tr>
+              <th class="text-center">#</th>
+              <th>Product Name</th>
+              <th>Unit&nbsp;Price</th>
+              <th class="text-center">Qty</th>
+              <th style=" padding-left: 0.5rem;">UID</th>
+              <th class="text-center">Tax</th>
+              <th>Sub&nbsp;Total</th>
+            </tr>
+          </thead>
+
+          <tbody >
+            <tr  *ngFor="let item of detail.products;let i = index">
+              <td>{{i + 1}}</td>
+              <td>{{item.productDesc}}</td>
+              <td>{{item.unitPrice | currency:'':'':'0.0'}} LAK</td>
+              <td>{{item.qty}}</td>
+              <td>
+                <ng-container *ngFor="let uid of item.uidValues">
+                  <p style="
+                      padding: 0;
+                      padding-left: 0.5rem;
+                      margin: 0;
+                      width: 100%;
+                      text-align: left;
+                    ">
+                    {{ uid }}
+                  </p>
+                </ng-container>
+              </td>
+              <td>{{item.tax}}</td>
+
+              <td *ngIf="!item.isFree">
+                {{ item.subTotal | currency: " ":"":"0.0" }}&nbsp;LAK
+              </td>
+              <td *ngIf="item.isFree">Free</td>
+            </tr>
+
+            <tr class="service" *ngFor="let sv of detail.services; let i = index">
+              <td >
+                <p>{{((i+ 1) + detail.products.length)}}</p>
+              </td>
+              <td colspan="5">
+                <p>{{sv.description}}</p>
+              </td>
+              <td>
+                <p>{{sv.fee| currency: " ":"":"0.0" }}&nbsp;LAK</p>
+              </td>
+            </tr>
+
+            <tr class="total">
+              <td colspan="6">
+                <p>Total</p>
+              </td>
+              <td>
+                <p>{{ detail.total + detail.charge | currency: " ":"":"0.0" }}&nbsp;LAK</p>
+              </td>
+            </tr>
+            <tr class="tax">
+              <td colspan="6">
+                <p>Tax</p>
+              </td>
+              <td>
+                <p>{{detail.tax}}</p>
+              </td>
+            </tr>
+            <tr class="discount">
+              <td colspan="6">
+                <p>Discount</p>
+              </td>
+              <td>
+                <p>{{ detail.discount | currency: " ":"":"0.0" }}&nbsp;LAK</p>
+              </td>
+            </tr>
+
+
+            <tr class="shipping-cost">
+              <td colspan="6">
+                <p>Shiping&nbsp;Cost</p>
+              </td>
+              <td>
+                <p>{{ detail.shippingCost | currency: " ":"":"0.0" }}&nbsp;LAK</p>
+              </td>
+            </tr>
+            <tr class="grand-total">
+              <td colspan="6">
+                <p>Grand&nbsp;Total</p>
+              </td>
+              <td>
+                <p>{{ detail.grandTotal | currency: " ":"":"0.0" }}&nbsp;LAK</p>
+              </td>
+            </tr>
+            <tr class="total-received">
+              <td colspan="6">
+                <p>Total&nbsp;Received</p>
+              </td>
+              <td>
+                <p>{{ detail.totalRecevied | currency: " ":"":"0.0" }}&nbsp;LAK</p>
+              </td>
+            </tr>
+            <tr class="cash">
+              <td colspan="6">
+                <p>Cash</p>
+              </td>
+              <td>
+                <p>{{ detail.cash | currency: " ":"":"0.0" }}&nbsp;LAK</p>
+              </td>
+            </tr>
+            <tr class="bank">
+              <td colspan="6">
+                <p>
+                  Bank Tranfer <span>()</span>
+                </p>
+              </td>
+              <td>
+                <p>{{ detail.bank | currency: " ":"":"0.0" }}&nbsp;LAK</p>
+              </td>
+            </tr>
+            <tr class="change-amount">
+              <td colspan="6">
+                <p>Change&nbsp;Amount</p>
+              </td>
+              <td>
+                <p>{{ detail.changeAmount | currency: " ":"":"0.0" }}&nbsp;LAK</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+  <app-print-invoice *ngIf="vmInvoice.printInvoice"></app-print-invoice>
+
+</main>

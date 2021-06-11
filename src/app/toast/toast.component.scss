@@ -1,0 +1,80 @@
+
+.notifications {
+  position: fixed;
+  top: 0;
+  right: 1rem;
+  background-color: rgba(0,0,0, .4);
+  color: #fff;
+  border-radius: 4px;
+  width: 350px;
+  height: auto;
+  
+  .notice {
+      padding: 1rem 1.25rem;
+  }
+  .close{
+      position: absolute;
+      top: 2px;
+      right: 8px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+  }
+
+.toast {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);        
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  overflow: hidden;
+
+  .loader {
+    border: 4px solid #fff;
+    border-radius: 50%;
+    border-top: 4px solid #c70039;
+    width: 60px;
+    height: 60px;
+    -webkit-animation: spin 1s linear infinite; /* Safari */
+    animation: spin 1s linear infinite;
+  }
+  
+  img {
+      height: 20px;
+      margin-left: -50px;
+  }
+  
+  .loader-msg {
+  
+    position: absolute;
+    top: 55%;
+    color: #fff;
+    font-weight: normal;
+    margin-left: 5px;
+  
+    text-align: center;
+  
+    width: 50%;
+    max-width: 300px;
+  }
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+}
+
+
+

@@ -1,0 +1,408 @@
+@mixin flex-set-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@mixin dnd-container {
+  border: #ccc 2px dashed;
+  background-color: #eee;
+}
+
+main {
+  .container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+
+    section {
+      padding: 0 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    section:first-child {
+      .wrapper-btn {
+        display: flex;
+        flex-direction: row-reverse;
+        .btn {
+          @include flex-set-center();
+          width: 100px;
+          margin-left: 10px;
+          background-color: #5a5a5a;
+          color: #fff;
+          border-radius: 2px;
+          height: 28px;
+          padding: 5px 0;
+          font-size: 1.2em;
+          span {
+            margin-right: 5px;
+            font-size: 1.5em;
+          }
+        }
+      }
+
+      .wrapper-tab {
+        display: flex;
+
+        .tab {
+          background-color: #efefef;
+          width: 100px;
+          padding: 5px 0;
+          text-align: center;
+          cursor: pointer;
+        }
+
+        .tab:first-child {
+          border-top-left-radius: 5px;
+        }
+
+        .tab:last-child {
+          border-top-right-radius: 5px;
+        }
+
+        .tab-active {
+          background-color: #ff4444;
+          color: #fff;
+        }
+      }
+
+      .wrapper-content {
+        padding: 5px;
+        border: #ccc 2px solid;
+        border-radius: 10px;
+        border-top-left-radius: 0;
+        height: 785px;
+
+        .wrap {
+          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+          padding: 10px;
+          margin: 5px;
+        }
+
+        .wrap-cover,
+        .wrap-overview,
+        .wrap-thumbnail,
+        .wrap-product-listings {
+          header {
+            display: flex;
+            padding-bottom: 5px;
+
+            strong {
+              width: 100%;
+              font-size: 1.1em;
+            }
+
+            .select-all {
+              @include flex-set-center();
+              width: 100px;
+
+              input {
+                width: 20px;
+              }
+            }
+          }
+
+          .overview-content,
+          .cover-content {
+            height: calc(100vh - 425px);
+          }
+
+          .overview-content,
+          .cover-content,
+          .thumbnail-content {
+            @include dnd-container();
+            padding: 2px;
+            display: grid;
+          }
+
+          .overview-content {
+            grid-template-columns: repeat(auto-fit, 127px);
+            grid-template-rows: repeat(auto-fit, 127px);
+            .item {
+              height: 123px;
+            }
+          }
+
+          .cover-content {
+            grid-template-columns: repeat(auto-fill, 190px);
+            grid-template-rows: repeat(auto-fill, 190px);
+            .item {
+              height: 186px;
+            }
+          }
+
+          .thumbnail-content {
+            grid-template-columns: repeat(auto-fill, 120px);
+            grid-auto-flow: column;
+            width: 32vw;
+            .item {
+              width: 115px;
+              height: 140px;
+              display: grid;
+              grid-template-rows: 115px 20px;
+              .progress {
+                bottom: 20px;
+              }
+              .item-img {
+                @include flex-set-center();
+                width: 110px;
+                height: 110px;
+              }
+              .item-link {
+                text-align: center;
+                span {
+                  margin-bottom: 5px;
+                }
+              }
+            }
+          }
+
+          .listing-content {
+            @include flex-set-center();
+            padding: 2px;
+
+            .item {
+              height: 145px;
+              width: 145px;
+              background-color: #eee;
+            }
+            .no-have-item {
+              font-size: 32px;
+              color: #ccc;
+              @include dnd-container();
+              @include flex-set-center();
+            }
+          }
+        }
+      }
+
+      .wrapper-image {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: 200px auto;
+        .wrap-thumbnail {
+          grid-column: 2/5;
+        }
+        .wrap-cover {
+          grid-column: 1/3;
+        }
+        .wrap-overview {
+          grid-column: 3/5;
+        }
+      }
+      .wrapper-information {
+        .wrap-specifications {
+          header {
+            margin-top: 15px;
+            display: flex;
+            padding-bottom: 5px;
+
+            h3 {
+              width: 100%;
+              font-size: 1.1em;
+            }
+
+            .select-all {
+              @include flex-set-center();
+              width: 100px;
+
+              input {
+                width: 20px;
+              }
+            }
+          }
+
+          .image-content {
+            border: #ccc 2px dashed;
+            background-color: #eee;
+            height: 120px;
+
+            padding: 2px;
+            width: calc(100vw-700px);
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-columns: repeat(auto-fill, 100px);
+            grid-gap: 2px;
+            margin-bottom: 20px;
+          }
+
+          .link-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-gap: 10px;
+
+            input {
+              height: 25px;
+            }
+
+            .url {
+              input {
+                color: #0000ee;
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    section:last-child {
+      fieldset {
+        padding: 6px 5px;
+        border: #ccc 2px solid;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        overflow-y: auto;
+        height: 842px;
+
+        legend {
+          padding: 0 5px;
+        }
+
+        .wrapper-information {
+          p {
+            padding: 2px;
+            white-space: pre-wrap;
+          }
+        }
+        .wrapper-image {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .wrapper-link {
+          h1 {
+            font-size: 1.7em;
+          }
+          p {
+            padding: 5px 0;
+            font-size: 1.2em;
+          }
+        }
+      }
+    }
+  }
+}
+
+main.modal {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: #6666;
+  @include flex-set-center();
+  .container {
+    width: 500px;
+    height: 100px;
+    background-color: #fff;
+    display: flex;
+    padding: 20px 10px;
+  }
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+  user-select: none;
+}
+
+// Item Area
+.item {
+  background-color: #fff;
+  @include flex-set-center();
+  margin: 2px;
+  position: relative;
+  cursor: pointer;
+  input {
+    position: absolute;
+    width: 13px;
+    bottom: 2px;
+    right: 2px;
+  }
+
+  .ico,
+  .progress,
+  .clear,
+  input {
+    position: absolute;
+  }
+  .ico {
+    right: 5px;
+    bottom: 5px;
+  }
+  .clear {
+    right: 2px;
+    top: 2px;
+  }
+
+  .progress {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 10px;
+  }
+}
+
+.item-warming {
+  border: #f3cb19 2px solid;
+  .ico {
+    color: #f3cb19;
+  }
+  .clear {
+    color: red;
+  }
+}
+.item-error {
+  border: red 2px solid;
+  color: red;
+}
+
+.item-drop {
+  @include flex-set-center();
+  color: #ccc;
+  border: dashed #ccc 2px;
+}
+
+.item-dummy {
+  border: #ccc dashed 2px;
+  background: none;
+  @include flex-set-center();
+
+  p {
+    font-size: 3em;
+    color: #ccc;
+  }
+}
+
+
+
+// End Item Area
+
+//Overflow Area
+.thumbnail-content,
+.image-content,
+.wrapper-content,
+.overview-content,
+.cover-content {
+  overflow: hidden;
+  &::after {
+    content: "";
+    display: block;
+  }
+}
+.thumbnail-content,
+.image-content {
+  overflow-x: auto;
+}
+
+.wrapper-content,
+.overview-content,
+.cover-content {
+  overflow-y: auto;
+}
+
+//End Overflow Area
+
+

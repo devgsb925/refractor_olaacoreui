@@ -1,0 +1,428 @@
+<ng-container *ngIf="ordersViewModel.order; let order">
+  <div class="modal-wrapper">
+    <aside class="left" >
+      <button class="btn-nav-left" (click)="navOrder(-1)" *ngIf="tabPos == 0">
+        <span class="material-icons">keyboard_arrow_left</span>
+      </button>
+    </aside>
+    <div class="card">
+      <div class="close-btn">
+
+        <button type="button" (click)="closeFunc()">
+          <span class="material-icons"> close </span>
+        </button>
+      </div>
+
+      <div class="tabs">
+        <button style="display: inline-block" type="button" (click)="changeTab(0)"
+          [ngClass]="{ 'active-tab': tabPos == 0 }">
+          Order Detail
+        </button>
+        <button style="display: inline-block" type="button" (click)="changeTab(1)"
+          [ngClass]="{ 'active-tab': tabPos == 1 }">
+          Shipment Track
+        </button>
+      </div>
+
+      <ng-container *ngIf="tabPos === 0">
+        <div class="container container-order-detail">
+          <!-- Order Detail Information's Layout -->
+          <div class="layout layout-info">
+            <div class="wrap wrap-order-id">
+              <label>Order ID</label>
+              <p>{{ order.orderId }}</p>
+            </div>
+            <div class="wrap wrap-vendor-id">
+              <label>V.ID</label>
+              <p>{{ order.vendorId }}</p>
+            </div>
+            <div class="wrap wrap-vendor-name">
+              <label>Vendor Name</label>
+              <p>{{ order.vendorName }}</p>
+            </div>
+            <div class="wrap wrap-invoice-no">
+              <label>Invoice No</label>
+              <input type="text" [(ngModel)]="invoice" [readonly]="order.paymentStatus != 0" />
+            </div>
+            <div class="wrap wrap-currency">
+              <label>Currency</label>
+              <select [(ngModel)]="order.purchasingRefCurrencyTypeId" [disabled]="order.paymentStatus != 0">
+                <option [ngValue]="currency.purchasingRefCurrencyTypeId" *ngFor="
+                    let currency of productReferenceViewModel.getRefCurrencyTypes()
+                  ">
+                  {{ currency.currencyName }}
+                </option>
+              </select>
+            </div>
+            <div class="wrap wrap-rate">
+              <label>Rate (LAK)</label>
+              <input type="number" [(ngModel)]="order.rate" [readonly]="order.paymentStatus != 0" />
+            </div>
+            <div class="wrap wrap-ship-cost">
+              <label>Shipping Cost</label>
+              <input type="number" [(ngModel)]="shipmentCost" [readonly]="order.paymentStatus != 0" />
+            </div>
+            <div class="wrap wrap-total-amount">
+              <label>Amount</label>
+              <p class="read-only">
+                {{ getTotalAmount() | currency: "":"":"0.0-0" }}
+              </p>
+            </div>
+            <div class="wrap wrap-total-amount-lak">
+              <label>Amount (LAK)</label>
+              <p class="read-only">
+                {{ getTotalAmountLak(order.rate) | currency: "":"":"0.0-0" }}
+              </p>
+            </div>
+            <div class="wrap wrap-balance">
+              <label>Balance</label>
+              <p class="read-only">
+                {{ getRecoverBalance() | currency: "":"":"0.0-0" }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Button Save & Remove 's Layout -->
+          <div class="btns-action">
+            <label for="">Product List:</label>
+            <div class="btns-action">
+              <button class="btn btn-add-order-detail animation-ripple" [disabled]="order.paymentStatus != 0"
+                (click)="ordersViewModel.showAddOrderDetail = true">
+                <span class="material-icons"> add_circle </span>
+                Add From Exist Product
+              </button>
+              <button class="btn btn-cancel animation-ripple" (click)="removeFunc()"
+                [disabled]="order.paymentStatus != 0">
+                <span class="material-icons"> cancel </span> Remove
+              </button>
+
+              <button type="submit" class="btn btn-success animation-ripple"
+                [ngClass]="{ 'has-update': checkHasUpdate() }" (click)="saveFunc()">
+                <span class="material-icons"> save </span> Save
+              </button>
+            </div>
+          </div>
+
+          <!-- OrderDetails 's Layout -->
+          <div class="table table-wrapper layout-order-detail order-detail-tb">
+            <table>
+              <thead>
+                <tr>
+                  <th class="id">P.ID</th>
+                  <th class="sku">SKU</th>
+                  <th class="image">Image</th>
+                  <th class="prod-desc">Product&nbsp;Description</th>
+                  <th class="prod-no">Product&nbsp;Number</th>
+                  <th class="brand">Brand</th>
+                  <th class="unit-price">Unit Price</th>
+                  <th class="order">Order</th>
+                  <th class="amount">Amount</th>
+                  <th class="shipped">Shipped</th>
+                  <th class="received">Received</th>
+                  <th class="recover">Recover</th>
+                  <th class="remarks">Remarks</th>
+                  <th class="select">
+
+
+
+                    <label class="container cb">
+                      <input type="checkbox" [checked]="checkSelectAllDetail()" (click)="checkAllFunc()">
+                      <span class="checkmark"></span>
+                    </label>
+
+                  </th>
+                  <th class="dot"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngIf="editOrderViewModel.getOrderDetail() as details">
+                  <ng-container *ngFor="let od of details; let i = index">
+                    <tr (click)="selIndex = i" [ngClass]="{'active-tr': selTr === od.purchasingOrderDetailId}"
+                      (click)="selTr = od.purchasingOrderDetailId">
+                      <td class="id">{{ od.productId }}</td>
+                      <td>
+                        <ng-container *ngIf="!od.sku">-</ng-container>
+                        <ng-container *ngIf="od.sku">{{ od.sku }}</ng-container>
+                      </td>
+                      <td class="image">
+                        <img src="{{od.productImage ? od.productImage : '../../../../../assets/images/no-image.png'}}"
+                          alt="" class="thumb">
+                        <img src="{{od.productImage ? od.productImage : '../../../../../assets/images/no-image.png'}}"
+                          alt="" class="preview">
+                      </td>
+                      <td class="prod-desc">
+                        <ng-container *ngIf="od.productDescription as desc">
+                          <div class="tooltip" #toolTip>
+                            <p>{{ desc }}</p>
+                            <span class="tooltiptext " *ngIf="desc.length > 40">
+                              {{ desc }}
+                            </span>
+                          </div>
+                        </ng-container>
+                      </td>
+
+                      <td class="model-number pod-no">
+                        <ng-container *ngIf="!od.productNo">-</ng-container>
+                        <ng-container *ngIf="od.productNo as prodNo">
+                          <div class="tooltip">
+                            <p>{{ prodNo }}</p>
+                            <span class="tooltiptext " *ngIf="prodNo.length > 35">
+                              {{ prodNo }}
+                            </span>
+                          </div>
+                        </ng-container>
+                      </td>
+
+                      <td>
+                        <p>{{ od.brandName }}</p>
+                      </td>
+
+                      <td class="unit-price" [ngClass]="{'notborder': order.paymentStatus != 0}">
+                        <input type="number"
+                          [ngClass]="{ 'active-border': selIndex === i && order.paymentStatus === 0 }" #unitPrice
+                          [(ngModel)]="od.unitPrice" [readonly]="order.paymentStatus != 0" />
+                      </td>
+
+                      <td class="order-qty"[ngClass]="{'notborder': order.paymentStatus != 0}" >
+                        <input type="number" [ngClass]="{
+                            'active-border':
+                              selIndex === i && order.paymentStatus === 0
+                          }" #orderQty [(ngModel)]="od.orderQty" [readonly]="order.paymentStatus != 0" />
+                      </td>
+
+                      <td class="total-amount">
+                        <p>
+                          {{
+                            od.unitPrice * od.orderQty | currency: "":"":"0.0"
+                          }}
+                        </p>
+                      </td>
+
+                      <td class="ship-qty">
+                        <div class="wrap">
+                          <p>{{ od.totalShippedQty }}</p>
+                        </div>
+                      </td>
+
+                      <td class="received">
+                        <div class="wrap">
+                          <p>{{ od.recievedQty }}</p>
+                        </div>
+                      </td>
+
+                      <td class="recover">
+                        <input type="number" [ngClass]="{ 'active-border': selIndex === i }" #recover
+                          [(ngModel)]="od.recover" (ngModelChange)="od.hasUpdate = true" />
+                      </td>
+
+                      <td class="remarks">
+
+                        <!-- <p>
+                          <span class="material-icons"
+                            [ngStyle]="{ color: checkRemarkFunc(od.purchasingOrderDetailId) ? 'red' : '#333' }"
+                            (click)=" showRemarkModalFunc(od.purchasingOrderDetailId)  ">
+                            info
+                          </span>
+                        </p> -->
+
+                        <ng-container *ngIf="selTr !== od.purchasingOrderDetailId && !od.remarks">-</ng-container>
+                        <ng-container *ngIf="selTr !== od.purchasingOrderDetailId && od.remarks">
+
+                          <div class="tooltip" >
+                            <p>{{od.remarks}}</p>
+                            <span class="tooltiptext text-overflow" *ngIf="od.remarks.length > 35">
+                              {{od.remarks}}
+                            </span>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="selTr == od.purchasingOrderDetailId">
+                          <input type="text" [(ngModel)]="od.remarks">
+                        </ng-container>
+
+
+                      </td>
+                      <td class="select">
+
+                        <!-- <input type="checkbox" [checked]="checkSelectDetail(od.purchasingOrderDetailId)"  (click)=" addOrderDetailSelect(od.purchasingOrderDetailId)"/> -->
+
+                        <label class="container cb">
+                          <input type="checkbox" [checked]="checkSelectDetail(od.purchasingOrderDetailId)"
+                            (click)=" addOrderDetailSelect(od.purchasingOrderDetailId)">
+                          <span class="checkmark"></span>
+                        </label>
+
+                      </td>
+
+                      <td>
+                        <div style="
+                            width: 8px;
+                            height: 8px;
+                            background: red;
+                            border-radius: 50px;
+                          " *ngIf="od.hasUpdate === true"></div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ng-container>
+      <!----------------------------------------------------End Order Detail----------------------------------------------------------->
+
+      <ng-container *ngIf="tabPos === 1">
+        <div class="container container-shipment-track" *ngIf="editOrderViewModel.getShipmentDetails() as shipDetails">
+          <section class="layout layout-shipment">
+            <div class="grid-left">
+              <div class="wrapper wrapper-shipment table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Shipment&nbsp;ID</th>
+                      <th>Tracking&nbsp;No</th>
+                      <th>Forwarder&nbsp;No</th>
+                      <th>Box&nbsp;Count</th>
+                      <th>Weigth</th>
+                      <th>Volume</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngIf="editOrderViewModel.getShipments().length > 0">
+                      <tr *ngFor="let item of editOrderViewModel.getShipments()"
+                        (click)="editOrderViewModel.setShipId(item.shipmentId)" [ngClass]="{
+                          'sel-active':
+                            editOrderViewModel.shipId === item.shipmentId
+                        }">
+                        <td>{{ item.shipmentId }}</td>
+                        <td>{{ item.trackingNo }}</td>
+                        <td>{{ item.forwarderNo }}</td>
+                        <td style="text-align: center">{{ item.noOfBoxes }}</td>
+                        <td style="text-align: center">{{ item.weight }}</td>
+                        <td style="text-align: center">{{ item.volume }}</td>
+                        <td>
+                          <ng-container *ngIf="
+                              editOrderViewModel.checkStatusShipmentById(
+                                item.shipmentId
+                              )
+                            ">
+                            <span class="material-icons" style="
+                                color: green;
+                                font-weight: bold;
+                                font-size: 15px;
+                              ">
+                              done
+                            </span>
+                          </ng-container>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="wrapper wrapper-shipment-detail table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>O.ID</th>
+                    <th>P.ID</th>
+                    <th>Product&nbsp;Description</th>
+                    <th>Product&nbsp;Number</th>
+                    <!-- <th>Version</th>
+                    <th>Size</th>
+                    <th>Color</th> -->
+                    <th>Brand</th>
+                    <th>Shipped</th>
+                    <th>Received</th>
+                    <th>Remarks</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let item of sliceFunc(this.shipDetails, sdPos, 20)">
+                    <td>{{ item.orderId }}</td>
+                    <td>{{ item.productId }}</td>
+                    <td>
+                      <ng-container *ngIf="item.productDescription as desc">
+                        <div class="tooltip">
+                          <p>{{ desc }}</p>
+                          <span class="tooltiptext text-overflow" *ngIf="desc.length > 35">
+                            {{ desc }}
+                          </span>
+                        </div>
+                      </ng-container>
+                    </td>
+                    <td>{{ item.productNo }}</td>
+                    <!-- <td>{{getVariant(item.productVariants,4)}}</td>
+                      <td>{{getVariant(item.productVariants,2)}}</td>
+                      <td>{{getVariant(item.productVariants,3)}}</td> -->
+                    <td>{{ item.brand }}</td>
+                    <td>
+                      <div class="wrap">
+                        <p>{{ item.shippedQty }}</p>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="wrap">
+                        <p>{{ item.recievedQty }}</p>
+                      </div>
+                    </td>
+
+                    <td>
+                      <div class="wrap wrap-remark">
+                        <div class="tooltip">
+                          <p>
+                            <span class="material-icons" [ngStyle]="{
+                                color: item.remarks != '' ? 'red' : '#333'
+                              }">
+                              info
+                            </span>
+                          </p>
+                          <span class="tooltiptext text-overflow remarktool" *ngIf="item.remarks !== ''">
+                            {{ item.remarks }}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="layout layout-pagenation">
+            <app-pagination *ngIf="shipDetails.length > 20"
+              [ItemsCount]="editOrderViewModel.getShipmentDetails().length" [PageSize]="20" [PagePos]="sdPos"
+              (PositionEventEmitter)="setShipDetailPos($event)"></app-pagination>
+          </section>
+        </div>
+      </ng-container>
+
+
+    </div>
+    <aside class="right" >
+      <button class="btn-nav-right" (click)="navOrder(1)" *ngIf="tabPos == 0" >
+        <span class="material-icons">keyboard_arrow_right</span>
+      </button>
+    </aside>
+  </div>
+</ng-container>
+
+<!-- <ng-container *ngIf="showRemarkModal">
+  <main class="modal modal-remark">
+    <div class="container">
+      <div class="content">
+        <textarea [(ngModel)]="remarkOfOrderDetail" cols="50" rows="30"></textarea>
+      </div>
+      <footer>
+        <button class="btn btn-save" (click)="saveRamarkFunc()">Save</button>
+        <button class="btn btn-cancel" (click)="cancelRemarkFunc()">
+          Cancel
+        </button>
+      </footer>
+    </div>
+  </main>
+</ng-container> -->

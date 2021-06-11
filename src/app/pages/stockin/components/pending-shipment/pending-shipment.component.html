@@ -1,0 +1,56 @@
+<div class="grid-container" *ngIf="pendingShipmentList() as pendingShipment">
+  <div class="grid-options2">
+    <div class="input-group2 search-warpper">
+      <span class="material-icons">
+        search
+      </span>
+      <input type="text" class="search" placeholder="search ..." [(ngModel)]="searchPendingShipment"
+        (keyup.enter)="searchPedingShipment()">
+
+    </div>
+  </div>
+
+  <div class="grid-table2">
+    <div class="table-wrapper">
+      <table >
+        <thead>
+          <tr>
+            <th class="s-id">S.ID</th>
+            <th class="forwarder">Forwarder&nbsp;No</th>
+            <th class="tracking">Tracking&nbsp;No</th>
+            <th class="boxcount">Box&nbsp;Count</th>
+            <th class="weight">Weight</th>
+            <th class="volume">Volume</th>
+            <th class="shipment">Shipment&nbsp;Date</th>
+            <th class="detail">Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let shipment of pendingShipment" (click)="activeTr = shipment.shipmentId"
+           [ngClass]="{'tactive-tr': activeTr === shipment.shipmentId}">
+            <td class="s-id">{{shipment.shipmentId}}</td>
+            <td class="forwarder">
+              <ng-container *ngIf="!shipment.forwarderNo">-</ng-container>
+              <ng-container *ngIf="shipment.forwarderNo">{{shipment.forwarderNo}}</ng-container>
+            </td>
+            <td class="tracking">{{shipment.trackingNo}}</td>
+            <td class="boxcount">{{shipment.boxCount}}</td>
+            <td class="weight">{{shipment.weight}}</td>
+            <td class="volume">{{shipment.volume}}</td>
+            <td class="shipment">{{shipment.shipmentDate | date:'d/M/yy' }}</td>
+            <td class="detail"><button class="btn-edit"  (click)="detailButtonSubmit(shipment)">Detail</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <div class="grid-pagination2">
+    <app-pagination class="pagination" [ItemsCount]="getItemsCount()" [PageSize]="20" [PagePos]="posPendingShipment"
+      (PositionEventEmitter)="posEventEmmit($event)">
+    </app-pagination>
+  </div>
+</div>
+
+<app-pending-shipment-modal *ngIf="vmPShipment.shipmentDetailModal"></app-pending-shipment-modal>

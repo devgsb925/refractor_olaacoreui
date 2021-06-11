@@ -1,0 +1,117 @@
+<div class="modal-wrapper" *ngIf="vmVendor.orderDetail">
+  <div class="modal-content card">
+    <div class="card-wraper">
+
+      <div class="btn-action">
+        <div class="btn">
+          <button (click)="nextFunc(vmVendor.orderDetail.orderId, 0)" [disabled]="disBack"> <span class="material-icons">keyboard_arrow_left</span></button>
+          <button (click)="nextFunc(vmVendor.orderDetail.orderId, 1)" [disabled]="disNext"><span class="material-icons">keyboard_arrow_right</span></button>
+        </div>
+      </div>
+
+      <header>
+        <div class="title">
+          <span class="material-icons"> text_snippet </span>
+          <p>Order Detail</p>
+        </div>
+        <div class="close-button">
+          <div></div>
+          <button type="button" (click)="closeFunc()">
+            <span class="material-icons"> close </span>
+          </button>
+        </div>
+      </header>
+      <div class="grid-card">
+        <nav>
+          <div class="box order-id">
+            <p>Order ID</p>
+            <input type="text" readonly value="{{vmVendor.orderDetail.orderId}}" />
+          </div>
+          <div class="box vendor-id">
+            <p>Vendor ID</p>
+            <input type="text" readonly value="{{vmVendor.orderDetail.vendorId}}" />
+          </div>
+          <div class="box invoice-no">
+            <p>Invoice No</p>
+            <input type="text" readonly value="{{vmVendor.orderDetail.invoiceNo}}"/>
+          </div>
+          <div class="box currecy">
+            <p>Currency</p>
+            <input type="text" readonly value="{{vmVendor.getCurrencyByid(vmVendor.orderDetail.refCurrencyTypeId)}}"/>
+          </div>
+          <div class="box rate">
+            <p>Rate (LAK)</p>
+            <input type="text" readonly value="{{vmVendor.orderDetail.rate}}"/>
+          </div>
+          <div class="box shipping-cost">
+            <p>Shipping Cost</p>
+            <input type="text" readonly value="{{vmVendor.orderDetail.shippingCount}}"/>
+          </div>
+          <div class="box amount">
+            <p>Amount</p>
+            <input type="text" readonly value="{{vmVendor.orderDetail.totalAmount}}"/>
+          </div>
+          <div class="box amount-lak">
+            <p>Amount (LAK)</p>
+            <input type="text" readonly value="{{vmVendor.orderDetail.orderId}}"/>
+          </div>
+          <div class="box balance">
+            <p>Balance</p>
+            <input type="text" readonly value="{{vmVendor.orderDetail.recoverBalance}}"/>
+          </div>
+        </nav>
+        <section class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>P.ID</th>
+                <th>SKU</th>
+                <th>Product Description</th>
+                <th>Product Number</th>
+                <th>Brand</th>
+                <th>Unit Price</th>
+                <th>Order</th>
+                <th>Amount</th>
+                <th>Shipped</th>
+                <th>Received</th>
+                <th>Recover</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="getOrderDetail()| async as details">
+              <tr *ngFor="let podlist of details" (click)="selTr = podlist.productId" [ngClass]="{'active-tr': selTr === podlist.productId}">
+                <td>{{podlist.productId}}</td>
+                <td>
+                  <ng-container  *ngIf="!podlist.sku">-</ng-container>
+                  <ng-container *ngIf="podlist.sku">{{podlist.sku}}</ng-container>
+                </td>
+                <td>{{podlist.productDescription}}</td>
+                <td>
+                  <ng-container  *ngIf="!podlist.productNo">-</ng-container>
+                  <ng-container *ngIf="podlist.productNo">{{podlist.productNo}}</ng-container>
+                </td>
+                <td>{{podlist.brandName}}</td>
+                <td>{{podlist.unitPrice}}</td>
+                <td>{{podlist.orderQty}}</td>
+                <td>{{podlist.totalAmount}}</td>
+                <td>{{podlist.totalShippedQty}}</td>
+                <td>{{podlist.recievedQty}}</td>
+                <td>{{podlist.recover}}</td>
+                <td>{{podlist.remarks}}
+                  <ng-container  *ngIf="!podlist.remarks">-</ng-container>
+                  <ng-container *ngIf="podlist.remarks">{{podlist.remarks}}</ng-container>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+      <div class="pagination-wraper">
+
+          <app-pagination [ItemsCount]="getOrderDetailCount()" [PageSize]="100" [PagePos]="position"
+          (PositionEventEmitter)="getPagePosition($event)">
+          </app-pagination>
+      </div>
+    </div>
+  </div>
+</div>

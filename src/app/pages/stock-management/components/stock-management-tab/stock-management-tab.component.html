@@ -1,0 +1,243 @@
+<div class="sm-grid">
+  <div class="sm-table-settings">
+    <div class="input-group">
+      <input type="text" placeholder="Filter by categories" [value]="getCategoryName()" readonly>
+      <button type="button" class="btn-close" *ngIf="vmStockManagementService.cat1IdSelect.refCategoryId > 0" (click)="clearSelCat()"><span class="material-icons">close</span></button>
+      <button type="button" class="btn-launch" (click)="vmStockManagementService.showSelectCategory = true"><span class="material-icons">launch</span></button>
+    </div>
+
+
+    <div class="input-group">
+      <input type="text" placeholder="Filter by brand" [value]="getBrandName()" readonly>
+      <button type="button" class="btn-close" *ngIf="vmStockManagementService.selectedBrand.refBrandId > 0" (click)="clearSelBrand()"><span class="material-icons">close</span></button>
+      <button type="button" class="btn-launch" (click)="vmStockManagementService.showSelectBrands = true"><span class="material-icons">launch</span></button>
+    </div>
+
+    <div class="input-group">
+      <input type="text" placeholder="Search by id, sky, description, barcode..." [(ngModel)]="vmStockManagementService.keyword" (keyup.enter)="searchStockManagement()">
+      <span class="material-icons">launch</span>
+    </div>
+
+    <div class="lbl-input-group">
+      <label for="prodCount">Products Count:</label>
+      <input type="text" [value]="getProductCount()">
+    </div>
+
+    <div class="lbl-input-group">
+      <label for="chkCount">Check Count:</label>
+      <input type="text" [value]="getCheckCount()">
+    </div>
+
+    <div class="btn-group">
+      <button class="btn-item" type="button" (click)="onSubmit()">
+        <span class="material-icons">save</span>
+        Save
+      </button>
+    </div>
+
+  </div>
+
+  <div class="sm-table-data">
+
+    <div class="table-wrapper">
+
+      <table>
+        <thead>
+          <tr>
+            <th class="thead">P.ID</th>
+            <th class="thead">SKU</th>
+            <th class="thead">Product Description</th>
+            <th class="thead">Stock Qty</th>
+            <th class="thead">Warehouse</th>
+            <th class="thead">Display</th>
+            <th class="thead">Demo</th>
+            <th class="thead">QC</th>
+            <th class="thead">Remarks</th>
+            <th class="thead">Operator</th>
+            <th class="thead">
+
+              <label class="check" for="check" (click)="filterByDateOrder()" style="text-align: start;">
+                Date
+                <span class="material-icons" [ngClass]="{ 'rotate180': vmStockManagementService.sortDate }">
+                  arrow_drop_down
+                  </span>
+              </label>
+
+            </th>
+            <th class="thead">
+
+              <label class="check" for="check" (click)="filterByStatus()">
+                Status
+                <span class="material-icons" [ngClass]="{ 'rotate180': vmStockManagementService.sortStatus === 2, 'grayed': vmStockManagementService.sortStatus === 0 }">
+                  arrow_drop_down
+                  </span>
+              </label>
+
+            </th>
+            <th class="thead">
+
+              <label class="check" for="check" (click)="filterByCheck()">
+                Check
+                <span class="material-icons" [ngClass]="{ 'rotate180': vmStockManagementService.sortCheck === 2, 'grayed': vmStockManagementService.sortCheck === 0 }">
+                  arrow_drop_down
+                  </span>
+              </label>
+
+            </th>
+            <th class="thead">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let prod of vmStockManagementService.getProducts()" (click)="selTrFunc(prod)" [ngClass]="{'active-tr':activeTr === prod.pId }">
+            <td>{{prod.pId }}</td>
+            <td>
+              <ng-container *ngIf="!prod.sku">-</ng-container>
+              <ng-container *ngIf="prod.sku">{{prod.sku }}</ng-container>
+            </td>
+            <td>
+              <!-- {{prod.productDescription }} -->
+
+              <p *ngIf="chackToolTip(prod.productDescription.length, 13) === false">
+                {{ prod.productDescription }}
+              </p>
+              <div class="tooltip" *ngIf="chackToolTip(prod.productDescription.length, 13)">
+                <p>{{ prod.productDescription }}</p>
+                <span class="tooltiptext text-overflow">
+                  {{ prod.productDescription }}</span>
+              </div>
+
+            </td>
+            <td>
+              <div class="item-td">
+                <span class="qty">{{prod.stockQty }}</span>
+                <span class="qty" [ngClass]="{ 'qty-under': prod.stockFlag === 1, 'qty-over': prod.stockFlag === 2}">{{prod.invStockQty }}</span>
+              </div>
+
+            </td>
+
+            <td>
+              <div class="item-td">
+                <span class="qty">{{prod.warehouseQty }}</span>
+                <ng-container *ngIf="!prod.edit">
+                  <span class="qty" [ngClass]="{ 'qty-under': prod.warehouseFlag === 1, 'qty-over': prod.warehouseFlag === 2}" (click)="(prod.check == 0) ? prod.edit = true : prod.edit = false">{{prod.invWarehouseQty }}</span>
+                </ng-container>
+
+                <ng-container *ngIf="prod.edit">
+                  <input class="prod-edit" type="number" [(ngModel)]="prod.invWarehouseQty" (focus)="clearIfNew(prod)" (focusout)="invStatus(prod)" *ngIf="prod.edit && prod.check == 0" >
+                </ng-container>
+              </div>
+            </td>
+
+            <td>
+              <div class="item-td">
+                <span class="qty">{{prod.displayQty }}</span>
+                <ng-container *ngIf="!prod.edit">
+                  <span class="qty" [ngClass]="{ 'qty-under': prod.displayFlag === 1, 'qty-over': prod.displayFlag === 2}" (click)="(prod.check == 0) ? prod.edit = true : prod.edit = false">{{prod.invDisplayQty }}</span>
+                </ng-container>
+                <ng-container *ngIf="prod.edit && prod.check < 2">
+                  <input class="prod-edit" type="number" [(ngModel)]="prod.invDisplayQty" (focus)="clearIfNew(prod)" (focusout)="invStatus(prod)" *ngIf="prod.edit && prod.check == 0" >
+                </ng-container>
+              </div>
+            </td>
+
+            <td>
+              <div class="item-td">
+                <span class="qty">{{prod.demoQty }}</span>
+
+                <ng-container *ngIf="!prod.edit">
+                  <span class="qty" [ngClass]="{ 'qty-under': prod.demoFlag === 1, 'qty-over': prod.demoFlag === 2}" (click)="(prod.check == 0) ? prod.edit = true : prod.edit = false">{{prod.invDemoQty }}</span>
+
+                </ng-container>
+                <ng-container *ngIf="prod.edit">
+                  <input class="prod-edit" type="number" [(ngModel)]="prod.invDemoQty" (focus)="clearIfNew(prod)" (focusout)="invStatus(prod)" *ngIf="prod.edit && prod.check == 0" >
+                </ng-container>
+              </div>
+            </td>
+
+            <td>
+              <div class="item-td">
+                <span class="qty">{{prod.qcQty }}</span>
+                <ng-container *ngIf="!prod.edit">
+                  <span class="qty" [ngClass]="{ 'qty-under': prod.qcFlag === 1, 'qty-over': prod.qcFlag === 2}"  (click)="(prod.check == 0) ? prod.edit = true : prod.edit = false">{{prod.invQcQty }}</span>
+                </ng-container>
+                <ng-container *ngIf="prod.edit">
+                  <input class="prod-edit" type="number" [(ngModel)]="prod.invQcQty" (focus)="clearIfNew(prod)" (focusout)="invStatus(prod)" *ngIf="prod.edit && prod.check == 0" >
+                </ng-container>
+              </div>
+            </td>
+
+
+            <td>
+              <ng-container *ngIf="!prod.remarks">-</ng-container>
+              <ng-container *ngIf="prod.remarks">{{prod.remarks}}</ng-container>
+            </td>
+
+            <td>
+              <ng-container *ngIf="!prod.operatorCheck">-</ng-container>
+              <ng-container *ngIf="prod.operatorCheck">{{ (prod.operatorCheck !== 'Olaa Superadmin') ? prod.operatorCheck : '' }}</ng-container>
+            </td>
+
+            <td>
+              <ng-container *ngIf="!prod.date">-</ng-container>
+              <ng-container *ngIf="prod.status > 0 && prod.date">
+                {{prod.date | date:'yyyy-MM-dd HH:mm a' }}
+              </ng-container>
+            </td>
+            <td>
+              <div class="status-wrapper">
+                <span class="material-icons" style="color: rgb(64,194,32);" *ngIf="prod.status === 1">done</span>
+                <span class="material-icons" style="color: #FF4747;" *ngIf="prod.status === 2">warning_amber</span>
+              </div>
+            </td>
+            <td>
+              <button class="btn-check" type="button" *ngIf="prod.check === 0 || prod.check === 2" (click)="onProductCheck(prod)">Check</button>
+              <button class="btn-check" type="button" *ngIf="prod.check === 1" (click)="onReCheck(prod)">Re-Check</button>
+            </td>
+            <td class="chk-wrapper">
+              <button class="btn-check" type="button" (click)="onClickDistribute(prod)" >
+                Distribute
+              </button>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <div class="pagination-wrapper" *ngIf="vmStockManagementService.prodLength > 150">
+      <app-pagination class="pagination" [ItemsCount]="vmStockManagementService.prodLength" [PageSize]="150" [PagePos]="vmStockManagementService.pagePos" (PositionEventEmitter)="posEventEmmit($event)"></app-pagination>
+    </div>
+
+
+  </div>
+</div>
+
+
+<ng-container *ngIf="vmStockManagementService.showSelectCategory">
+  <app-select-category
+    [category1Id]="vmStockManagementService.cat1IdSelect.refCategoryId"
+    [category2Id]="vmStockManagementService.cat2IdSelect.refCategoryId"
+    [category3Id]="vmStockManagementService.cat3IdSelect.refCategoryId"
+    (selectCategoryResult)="onSelectCategory($event)"
+    (closeEvent)="closeCategoryEvent($event)"
+  >
+  </app-select-category>
+</ng-container>
+
+
+<ng-container *ngIf="vmStockManagementService.showSelectBrands">
+  <app-select-brand (closeEvent)="closeBrandEvent($event)" (selectItem)="onSelectBrand($event)"></app-select-brand>
+</ng-container>
+
+
+<ng-container *ngIf="vmStockManagementService.showRemarksModal">
+  <app-remarks-modal></app-remarks-modal>
+</ng-container>
+
+
+<ng-container *ngIf="vmStockManagementService.showDistributeModal">
+  <app-modal-distribute (UpdateListEvent)="onUpdateListEvent($event)"></app-modal-distribute>
+</ng-container>

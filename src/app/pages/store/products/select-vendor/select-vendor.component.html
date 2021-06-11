@@ -1,0 +1,81 @@
+<main class="modal">
+  <div class="container">
+    <header>
+      <label>
+        <span class="material-icons"> supervisor_account </span>
+        Vendors
+      </label>
+      <div class="wrap wrap-btn">
+        <a class="btn btn-close" (click)="closeEvent.next(true)">
+          <span class="material-icons"> close </span>
+        </a>
+      </div>
+    </header>
+    <fieldset>
+      <legend>
+        <strong>
+          <h3>Available Vendor</h3>
+        </strong>
+      </legend>
+      <div class="layout layout-search">
+
+        <div class="wrap wrap-search">
+          <input
+            type="text"
+            placeholder="Search VendorId, Name, Contact Name ..."
+            [(ngModel)]="searchValue"
+          />
+          <a class="btn btn-search">
+            <span class="material-icons"> search </span>
+          </a>
+        </div>
+      </div>
+
+      <div class="layout layout-table">
+        <div class="table table-wrapper">
+          <table>
+            <colgroup>
+              <col span="1" style="width: 20%" />
+              <col span="1" style="width: 40%" />
+              <col span="1" style="width: 40%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>
+                  <strong>
+                    <p>Vendor ID</p>
+                  </strong>
+                </th>
+                <th>
+                  <strong>
+                    <p>Vendor Name</p>
+                  </strong>
+                </th>
+                <th>
+                  <strong>
+                    <p>Contact Name</p>
+                  </strong>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let item of getVendors() | async">
+                <tr (click)="selectItemFunc(item)">
+                  <td class="id">
+                    <p>{{ item.purchasingVendorId }}</p>
+                  </td>
+                  <td class="name">
+                    <p>{{ item.vendorName }}</p>
+                  </td>
+                  <td class="contact-name">
+                    <p>{{ item.contactName }}</p>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</main>

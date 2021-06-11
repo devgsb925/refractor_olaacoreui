@@ -1,0 +1,125 @@
+<div class="modal-wrapper">
+  <div class="modal-content card">
+    <div class="close-button">
+      <div></div>
+      <button type="button" (click)="vmVendors.addNewModal = false">
+        <span class="material-icons"> close </span>
+      </button>
+    </div>
+
+    <div class="title">
+      <button>
+        <span class="material-icons"> supervisor_account </span>
+        Add New Vendor
+      </button>
+    </div>
+
+    <div class="bnt-save">
+      <div></div>
+
+      <button class="animation-ripple btn-add-action" (click)="addNewSaveSubmit()">
+        <span class="material-icons"> save </span>
+        Save
+      </button>
+    </div>
+
+    <div class="form-item">
+      <div class="form-border">
+        <div class="input">
+          <div class="input-item">
+            <div class="item">
+              <label for="">vendor ID</label>
+              <input type="text" value="0" readonly class="model-id" />
+            </div>
+
+            <div class="item">
+              <label for="">Vendor Name</label>
+              <input type="text" [(ngModel)]="newModel.vendorName" placeholder="enter vendor name" />
+            </div>
+          </div>
+        </div>
+
+        <div class="input">
+          <div class="input-item">
+            <div class="item">
+              <label for="">Contact Name</label>
+              <input type="text" [(ngModel)]="newModel.contactName" placeholder="enter contact name" />
+            </div>
+
+            <div class="item">
+              <label for="">Brand Name</label>
+              <input type="text" [(ngModel)]="newModel.brand" placeholder="enter brand" />
+            </div>
+          </div>
+        </div>
+
+        <div class="input productType">
+          <label for="">Product Type</label>
+          <input type="text" [(ngModel)]="newModel.productTypes" placeholder="enter product type" />
+        </div>
+
+        <div class="input address">
+          <label for="">Address</label>
+          <textarea name="" id="" cols="30" rows="5" [(ngModel)]="newModel.shippingAddress"
+            placeholder="enter address"></textarea>
+        </div>
+
+        <div class="input">
+          <div class="input-item">
+            <div class="item">
+              <label for="">City</label>
+              <input type="text" [(ngModel)]="newModel.city" placeholder="enter city" />
+            </div>
+
+            <div class="item">
+              <label for="">Zip</label>
+              <input type="text" [(ngModel)]="newModel.zip" placeholder="enter zip" />
+            </div>
+          </div>
+        </div>
+
+        <div class="input">
+          <div class="input-item">
+            <div class="item">
+              <label for="">Country</label>
+              <input type="text" [(ngModel)]="newModel.country" placeholder="enter country" />
+            </div>
+
+            <div class="item">
+              <label for="">Telephone</label>
+              <input type="text" [(ngModel)]="newModel.telephone" placeholder="enter telephone" />
+            </div>
+          </div>
+        </div>
+
+        <div class="input">
+          <div class="input-item">
+            <div class="item">
+              <label for="">Email</label>
+              <input type="text" [(ngModel)]="newModel.email" placeholder="enter email" />
+            </div>
+
+            <div class="item">
+              <label for="">Wechat ID</label>
+              <input type="text" [(ngModel)]="newModel.wechatId" placeholder="enter wechat id" />
+            </div>
+          </div>
+        </div>
+
+        <div class="input">
+          <div class="input-item">
+            <div class="item">
+              <label for="">Bank Account</label>
+              <input type="text" [(ngModel)]="newModel.bankAccountNumber" placeholder="enter bank account number" />
+            </div>
+
+            <div class="item">
+              <label for="">Alipay</label>
+              <input type="text" [(ngModel)]="newModel.alipay" placeholder="enter alipay" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

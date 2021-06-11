@@ -1,0 +1,35 @@
+<div class="page-wrapper card">
+
+  <div class="tabs">
+    <a class="tab" [ngClass]="{ 'active-tab': vmStockManagement.stockManagementBool}" href="javascript:void(0)" (click)="vmStockManagement.onChangeTab(0)">Stock Management</a>
+    <a class="tab" [ngClass]="{ 'active-tab': vmStockManagement.distributionLogsBool}" href="javascript:void(0)" (click)="vmStockManagement.onChangeTab(1)">Distribution Logs</a>
+    <a class="tab" [ngClass]="{ 'active-tab': vmStockManagement.inventoryLogsBool}" href="javascript:void(0)" (click)="vmStockManagement.onChangeTab(2)">Inventory Logs</a>
+  </div>
+
+  <div class="tab-content">
+
+
+    <div class="pagination-wrapper" *ngIf="vmStockManagement.stockManagementBool">
+
+      <app-stock-management-tab></app-stock-management-tab>
+
+    </div>
+
+    <div class="pagination-wrapper" *ngIf="vmStockManagement.distributionLogsBool">
+
+      <app-distribution-logs></app-distribution-logs>
+
+    </div>
+
+    <div class="pagination-wrapper" *ngIf="vmStockManagement.inventoryLogsBool">
+
+      <app-inventory-logs></app-inventory-logs>
+
+    </div>
+
+
+  </div>
+
+
+</div>
+

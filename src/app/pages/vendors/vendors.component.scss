@@ -1,0 +1,227 @@
+main {
+  font-size: 12px;
+  margin: 1rem;
+  padding: 1rem;
+  color: #666666;
+
+  .container {
+    display: grid;
+    grid-template-columns: 35% 65%;
+    margin-top: 1rem;
+
+    .action-button {
+      margin-top: 2.5rem;
+      .input-group {
+        padding: 8px 2px;
+        display: flex;
+        align-items: center;
+        height: 35px;
+        width: 100%;
+
+        input {
+          height: inherit;
+          width: 72%;
+          border-left: none;
+        }
+
+        button {
+          height: inherit;
+          background: none;
+          color: gainsboro;
+          border-right: none;
+
+          span {
+            color: #666666;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+
+      .button-2 {
+        button {
+          height: 35px;
+          background: #00A65A;
+          padding: 0 20px;
+          border-radius: 3px;
+
+          &:hover {
+            background: #02BB66;
+          }
+        }
+      }
+
+    }
+
+    .tab-content {
+      .table-wrapper {
+        .button-active {
+          button {
+            margin-left: 5px !important;
+          }
+        }
+      }
+
+      .vendor-wrapper {
+        margin-top: 1rem;
+        height: calc(100vh - 310px);
+        border-bottom: 2px solid gainsboro;
+        overflow: auto;
+
+        .sel-active {
+          td {
+            background-color: #FFE9E9;
+          }
+        }
+
+        tr {
+          &:nth-child(odd) {
+            background-color: white;
+
+            &:hover {
+              background: #ffe9e9;
+            }
+          }
+
+          &:nth-child(even) {
+            background-color: #fcfcfc;
+
+            &:hover {
+              background: #ffe9e9;
+            }
+          }
+
+          th,
+          td {
+            font-size: 13px;
+            padding: 0;
+          }
+
+          th {
+            height: 35px;
+            font-weight: 500;
+            background: #efefef;
+          }
+
+          td {
+            height: 40px;
+            border-bottom: solid 1px #f1f1f1;
+          }
+        }
+
+        th:nth-child(1) {
+          width: 70px;
+        }
+
+        th:nth-child(2) {
+          width: 160px;
+        }
+
+        th:nth-child(3) {
+          width: 100px;
+        }
+
+        th:nth-child(4) {
+          width: 80px;
+        }
+
+        th:nth-child(5) {
+          width: 110px;
+        }
+
+        th:nth-child(6) {
+          text-align: end;
+          padding-right: 20px !important;
+        }
+
+        td:nth-child(6) {
+          text-align: end;
+          padding-right: 10px !important;
+
+          button {
+            background: none;
+            border: 1px solid #2196F3;
+            color: #2196F3;
+            padding: 0 10px;
+            height: 23px;
+          }
+        }
+      }
+
+      .table-footer {
+        margin-top: 0.5rem;
+
+        label {
+          font-weight: 500;
+          font-size: 13px;
+        }
+
+        .pagination {
+          display: flex;
+          flex-direction: row-reverse;
+        }
+      }
+
+
+      .text-overflow {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .las-table {
+        margin-left: -150px;
+      }
+    }
+
+    .grid-right {
+      border-right: 1px solid gainsboro;
+      padding-right: 1rem;
+    }
+
+    .grid-left {
+      padding-left: 1rem;
+
+      .chang-tab{
+        margin-top: -1rem;
+        border-bottom: 1px solid gainsboro;
+        button{
+          height: 40px;
+          width: 150px;
+          font-size: 14px;
+          color: #666666;
+          font-family: 500;
+          border: none;
+
+          &:nth-child(1){
+            border-top-left-radius: 8px;
+          }
+
+          &:nth-child(2){
+            border-top-right-radius: 8px;
+          }
+        }
+
+        .active-tab{
+          background: #ff4747;
+          color: white;
+        }
+      }
+
+      .table-wrapper {
+        th {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}

@@ -1,0 +1,168 @@
+<main>
+  <div class="container container-main">
+    <div class="layout layout-search">
+      <div class="wrap wrap-select">
+        <label>From</label>
+        <input type="date"  value="" (change)="selectSData = true; changeFromDate($event.target.value)">
+
+        <label >To</label>
+        <input type="date" value="" (change)="selectToDate = true; changeToDate($event.target.value)">
+      </div>
+      <div class="wrap wrap-input">
+        <input type="text" [(ngModel)]="searchValue" placeholder="Search by order id, invoice no" (keyup.enter)="searchOrder()">
+        <button>
+          <span class="material-icons">
+            search
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <div class="layout layout-table">
+      <div class="table table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Order&nbsp;ID</th>
+              <th >Date</th>
+              <th class="status" (click)="statusChange()">
+                <div class="status-scal">
+                  <div class="status-header">
+                    Status
+                    <span class="material-icons">
+                      arrow_drop_down
+                    </span>
+                  </div>
+                  <div class="status-model card" [ngClass]="{'active-status': statusTab}">
+                    <ul>
+                      <li (click)="sortingByStatus(-1)">All</li>
+                      <li (click)="sortingByStatus(0)">Pending</li>
+                      <li (click)="sortingByStatus(2)">Complete</li>
+                      <li (click)="sortingByStatus(1)">Incomplete</li>
+                    </ul>
+                  </div>
+                </div>
+
+
+              </th>
+              <th class="vender-id">V.ID</th>
+              <th class="invoice-no">Invoice&nbsp;No</th>
+              <th class="total-amount amount">Amount</th>
+              <th class="currency">Currency</th>
+              <th class="total-amount amount kip">Amount&nbsp;(LAK)</th>
+              <th class="payment-status" style="width: 150px;" (click)="paymentChange()">
+                <div class="payment-scal">
+                  <div class="payment-header">
+                    Payment
+                    <span class="material-icons">
+                      arrow_drop_down
+                    </span>
+                  </div>
+
+                  <div class="payment-model card" [ngClass]="{'active-payment': paymentTab}">
+                    <ul>
+                      <li (click)="sortingByPayment(-1) ">All</li>
+                      <li (click)="sortingByPayment(0)">Pay</li>
+                      <li (click)="sortingByPayment(1)">Paid</li>
+
+                    </ul>
+                  </div>
+                </div>
+              </th>
+              <th style="width: 80px;">S.Count</th>
+              <th class="recieved-count" ><p>R.Count</p> </th>
+              <th class="detail" style="padding-right: 10px;">Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container
+              *ngFor="let oh of this.orderViewModel.getOrderHistory().slice(position * 20,(position + 1)* 20)">
+              <tr  (click)="selectTable = oh.orderId" [ngClass]="{'active-tr': selectTable === oh.orderId}">
+                <td>
+                  {{oh.orderId}}
+                </td>
+                <td>
+                  <ng-container *ngIf="oh.lastModified">
+                    {{ oh.lastModified | date:'d/M/yy' }}
+                  </ng-container>
+
+                  <ng-container  *ngIf="!oh.lastModified">
+                    -
+                  </ng-container>
+
+                </td>
+
+                <td class="status"[ngClass]="oh.orderStatus == 0 ? 'just-created' : oh.orderStatus == 1? 'incomplete' : 'complete'">
+                  <p>P</p>
+                  <p>I</p>
+                  <p>C</p>
+                </td>
+
+                <td class="vender-id">
+                  <div class="tooltip">
+                    <p>{{oh.vendorId }}</p>
+                    <span class="tooltiptext text-overflow">
+                      Vendor&nbsp;Name&nbsp;:&nbsp;{{oh.vendorName
+                      }},&nbsp;contact&nbsp;Name&nbsp;:&nbsp;{{oh.contactName}}
+                    </span>
+                  </div>
+
+                </td>
+                <td class="invoice-no">
+                  <ng-container *ngIf="oh.pOInvoiceNo">
+                    {{ oh.pOInvoiceNo}}
+                  </ng-container>
+                  <ng-container *ngIf="!oh.pOInvoiceNo">
+                    -
+                  </ng-container>
+                </td>
+                <td class="total-amount">
+                  <p>
+                    {{ oh.totalAmount | currency: ' ':'':'0.0' }}
+                  </p>
+                </td>
+
+
+                <td class="currency">{{ getCurrency(oh.purchasingRefCurrencyTypeId)}}</td>
+                <td class="total-amount">
+                  <p>{{oh.totalAmount * oh.rate | currency: ' ':'':'0.0'}} LAK</p>
+                </td>
+                <td class="payment-status">
+                  <ng-container *ngIf="oh.paymentStatus == 0">
+                    <button type="button" class="btn btn-pending" (click)="updateOrderToPaid(oh, 1)">Pay</button>
+                  </ng-container>
+                  <ng-container *ngIf="oh.paymentStatus == 1">
+                    <button type="button" class="btn btn-paid" (click)="updateOrderToPaid(oh, 0)">Paid</button>
+                  </ng-container>
+                </td>
+                <td class="ship-count" >
+                  <p>{{oh.shipmentCount}}</p>
+                </td>
+
+                <td class="recieved-count">
+                    <p>
+                      {{oh.recievedCount}}
+                    </p>
+                </td>
+
+                <td class="detail">
+                  <button type="button" class="btn btn-detail" (click)="showEditOrderModalFunc(oh)">Detail</button>
+                </td>
+
+              </tr>
+            </ng-container>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="layout layout-pagination">
+      <app-pagination [ItemsCount]="orderViewModel.getOrderHistory().length" [PageSize]="20" [PagePos]="position"
+        (PositionEventEmitter)="setPosition($event)" *ngIf="orderViewModel.getOrderHistory().length > 0">
+      </app-pagination>
+    </div>
+
+  </div>
+</main>

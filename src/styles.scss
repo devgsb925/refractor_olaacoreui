@@ -1,0 +1,710 @@
+/* You can add global styles to this file, and also import other style files */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input,
+button,
+select,
+textarea {
+  outline: gainsboro solid 1px;
+}
+
+html {
+  font-family: "Roboto", "Noto Sans Lao", sans-serif;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  color: #222;
+}
+
+.box-shadow {
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: "liga";
+}
+
+.activeSideMenu {
+  background-color: gainsboro;
+}
+
+.activeColor {
+  color: #ff4747;
+}
+
+textarea {
+  width: 100%;
+  font-family: "Roboto", sans-serif;
+  padding: 0.5rem;
+  border: 1px solid gainsboro;
+  resize: none;
+  outline: none;
+}
+
+.w240 {
+  width: 240px;
+}
+
+.w200 {
+  width: 200px;
+}
+
+.w140 {
+  width: 140px;
+}
+
+.w100 {
+  width: 100px;
+}
+
+.align-middle {
+  vertical-align: middle;
+}
+
+.align-center {
+  text-align: center;
+}
+
+option {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked+.slider {
+  background-color: #2196f3;
+}
+
+input:focus+.slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked+.slider:before {
+  -webkit-transform: translateX(10px);
+  -ms-transform: translateX(10px);
+  transform: translateX(10px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+th,
+td {
+  border: 1px solid #222;
+  font-size: 1rem;
+  width: auto;
+
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.5rem;
+  outline: none;
+  border: 1px solid gainsboro;
+  color: #333;
+}
+
+select {
+  padding: 0.45rem;
+}
+
+.table-wrapper {
+  position: relative;
+  overflow: hidden;
+  overflow-y: auto;
+  border-top: 1px solid rgba(241, 241, 241, 0.685);
+  border-left: none;
+  border-right: none;
+  table-layout: fixed;
+
+  table {
+    border-collapse: collapse;
+    min-width: 100%;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid rgba(241, 241, 241, 0.685);
+    table-layout: fixed;
+
+    thead,
+    tr,
+    th {
+      border: none;
+      box-shadow: none;
+      border-bottom: 1px solid gainsboro;
+      font-size: 13px;
+      padding: 10px;
+    }
+
+    tbody,
+    tr,
+    td {
+      border: none;
+      font-size: 12px;
+      text-align: left;
+
+          input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+              padding: 0;
+            }
+
+      .btn-edit{
+        width: 50px;
+        background: none;
+        border: 1px solid #2196F3;
+        color: #2196F3;
+        border-radius: 3px;
+        height: 22px;
+
+      }
+
+      input {
+        border: none;
+        background: none;
+        padding: 4px;
+      }
+
+      button {
+        font-size: 10px;
+        padding: 5px;
+        background-color: #555;
+        color: white;
+      }
+
+      .active-border {
+        input {
+          border: solid 1px gainsboro;
+          background: white;
+          padding: 3px;
+        }
+
+        select {
+          border: solid 1px gainsboro;
+          background: white;
+          padding: 3px;
+        }
+      }
+
+      .edit-input {
+        height: 18px;
+        border-radius: 3px;
+        font-size: 10px;
+        background: #555;
+        color: white;
+        display: flex;
+        align-items: center;
+        margin-left: 15px;
+      }
+
+      .checkbox {
+        display: inline-flex;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .checkbox>span {
+        color: #34495e;
+        padding-top: 3px;
+        padding-left: 5px;
+      }
+
+      .checkbox>input {
+        height: 13px;
+        width: 13px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -o-appearance: none;
+        appearance: none;
+        outline: none;
+        transition-duration: 0.3s;
+        border: 1px solid gainsboro;
+        cursor: pointer;
+      }
+
+      .checkbox>input:checked {
+        border: 1px solid #ff4747;
+        background-color: #ff4747;
+      }
+
+      .checkbox>input:checked+span::before {
+        content: "\2713";
+        display: block;
+        text-align: center;
+        color: white;
+        position: absolute;
+        left: 2px;
+        top: -2px;
+      }
+
+      .checkbox>input:active {
+        border: 2px solid #34495e;
+      }
+    }
+
+
+    tr:nth-child(even) {
+      background-color: #fcfcfc;
+    }
+
+    tr {
+      transition: background-color ease-in-out 0.2s;
+
+      th {
+        position: sticky;
+        top: 0;
+        background-color: #efefef;
+        z-index: 2;
+        height: 35px;
+        font-weight: 500;
+      }
+
+      td {
+        border-bottom: #f1f1f1 solid 1px;
+        height: 40px;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 4px 8px;
+        font-size: 13px;
+
+        &:nth-child(1) {
+          text-align: center;
+        }
+      }
+
+      &:hover {
+        background-color: #ff474715;
+        cursor: pointer;
+      }
+    }
+
+    .active-sele-row {
+      background: #ff474715;
+      cursor: pointer;
+    }
+
+    .active-row,
+    .active-row:nth-child(even) {
+      background-color: #e2e9ee;
+    }
+
+    .btn-hide-column {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #222;
+    }
+
+    .active-allTr {
+      td {
+        input {
+          border: solid 1px gainsboro;
+          background: white;
+          padding: 3px;
+        }
+      }
+    }
+
+    .active-sel {
+      background: #ff4747 radial-gradient(circle, transparent 1%, #ff6b6b 1%) center/15000%;
+      color: #fff;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+
+  }
+
+  .edit-btn {
+    button {
+      background: none;
+      border: none;
+
+      span {
+        color: #333;
+
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+.btn-primary {
+  color: #ff4747;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 22;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-gap: 1rem;
+}
+
+button {
+  padding: 0.5rem;
+  outline: none;
+  border: 1px solid gainsboro;
+}
+
+//lar create //
+
+.tabs {
+  border-bottom: 1px solid gainsboro;
+
+  button {
+    display: inline-block;
+    border: none;
+    background: none;
+    width: 130px;
+    height: 40px;
+    background: #f5f5f5;
+  }
+
+  .active-tab {
+    background-color: #ff4747;
+    color: #fff;
+  }
+}
+
+.close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: auto;
+
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+
+  h2 {
+    margin-left: 1rem;
+    margin-top: 1rem;
+  }
+
+  button {
+    background: none;
+    border: none;
+
+    span {
+      font-size: 20px;
+      font-weight: bold;
+      color: #ff4747;
+    }
+  }
+}
+
+.action-button {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+
+  label {
+    font-weight: bold;
+  }
+
+  button {
+    height: 28px;
+    display: flex;
+    align-items: center;
+    background: #555;
+    color: white;
+
+    &:hover {
+      background: #ff4747;
+    }
+
+    span {
+      font-size: 20px;
+      margin-right: 5px;
+    }
+  }
+}
+
+.search-wrapper {
+  border: none;
+  margin-bottom: 1rem;
+
+  .search-item {
+    display: flex;
+
+    select {
+      width: auto;
+      border: none;
+    }
+  }
+
+  input {
+    padding: 6px 0;
+
+    &::placeholder {
+      color: rgb(233, 230, 230);
+      font-weight: 50;
+      font-family: "Roboto", sans-serif;
+    }
+  }
+}
+
+
+
+.title-tab {
+  display: flex;
+  border-bottom: 1px solid gainsboro;
+
+  button {
+    border: none;
+    background: none;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+  .active-tab {
+    background: #ff4747;
+    color: white;
+  }
+}
+
+.modal-wrapper {
+  height: 100vh;
+  width: 100vw;
+  background: rgba($color: #000000, $alpha: 0.9);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+
+  .modal-content {
+    background: white;
+    position: relative;
+  }
+}
+
+//end lar
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+// version 2 CLEAN
+.page-container2 {
+  .grid2 {
+    margin: 1rem;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    height: calc(100vh - 270px);
+
+    .grid-tabs2 {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+
+      border-bottom: 1px solid gainsboro;
+
+      .active-tab {
+        background: #ff4747;
+        color: white;
+      }
+
+      button:nth-child(1) {
+        border-radius: 8px 0 0 0;
+        border-right: none;
+      }
+
+      button:nth-child(3) {
+        border-radius: 0 8px 0 0;
+        border-left: none;
+      }
+
+      button {
+        border: 1px solid gainsboro;
+        border-bottom: none;
+      }
+    }
+
+    .grid-options2 {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+
+      margin:1rem 0;
+
+      .input-group2 {
+        display: flex;
+        height: 35px;
+        select {
+          width: auto;
+        }
+
+        input {
+          margin-left: 1rem;
+          width: 200px;
+          border: 1px solid gainsboro;
+          border-right: none;
+          height: inherit;
+        }
+
+        span {
+          height: inherit;
+          width: 40px;
+          border: 1px solid gainsboro;
+          border-left: none;
+          font-size: 20px;
+          color: gainsboro;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    .grid-table2 {
+      grid-column: 1 / 2;
+      grid-row: 3 / 4;
+      height: 100%;
+      border-top: none;
+      overflow: auto;
+
+    }
+  }
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+@font-face {
+  font-family: "Noto Sans Lao";
+  src: url("./assets/fonts/NotoSansLao-Regular.ttf"),
+    url("./assets/fonts/NotoSansLao-Regular.woff2") format("woff2"),
+    url("./assets/fonts/NotoSansLao-Regular.woff") format("woff"),
+    url("./assets/fonts/NotoSansLao-Regular.svg#NotoSansLao-Regular")
+      format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

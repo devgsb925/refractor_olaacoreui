@@ -1,0 +1,13 @@
+<main>
+  <div class="container box-shadow">
+    <nav>
+      <a class="wrap wrap-tab tab-desktop" [routerLink]="['./desktop']" routerLinkActive="router-link-active" >
+        Desktop
+      </a>
+      <a class="wrap wrap-tab tab-mobile" [routerLink]="['./mobile']" routerLinkActive="router-link-active">
+        Mobile
+      </a>
+    </nav>
+    <router-outlet></router-outlet>
+  </div>
+</main>

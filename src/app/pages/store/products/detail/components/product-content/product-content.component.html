@@ -1,0 +1,763 @@
+<main>
+  <div class="container">
+    <section>
+      <div class="wrapper wrapper-btn">
+        <button class="btn btn-save" (click)="saveFunc()">
+          <span class="material-icons"> save </span>
+          Save
+        </button>
+        <button class="btn btn-delete" (click)="deleteImages()">
+          <span class="material-icons"> delete </span>
+          Detele
+        </button>
+      </div>
+      <div class="wrapper wrapper-tab">
+        <div
+          class="tab tab-image"
+          (click)="tabPos = 0"
+          [ngClass]="{ 'tab-active': tabPos == 0 }"
+        >
+          <p>Images</p>
+        </div>
+        <div
+          class="tab tab-informations"
+          (click)="tabPos = 1"
+          [ngClass]="{ 'tab-active': tabPos == 1 }"
+        >
+          <p>Informations</p>
+        </div>
+      </div>
+      <ng-container *ngIf="tabPos === 0">
+      <div class="wrapper wrapper-content wrapper-image">
+
+          <div class="wrap wrap-product-listings">
+            <header>
+              <strong>
+                <p>Product Listing</p>
+              </strong>
+            </header>
+            <input
+              type="file"
+              accept="image/*"
+              hidden
+              #fileProductListing
+              (change)="onDropFile(fileProductListing.files, 5)"
+            />
+            <div
+              class="listing-content"
+              appDnd
+              (fileDropped)="onDropFile($event, 5)"
+              (click)="fileProductListing.click()"
+            >
+              <div
+                class="item"
+                *ngIf="
+                  detailViewModel.getImages(5)[0] &&
+                  onGetPendingFiles(5)[0] == null
+                "
+              >
+                <img src="{{ detailViewModel.getImages(5)[0].url }}" alt="" />
+              </div>
+              <div
+                class="item item-pending item-warming"
+                *ngIf="onGetPendingFiles(5).length > 0 as pendingFile"
+              >
+                <img src="{{ pendingFiles[0].preFile }}" alt="" />
+                <div class="progress">
+                  <app-progress
+                    [progress]="pendingFiles[0].progress"
+                  ></app-progress>
+                </div>
+                <span
+                  class="clear material-icons"
+                  (click)="removeImagePendingList(pendingFiles[0].id)"
+                >
+                  clear
+                </span>
+              </div>
+              <div
+                class="item item-error"
+                *ngIf="onGetErrorFiles(5).length > 0 as errorFile"
+              >
+                <img [src]="onGetErrorFiles(5)[0].preFile" alt="" />
+                <span
+                  class="clear material-icons"
+                  (click)="removeImageErrorList(onGetErrorFiles(5)[0].id)"
+                >
+                  clear
+                </span>
+                <span
+                  class="ico material-icons"
+                  (click)="selectErrorItem = onGetErrorFiles(5)[0]"
+                >
+                  info
+                </span>
+              </div>
+              <div
+                class="item no-have-item"
+                *ngIf="
+                  onGetPendingFiles(5).length == 0 &&
+                  onGetErrorFiles(5).length == 0 &&
+                  detailViewModel.getImages(5).length == 0
+                "
+              >
+                <span>+</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wrap wrap-thumbnail">
+            <header>
+              <strong>
+                <p>Thumbnails</p>
+              </strong>
+              <div class="select-all">
+                <input
+                  type="checkbox"
+                  name="selectAllThumbnail"
+                  id="selectAllThumbnail"
+                  [checked]="isSelectThumbnailSelectAll()"
+                  (click)="setThumbnailSelectAll()"
+                />
+                <label for="selectAllThumbnail">Select All</label>
+              </div>
+            </header>
+            <input
+              type="file"
+              accept="image/*"
+              hidden
+              multiple
+              #filethumbnail
+              (change)="onDropFile(filethumbnail.files, 2)"
+            />
+            <div
+              class="thumbnail-content"
+              appDnd
+              (fileDropped)="onDropFile($event, 2)"
+            >
+              <ng-container
+                *ngFor="let item of detailViewModel.getImages(2); let i = index"
+              >
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="onDropToChangeOrderIndex(item.orderIndex, 2)"
+                    *ngIf="
+                      hoverthumbnailIndex === i &&
+                      item.productImageId !== selectItem.productImageId &&
+                      selectItem.orderIndex > item.orderIndex
+                    "
+                  >
+                    <p>move here</p>
+                  </div>
+                </ng-container>
+
+                <div
+                  class="item"
+                  draggable="true"
+                  [style.opacity]="checkDrag(item.productImageId) ? '.5' : '1'"
+                  (drop)="onDropToChangeOrderIndex(item.orderIndex, 2)"
+                  (dragend)="onDragEnd()"
+                  (dragover)="hoverthumbnailIndex = selectItem != null ? i : 0"
+                  (dragstart)="onDragStart(item, i)"
+                >
+                  <div class="item-img">
+                    <img [src]="item.url" alt="" />
+                    <input
+                      type="checkbox"
+                      (click)="thumbnailSelectIdsFunc(item.productImageId)"
+                      [checked]="checkthumbnailId(item.productImageId)"
+                    />
+                  </div>
+                  <div class="item-link">
+                    <span
+                      *ngIf="
+                        item.linkCoverImageUrl == '' &&
+                        productImageIdSelectId != item.productImageId
+                      "
+                      (click)="productImageIdSelectId = item.productImageId"
+                    >
+                      Set Cover Link
+                    </span>
+                    <span
+                      *ngIf="
+                        item.linkCoverImageUrl != '' &&
+                        productImageIdSelectId != item.productImageId
+                      "
+                      (click)="productImageIdSelectId = item.productImageId"
+                    >
+                      Change Cover Link
+                    </span>
+                    <span
+                      *ngIf="productImageIdSelectId == item.productImageId"
+                      (click)="(productImageIdSelectId == 0)"
+                    >
+                      cancel
+                    </span>
+                  </div>
+                </div>
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="onDropToChangeOrderIndex(item.orderIndex, 2)"
+                    *ngIf="
+                      hoverthumbnailIndex === i &&
+                      item.productImageId !== selectItem.productImageId &&
+                      selectItem.orderIndex < item.orderIndex
+                    "
+                  >
+                    <p>move here</p>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngFor="let item of onGetPendingFiles(2)">
+                <div class="item item-warming">
+                  <div class="item-img">
+                    <img [src]="item.preFile" alt="" />
+                  </div>
+                  <div class="item-link">
+                    <span
+                      *ngIf="
+                        item.linkCoverImageUrl == '' &&
+                        pendingthumbnailSelectId != item.id
+                      "
+                      (click)="pendingthumbnailSelectId = item.id"
+                    >
+                      Set Cover Link
+                    </span>
+                    <span
+                      *ngIf="
+                        item.linkCoverImageUrl != '' &&
+                        pendingthumbnailSelectId != item.id
+                      "
+                      (click)="pendingthumbnailSelectId = item.id"
+                    >
+                      Change Cover Link
+                    </span>
+                    <span
+                      *ngIf="pendingthumbnailSelectId == item.id"
+                      (click)="(pendingthumbnailSelectId == 0)"
+                    >
+                      cancel
+                    </span>
+                  </div>
+                  <div class="progress">
+                    <app-progress [progress]="item.progress"></app-progress>
+                  </div>
+                  <span
+                    class="clear material-icons"
+                    (click)="removeImagePendingList(item.id)"
+                  >
+                    clear
+                  </span>
+                </div>
+              </ng-container>
+              <ng-container *ngFor="let item of onGetErrorFiles(2)">
+                <div class="item item-error">
+                  <img [src]="item.preFile" alt="" />
+                  <span
+                    class="clear material-icons"
+                    (click)="removeImageErrorList(item.id)"
+                  >
+                    clear
+                  </span>
+                  <span
+                    class="ico material-icons"
+                    (click)="selectErrorItem = item"
+                  >
+                    info
+                  </span>
+                </div>
+              </ng-container>
+              <div class="item item-dummy" (click)="filethumbnail.click()">
+                <p>+</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="wrap wrap-cover">
+            <header>
+              <strong>
+                <p>Cover</p>
+              </strong>
+              <div class="select-all">
+                <input
+                  type="checkbox"
+                  name="selectAllCover"
+                  id="selectAllCover"
+                  [checked]="isSelectCoverSelectAll()"
+                  (click)="setCoverSelectAll()"
+                />
+                <label for="selectAllCover">Select All</label>
+              </div>
+            </header>
+            <input
+              type="file"
+              accept="image/*"
+              hidden
+              multiple
+              #fileCover
+              (change)="onDropFile(fileCover.files, 1)"
+            />
+
+            <div
+              class="cover-content"
+              appDnd
+              (fileDropped)="onDropFile($event, 1)"
+            >
+              <ng-container
+                *ngFor="let item of detailViewModel.getImages(1); let i = index"
+              >
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="onDropToChangeOrderIndex(item.orderIndex, 1)"
+                    *ngIf="
+                      hoverCoverIndex === i &&
+                      item.productImageId !== selectItem.productImageId &&
+                      selectItem.orderIndex > item.orderIndex
+                    "
+                  >
+                    <p>move here</p>
+                  </div>
+                </ng-container>
+
+                <div
+                  class="item"
+                  draggable="true"
+                  [style.opacity]="checkDrag(item.productImageId) ? '.5' : '1'"
+                  (drop)="onDropToChangeOrderIndex(item.orderIndex, 1)"
+                  (dragend)="onDragEnd()"
+                  (dragover)="hoverCoverIndex = selectItem != null ? i : 0"
+                  (dragstart)="onDragStart(item, i)"
+                  (click)="setCoverLink(item.url)"
+                >
+                  <img [src]="item.url" alt="" />
+                  <input
+                    type="checkbox"
+                    (click)="coverSelectIdsFunc(item.productImageId)"
+                    [checked]="checkSelectCoverId(item.productImageId)"
+                  />
+                </div>
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="onDropToChangeOrderIndex(item.orderIndex, 1)"
+                    *ngIf="
+                      hoverCoverIndex === i &&
+                      item.productImageId !== selectItem.productImageId &&
+                      selectItem.orderIndex < item.orderIndex
+                    "
+                  >
+                    <p>move here</p>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngFor="let item of onGetPendingFiles(1)">
+                <div class="item item-warming">
+                  <img [src]="item.preFile" alt="" />
+                  <div class="progress">
+                    <app-progress [progress]="item.progress"></app-progress>
+                  </div>
+                  <span
+                    class="clear material-icons"
+                    (click)="removeImagePendingList(item.id)"
+                  >
+                    clear
+                  </span>
+                </div>
+              </ng-container>
+              <ng-container *ngFor="let item of onGetErrorFiles(1)">
+                <div class="item item-error">
+                  <img [src]="item.preFile" alt="" />
+                  <span
+                    class="clear material-icons"
+                    (click)="removeImageErrorList(item.id)"
+                  >
+                    clear
+                  </span>
+                  <span
+                    class="ico material-icons"
+                    (click)="selectErrorItem = item"
+                  >
+                    info
+                  </span>
+                </div>
+              </ng-container>
+              <div class="item item-dummy" (click)="fileCover.click()">
+                <p>+</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="wrap wrap-overview">
+            <header>
+              <strong>
+                <p>Overview</p>
+              </strong>
+              <div class="select-all">
+                <input
+                  type="checkbox"
+                  name="selectAllOverview"
+                  id="selectAllOverview"
+                  [checked]="isSelectOverviewSelectAll()"
+                  (click)="setOverviewSelectAll()"
+                />
+                <label for="selectAllOverview">Select All</label>
+              </div>
+            </header>
+            <input
+              type="file"
+              accept="image/*"
+              hidden
+              multiple
+              #fileOverview
+              (change)="onDropFile(fileOverview.files, 4)"
+            />
+            <div
+              class="overview-content"
+              appDnd
+              (fileDropped)="onDropFile($event, 4)"
+            >
+              <ng-container
+                *ngFor="let item of detailViewModel.getImages(4); let i = index"
+              >
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="onDropToChangeOrderIndex(item.orderIndex, 4)"
+                    *ngIf="
+                      hoverOverviewIndex === i &&
+                      item.productImageId !== selectItem.productImageId &&
+                      selectItem.orderIndex > item.orderIndex
+                    "
+                  >
+                    <p>move here</p>
+                  </div>
+                </ng-container>
+
+                <div
+                  class="item"
+                  draggable="true"
+                  [style.opacity]="checkDrag(item.productImageId) ? '.5' : '1'"
+                  (drop)="onDropToChangeOrderIndex(item.orderIndex, 4)"
+                  (dragend)="onDragEnd()"
+                  (dragover)="hoverOverviewIndex = selectItem != null ? i : 0"
+                  (dragstart)="onDragStart(item, i)"
+                >
+                  <img [src]="item.url" alt="" />
+
+                  <input
+                    type="checkbox"
+                    [checked]="checkSelectOverviewId(item.productImageId)"
+                    (click)="overviewSelectIdsFunc(item.productImageId)"
+                  />
+                </div>
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="onDropToChangeOrderIndex(item.orderIndex, 4)"
+                    *ngIf="
+                      hoverOverviewIndex === i &&
+                      item.productImageId !== selectItem.productImageId &&
+                      selectItem.orderIndex < item.orderIndex
+                    "
+                  >
+                    <p>move here</p>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <ng-container
+                *ngFor="let item of onGetPendingFiles(4); let i = index"
+              >
+                <div class="item item-warming">
+                  <img [src]="item.preFile" alt="" />
+                  <div class="progress">
+                    <app-progress [progress]="item.progress"></app-progress>
+                  </div>
+                  <span
+                    class="clear material-icons"
+                    (click)="removeImagePendingList(item.id)"
+                  >
+                    clear
+                  </span>
+                </div>
+              </ng-container>
+              <ng-container *ngFor="let item of onGetErrorFiles(4)">
+                <div class="item item-error">
+                  <img [src]="item.preFile" alt="" />
+                  <span
+                    class="clear material-icons"
+                    (click)="removeImageErrorList(item.id)"
+                  >
+                    clear
+                  </span>
+                  <span
+                    class="ico material-icons"
+                    (click)="selectErrorItem = item"
+                  >
+                    info
+                  </span>
+                </div>
+              </ng-container>
+              <div class="item item-dummy" (click)="fileOverview.click()">
+                <p>+</p>
+              </div>
+            </div>
+          </div>
+
+      </div>
+    </ng-container>
+      <ng-container *ngIf="tabPos === 1">
+        <div class="wrapper wrapper-content wrapper-information">
+          <div class="wrap wrap-information">
+            <h3><strong>Product Informations</strong></h3>
+            <textarea [(ngModel)]="information" cols="30" rows="15"></textarea>
+          </div>
+          <div class="wrap wrap-specifications">
+            <h3><strong>Specifications</strong></h3>
+            <textarea
+              [(ngModel)]="specifications"
+              cols="30"
+              rows="15"
+            ></textarea>
+            <header>
+              <h3><strong>Images</strong></h3>
+              <div class="select-all">
+                <input
+                  type="checkbox"
+                  id="selectAllSpecImage"
+                  name="selectAllSpecImage"
+                  [checked]="isSelectSpecImageSelectAll()"
+                  (click)="setSpecImageSelectAll()"
+                />
+                <label for="selectAllSpecImage">Select All</label>
+              </div>
+            </header>
+            <input
+              type="file"
+              accept="image/*"
+              hidden
+              multiple
+              #fileSpecImage
+              (change)="onDropFile(fileSpecImage.files, 8)"
+            />
+            <div
+              class="image-content"
+              appDnd
+              (fileDropped)="onDropFile($event, 8)"
+            >
+              <ng-container
+                *ngFor="let item of detailViewModel.getImages(8); let i = index"
+              >
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="onDropToChangeOrderIndex(item.orderIndex, 8)"
+                    *ngIf="
+                      hoverSpecImageIndex === i &&
+                      item.productImageId !== selectItem.productImageId &&
+                      selectItem.orderIndex > item.orderIndex
+                    "
+                  >
+                    <p>move here</p>
+                  </div>
+                </ng-container>
+
+                <div
+                  class="item"
+                  draggable="true"
+                  [style.opacity]="checkDrag(item.productImageId) ? '.5' : '1'"
+                  (drop)="onDropToChangeOrderIndex(item.orderIndex, 8)"
+                  (dragend)="onDragEnd()"
+                  (dragover)="hoverSpecImageIndex = selectItem != null ? i : 0"
+                  (dragstart)="onDragStart(item, i)"
+                >
+                  <img [src]="item.url" alt="" />
+
+                  <input
+                    type="checkbox"
+                    [checked]="checkSelectSpecImageId(item.productImageId)"
+                    (click)="specImageSelectIdsFunc(item.productImageId)"
+                  />
+                </div>
+                <ng-container *ngIf="selectItem !== null">
+                  <div
+                    class="item item-drop"
+                    (drop)="onDropToChangeOrderIndex(item.orderIndex, 8)"
+                    *ngIf="
+                      hoverSpecImageIndex === i &&
+                      item.productImageId !== selectItem.productImageId &&
+                      selectItem.orderIndex < item.orderIndex
+                    "
+                  >
+                    <p>move here</p>
+                  </div>
+                </ng-container>
+              </ng-container>
+
+              <ng-container *ngFor="let item of onGetPendingFiles(8)">
+                <div class="item item-warming">
+                  <img [src]="item.preFile" alt="" />
+                  <div class="progress">
+                    <app-progress [progress]="item.progress"></app-progress>
+                  </div>
+                  <span
+                    class="clear material-icons"
+                    (click)="removeImagePendingList(item.id)"
+                  >
+                    clear
+                  </span>
+                </div>
+              </ng-container>
+              <ng-container *ngFor="let item of onGetErrorFiles(8)">
+                <div class="item item-error">
+                  <img [src]="item.preFile" alt="" />
+                  <span
+                    class="clear material-icons"
+                    (click)="removeImageErrorList(item.id)"
+                  >
+                    clear
+                  </span>
+                  <span
+                    class="ico material-icons"
+                    (click)="selectErrorItem = item"
+                  >
+                    info
+                  </span>
+                </div>
+              </ng-container>
+              <div class="item item-dummy" (click)="fileSpecImage.click()">
+                <p>+</p>
+              </div>
+            </div>
+
+            <h3><strong>Links</strong></h3>
+            <div class="link-content">
+              <div class="desc">
+                <p>Link 1 : Description</p>
+                <input
+                  type="text"
+                  [(ngModel)]="link1Desc"
+                  (ngModelChange)="hasUpdate = true"
+                />
+                <p>Link 2 : Description</p>
+                <input
+                  type="text"
+                  [(ngModel)]="link2Desc"
+                  (ngModelChange)="hasUpdate = true"
+                />
+                <p>Link 3 : Description</p>
+                <input
+                  type="text"
+                  [(ngModel)]="link3Desc"
+                  (ngModelChange)="hasUpdate = true"
+                />
+              </div>
+              <div class="url">
+                <p>URL</p>
+                <input
+                  type="text"
+                  [(ngModel)]="url1"
+                  (ngModelChange)="hasUpdate = true"
+                />
+                <p>URL</p>
+                <input
+                  type="text"
+                  [(ngModel)]="url2"
+                  (ngModelChange)="hasUpdate = true"
+                />
+                <p>URL</p>
+                <input
+                  type="text"
+                  [(ngModel)]="url3"
+                  (ngModelChange)="hasUpdate = true"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="wrap wrap-in-the-box">
+            <h3><strong>In The Box</strong></h3>
+            <textarea
+              [(ngModel)]="inTheBox"
+              cols="30"
+              rows="10"
+              (ngModelChange)="hasUpdate = true"
+            ></textarea>
+          </div>
+        </div>
+      </ng-container>
+    </section>
+    <section>
+      <ng-container *ngIf="tabPos == 0">
+        <fieldset>
+          <legend>
+            <h2><strong>Overview Preview</strong></h2>
+          </legend>
+
+          <div class="wrapper-image">
+            <ng-container *ngFor="let item of detailViewModel.getImages(4)">
+              <img [src]="item.url" alt="" />
+            </ng-container>
+          </div>
+        </fieldset>
+      </ng-container>
+      <ng-container *ngIf="tabPos == 1">
+        <fieldset>
+          <legend>
+            <h2><strong>Specification Preview</strong></h2>
+          </legend>
+          <ng-container *ngIf="specifications != ''">
+            <div class="wrapper wrapper-information">
+              <p>{{ specifications }}</p>
+            </div>
+          </ng-container>
+
+          <div class="wrapper wrapper-image">
+            <ng-container *ngFor="let item of detailViewModel.getImages(8)">
+              <img [src]="item.url" alt="" />
+            </ng-container>
+          </div>
+          <ng-container
+            *ngIf="link1Desc != '' || link2Desc != '' || link3Desc != ''"
+          >
+            <div class="wrapper wrapper-link">
+              <h1><strong>Links</strong></h1>
+              <ng-container *ngIf="link1Desc != ''">
+                <p>
+                  {{ link1Desc }} <a href="javascript:void(0);">Click Here</a>
+                </p>
+              </ng-container>
+              <ng-container *ngIf="link2Desc != ''">
+                <p>
+                  {{ link2Desc }} <a href="javascript:void(0);">Click Here</a>
+                </p>
+              </ng-container>
+              <ng-container *ngIf="link3Desc != ''">
+                <p>
+                  {{ link3Desc }} <a href="javascript:void(0);">Click Here</a>
+                </p>
+              </ng-container>
+            </div>
+          </ng-container>
+        </fieldset>
+      </ng-container>
+    </section>
+  </div>
+</main>
+
+<main class="modal modal-change-file-name" *ngIf="selectErrorItem">
+  <div class="container">
+    <input type="text" [value]="selectErrorItem.file.name" #fileName />
+    <button
+      class="btn btn-change-file-name"
+      (click)="changeFileNameFunc(fileName.value)"
+    >
+      Change
+    </button>
+    <button class="btn btn-cancel-change-name" (click)="selectErrorItem = null">
+      Cancel
+    </button>
+  </div>
+</main>

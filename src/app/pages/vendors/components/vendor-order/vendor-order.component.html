@@ -1,0 +1,84 @@
+<div class="action-button">
+  <div class="input-group">
+    <button>
+      <span class="material-icons"> search </span>
+    </button>
+    <input type="text" placeholder="Search by order id, invoice no..." [(ngModel)]="searchValue"  (keyup.enter)="seachVendorOrder()"/>
+
+  </div>
+  <div class="button-2"></div>
+</div>
+
+<div class="table-wrapper product-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>O.ID</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Invoice&nbsp;No</th>
+        <th>Amount</th>
+        <th>Currency</th>
+        <th>Amount&nbsp;(LAK)</th>
+        <th>Payment</th>
+        <th>S.Count</th>
+        <th>R.count</th>
+        <th>Detail</th>
+      </tr>
+    </thead>
+
+    <tbody *ngIf="getVendorOrder() | async as orders">
+      <tr *ngFor="let od of orders">
+        <td>{{od.orderId}}</td>
+        <td>
+          <ng-container *ngIf="!od.lastModified">
+            -
+          </ng-container>
+
+          <ng-container *ngIf="od.lastModified">
+            {{od.lastModified | date:'d/M/yy'}}
+          </ng-container>
+
+        </td>
+        <td >
+          <p *ngIf="od.orderStatus === 0" class="pending">P</p>
+          <p *ngIf="od.orderStatus === 1" class="incomplete">I</p>
+          <p *ngIf="od.orderStatus === 2">C</p>
+        </td>
+        <td>
+          <ng-container *ngIf="!od.pOInvoiceNo">-</ng-container>
+          <ng-container *ngIf="od.pOInvoiceNo">{{od.pOInvoiceNo}}</ng-container>
+        </td>
+        <td>{{od.totalAmount | currency: ' ':'':'0.0' }}</td>
+        <td>{{getCurrency(od.purchasingRefCurrencyTypeId)}}</td>
+        <td>{{(od.totalAmount * od.rate | currency: ' ':'':'0.0' )}}</td>
+        <td>
+          <div class="payment">
+            <button class="pay" *ngIf="od.paymentStatus === 0">Pay</button>
+            <button class="paid" *ngIf="od.paymentStatus === 1">Paid</button>
+
+          </div>
+        </td>
+        <td>{{od.shipmentCount}}</td>
+        <td>{{od.recievedCount}}</td>
+        <td>
+          <button type="button" (click)="oepnDetail(od.orderId)">
+            Detail
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  <label >Total Order:&nbsp;&nbsp;{{getVendorOrderCount()}}</label>
+  <div class="pagination">
+    <app-pagination [ItemsCount]="getVendorOrderCount()" [PageSize]="100" [PagePos]="position"
+    (PositionEventEmitter)="getPagePosition($event)">
+    </app-pagination>
+  </div>
+
+</div>
+
+<app-vendor-order-detail *ngIf="vmVendor.detailModal"></app-vendor-order-detail>

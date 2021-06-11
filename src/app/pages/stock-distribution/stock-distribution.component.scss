@@ -1,0 +1,36 @@
+.card {
+  margin: 1rem;
+  padding-bottom: 0.25rem;
+
+  display: flex;
+  flex-direction: column;
+
+  .tabs {
+    .btn-tab {
+      outline: 0;
+      border: 0;
+      color: #222;
+      background-color: rgb(243, 243, 243);
+    }
+
+    .btn-tab:nth-child(1) {
+      border-radius: 5px 0 0 0;
+    }
+
+    .btn-tab:nth-child(2) {
+      border-radius: 0 5px 0 0;
+    }
+
+    .active-tab {
+      background-color: #FF4747;
+      color: #FFF;
+      transition: all ease-in-out  0.23s;
+    }
+  }
+
+  .tab-content {
+    padding: 0.5rem 0;
+
+
+  }
+}

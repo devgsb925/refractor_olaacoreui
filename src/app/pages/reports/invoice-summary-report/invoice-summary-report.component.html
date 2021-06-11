@@ -1,0 +1,189 @@
+<main class="page-container card">
+  <div class="action">
+
+    <div class="input-group">
+      <label>From</label>
+      <input type="datetime-local" [(ngModel)]="vmInvoiceSummaryReport.settings.fromDtStr" />
+    </div>
+
+    <div class="input-group">
+      <label>To</label>
+      <input type="datetime-local" [(ngModel)]="vmInvoiceSummaryReport.settings.toDtStr" />
+    </div>
+
+    <div class="input-group">
+      <label>Sell Type</label>
+      <select [(ngModel)]="vmInvoiceSummaryReport.settings.sellTypeId">
+        <option [ngValue]="0">--All Sell Type--</option>
+        <option [ngValue]="1">Normal</option>
+        <option [ngValue]="3">Deposit</option>
+        <option [ngValue]="2">Leasing</option>
+      </select>
+    </div>
+
+    <div class="input-group" *ngIf="vmInvoiceSummaryReport.settings.sellTypeId === 2">
+      <label>Leasing</label>
+      <select name="" id="" [(ngModel)]="leasingOption" (ngModelChange)="filterLeasing()">
+        <option value="all">--All Select Leasing--</option>
+        <ng-container *ngFor="let item of leasingName">
+          <option value="{{item}}">{{item}}</option>
+        </ng-container>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Sell Method</label>
+      <select [(ngModel)]="vmInvoiceSummaryReport.settings.sellMethodId">
+        <option [ngValue]="0">--All Sell Method--</option>
+        <option [ngValue]="1">Shop</option>
+        <option [ngValue]="2">Online</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Operator</label>
+      <select [(ngModel)]="selOperatorId" (ngModelChange)="updateOperatorId()">
+        <option [value]=0>-- All Operator --</option>
+        <ng-container *ngFor="let op of vmInvoiceSummaryReport.operatorList">
+          <option [ngValue]="op.id">{{ op.name }}</option>
+        </ng-container>
+      </select>
+    </div>
+
+    <button class="btn btn-print" (click)="loadInvoiceList()">
+      <span class="material-icons plan"> send </span> Submit
+    </button>
+
+    <button class="btn submit" (click)="vmInvoiceSummaryReport.prinModel = true">
+      <span class="material-icons"> print </span> Print
+    </button>
+
+  </div>
+
+  <div class="grid">
+    <div class="table-grid">
+      <div class="table-wrapper">
+        <table class="sales-table">
+          <tr>
+            <th>Invoice&nbsp;No.</th>
+            <th style="width: 80px">Sell Date</th>
+            <th *ngIf="vmInvoiceSummaryReport.settings.sellTypeId === 2" style="text-align: start; width: 120px;">Leasing Name
+            </th>
+            <th style="text-align: start;">Customer</th>
+            <th>Total</th>
+            <th style="width: 100px;">Tax</th>
+            <th>Discount</th>
+            <th>Service&nbsp;Charge</th>
+            <th>Shipping Cost</th>
+            <th>Grand Total</th>
+            <th>Received Total</th>
+            <th>Change</th>
+            <th>Cash</th>
+            <th>Bank Transfer</th>
+
+          </tr>
+          <tr *ngFor="let item of getInvoiceList()" class="info">
+            <td>{{ item.invoiceNo }}</td>
+            <td>{{ item.sellDate | date: "d/M/yy" }}</td>
+            <td *ngIf="vmInvoiceSummaryReport.settings.sellTypeId === 2" style="text-align: start;">{{ item.leasingName }}</td>
+            <td style="text-align: start;">
+              <div class="tooltip">
+                <p *ngIf="item.customerName.length < 19">{{ item.customerName }}</p>
+                <span class="tooltiptext text-overflow" *ngIf="item.customerName.length > 18">
+                  {{ item.customerName }}</span>
+              </div>
+            </td>
+            <td>{{ item.total | currency: "":"":"0.0" }}&nbsp;LAK</td>
+            <td>{{ item.tax | currency: "":"":"0.0" }}&nbsp;LAK</td>
+            <td>{{ item.discount | currency: "":"":"0.0" }}&nbsp;LAK</td>
+            <td>{{ item.charge | currency: "":"":"0.0" }}&nbsp;LAK</td>
+            <td>{{ item.shippingCost | currency: "":"":"0.0" }}&nbsp;LAK</td>
+            <td>{{ item.grandTotal | currency: "":"":"0.0" }}&nbsp;LAK</td>
+            <td>{{ item.receivedTotal| currency: "":"":"0.0" }}&nbsp;LAK</td>
+            <td>{{ item.change | currency: "":"":"0.0"}}&nbsp;LAK</td>
+            <td>{{ item.cash | currency: "":"":"0.0" }}&nbsp;LAK</td>
+            <td>{{ item.bankTransfer | currency: "":"":"0.0" }}&nbsp;LAK</td>
+
+          </tr>
+        </table>
+      </div>
+
+      <div class="pagination-wrapper">
+        <app-pagination [ItemsCount]="itemCount" [PageSize]="100" [PagePos]="posSale"
+          (PositionEventEmitter)="paginateEvent($event)"></app-pagination>
+      </div>
+    </div>
+
+    <div class="summary-grid" *ngIf="getInvoiceSummary() as summary">
+      <h2>TOTAL OF ALL INVOICES</h2>
+
+
+      <div class="label-wrapper">
+        <label>Total:</label>
+        <label>{{ summary.totalAmount | currency: "":"":"0.0" }}&nbsp;LAK</label>
+      </div>
+      <div class="label-wrapper">
+        <label>Tax:</label>
+        <label>{{ summary.taxAmount | currency: "":"":"0.0"  }}&nbsp;LAK</label>
+      </div>
+      <div class="label-wrapper">
+        <label>Discount:</label>
+        <label>{{ summary.discountAmount | currency: "":"":"0.0" }}&nbsp;LAK</label>
+      </div>
+
+      <div class="label-wrapper">
+        <label>Service&nbsp;Charge:</label>
+        <label>{{ summary.serviceCharge | currency: "":"":"0.0" }}&nbsp;LAK</label>
+      </div>
+
+      <div class="label-wrapper">
+        <label>Shipping Cost:</label>
+        <label>{{ summary.shippingCost | currency: "":"":"0.0"  }}&nbsp;LAK</label>
+      </div>
+      <div class="label-wrapper grand-total">
+        <label>Grand Total:</label>
+        <label style="color: #41af4b; font-weight: bold">{{
+          (summary.grandTotalAmount)| currency: "":"":"0.0"
+        }}&nbsp;LAK</label>
+      </div>
+
+      <h2 style="margin-top: 2rem;" *ngIf="vmInvoiceSummaryReport.settings.sellTypeId !== 2">RECEIVED SUMMARY</h2>
+
+      <div class="label-wrapper" *ngIf="vmInvoiceSummaryReport.settings.sellTypeId !== 2">
+        <label>Cash:</label>
+        <label
+          class="for-total">{{ (summary.cashAmount - summary.changeAmount) | currency: "":"":"0.0" }}&nbsp;LAK</label>
+      </div>
+
+      <div class="label-wrapper" *ngIf="vmInvoiceSummaryReport.settings.sellTypeId !== 2">
+        <label>Bank Transfer:</label>
+        <label class="for-total">{{ summary.bankTransferAmount | currency: "":"":"0.0" }}&nbsp;LAK</label>
+      </div>
+
+      <!-- <div class="label-wrapper">
+        <label>Received Total</label>
+        <label>{{ (summary.bankTransferAmount + (summary.cashAmount - summary.changeAmount)) | currency: "":"":"0.0" }}&nbsp;LAK</label>
+      </div>
+
+      <div class="label-wrapper">
+        <label>Due Total</label>
+        <label>{{   (summary.grandTotalAmount - (summary.bankTransferAmount + (summary.cashAmount - summary.changeAmount))) | currency: "":"":"0.0" }}&nbsp;LAK</label>
+      </div> -->
+
+      <div class="label-wrapper leasing" *ngIf="vmInvoiceSummaryReport.settings.sellTypeId === 0">
+        <label>Leasing:</label>
+        <label class="for-total">{{leasigTotal | currency: "":"":"0.0"}}&nbsp;LAK</label>
+      </div>
+
+    </div>
+
+  </div>
+
+  <ng-container *ngIf="vmInvoiceSummaryReport.prinModel">
+    <app-ngx-lar-print [lable]="getDisplsy()" [title]="getTitle()" [currency]="currency"
+      [sellingType]="vmInvoiceSummaryReport.settings.sellTypeId"></app-ngx-lar-print>
+  </ng-container>
+
+
+
+</main>

@@ -1,0 +1,425 @@
+* {
+  font-size: 13px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba($color: #000000, $alpha: 0.9);
+  z-index: 99;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .shipment-details {
+    width: 95%;
+    height: 80%;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 40px 60px 30px 1fr 40px;
+
+    position: relative;
+
+    .page-label {
+      position: absolute;
+      top: 1rem;
+      left: -25px;
+
+      padding: 7px 1rem;
+      background-color: #ff4747;
+      border-radius: 15px;
+      color: #fff;
+      font-weight: bold;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        font-size: 16px;
+      }
+    }
+
+    .form-container {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      width: 100%;
+      display: flex;
+
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .form-control-group {
+        display: block;
+        margin-right: 5px;
+        text-align: left;
+        height: 80px;
+
+        font-size: 12px;
+
+        input,
+        select {
+          height: 35px;
+          font-size: 12px;
+          padding: 0 5px;
+        }
+      }
+    }
+
+    .headers {
+      grid-column: 1 / 2;
+      grid-row: 3 / 4;
+
+      z-index: 2;
+
+      .button-groups {
+        text-align: right;
+        display: flex;
+        flex-direction: row-reverse;
+
+        button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 130px !important;
+          cursor: pointer;
+          margin-right: 5px;
+          height: 35px;
+          background: #555555;
+          color: white;
+          font-family: "Roboto" ;
+          span {
+            margin-right: 5px;
+            font-size: 25px;
+          }
+        }
+
+        .edit-btn,
+        .save-btn {
+          width: 70px;
+        }
+
+        .save-btn{
+          background: #2196F3;
+          &:hover{
+            background:  #31A4FF
+            ;
+          }
+        }
+
+        .remove-btn{
+          background:#EB543A;
+          &:hover{
+            background:  #FF6044;
+          }
+        }
+
+        .add-tostock-btn{
+          background: #00A65A;
+          &:hover{
+            background: #02BB66;
+          }
+        }
+
+      }
+    }
+
+    .table-wrapper {
+      margin-top: 0.8rem;
+      .text-overflow {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      grid-column: 1 / 2;
+      grid-row: 4 / 5;
+
+      tr:nth-child(odd){
+        background: white;
+      }
+
+      tr:nth-child(even){
+        background: #fcfcfc;
+      }
+
+      tr{
+        &:hover{
+          background: #FFE9E9
+
+        }
+
+        th,
+        td {
+           padding: 0px;
+
+           &:nth-child(1) {
+            width: 100px;
+          }
+
+          &:nth-child(2) {
+            width: 100px;
+          }
+
+          &:nth-child(3) {
+            width: 130px;
+          }
+
+          &:nth-child(4) {
+            width: 600px;
+          }
+          &:nth-child(5),
+          &:nth-child(6){
+            width: 150px;
+          }
+
+          &:nth-child(7) {
+            width: 120px;
+            text-align: center ;
+            p{
+              text-align: center ;
+            }
+            input{
+              width: 100px;
+            }
+          }
+
+          &:nth-child(8){
+            width: 120px;
+            text-align: center;
+          }
+
+          &:nth-child(7),
+          &:nth-child(9){
+            input{
+              border: none;
+            }
+          }
+
+          &:nth-child(9){
+
+            input{
+              text-align: start;
+            }
+          }
+
+          &:nth-child(10){
+            width: 50px;
+
+            .cb{
+              margin-bottom: 20px;
+            }
+
+            .container {
+              display: block;
+              position: relative;
+              cursor: pointer;
+              font-size: 22px;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+              left: 5px;
+
+            }
+
+            /* Hide the browser's default checkbox */
+            .container input {
+              position: absolute;
+              opacity: 0;
+              cursor: pointer;
+              height: 0;
+              width: 0;
+            }
+
+            /* Create a custom checkbox */
+            .checkmark {
+              position: absolute;
+              top: 0;
+              left: 0;
+              height: 20px;
+              width: 20px;
+              background-color: white;
+              border: 1px solid gainsboro;
+            }
+
+            /* On mouse-over, add a grey background color */
+            .container:hover input~.checkmark {
+              background-color: #ccc;
+            }
+
+            /* When the checkbox is checked, add a blue background */
+            .container input:checked~.checkmark {
+              background-color: #2196F3;
+            }
+
+            /* Create the checkmark/indicator (hidden when not checked) */
+            .checkmark:after {
+              content: "";
+              position: absolute;
+              display: none;
+            }
+
+            /* Show the checkmark when checked */
+            .container input:checked~.checkmark:after {
+              display: block;
+            }
+
+            /* Style the checkmark/indicator */
+            .container .checkmark:after {
+              left: 6px;
+              top: 3px;
+              width: 5px;
+              height: 10px;
+              border: solid white;
+              border-width: 0 3px 3px 0;
+              -webkit-transform: rotate(45deg);
+              -ms-transform: rotate(45deg);
+              transform: rotate(45deg);
+            }
+
+
+          }
+
+
+
+        }
+
+        th{
+          height: 35px;
+          background: #efefef;
+          font-weight: 500;
+        }
+
+        td {
+          height: 40px;
+          border-bottom: solid 1px #f1f1f1;
+          .hiden-border {
+            border: none;
+          }
+
+          &:nth-child(8){
+            text-align: center !important;
+            p{
+              width: 25px;
+              height: 25px;
+              border-radius: 50px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-left: 40%;
+              color: black;
+            }
+          }
+
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+        }
+
+      }
+
+      .active-tr{
+        td{
+          background: #FFE9E9;
+          input{
+            background: white;
+          }
+        }
+
+      }
+
+      .chk-select {
+        display: flex;
+
+        label,
+        input {
+          cursor: pointer;
+        }
+      }
+
+      input {
+        text-align: center;
+        border: 1px solid gainsboro;
+      }
+
+      input {
+        font-size: 12px;
+        padding: 2px 3px;
+        height: 20px;
+      }
+
+      select {
+        height: 20px;
+        font-size: 12px;
+        color: #222;
+        width: 150px;
+        padding: 2px 3px;
+      }
+
+      .input-chkbox {
+        height: auto;
+      }
+    }
+
+    .pagination {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+    }
+  }
+}
+
+/// region NONO
+
+.wrap-selector {
+  background-color: #fff;
+  display: flex;
+  height: 35px;
+  padding: 0 2px;
+  align-items: center;
+  border: gainsboro 1px solid;
+  min-width: 150px;
+  span {
+    font-size: 1.1em;
+  }
+  .show-sector {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 20px;
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+    span {
+      align-self: center;
+      justify-self: center;
+    }
+  }
+  .clear-sector {
+    span {
+      color: red;
+    }
+  }
+  .clear-sector {
+    display: flex;
+    align-items: center;
+  }
+}
+
+/// endregion NONO

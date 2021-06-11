@@ -1,0 +1,23 @@
+<div class="ngj-select-container">
+  <div class="ngj-input-wrapper">
+
+    <span class="material-icons" *ngIf="InputIcon">{{ InputIcon }}</span>
+
+    <input type="text" [(ngModel)]="selected.name" [ngClass]="{ 'input-border-icon':  hasInputIcon, 'no-input-icon': (InputIcon.length == 0), 'action-border-icon':  hasActionIcon, 'no-action-icon':  (InputIcon.length == 0) }"
+    [readOnly]="!AutoComplete" (click)="onClickInput()"
+(ngModelChange)="onInputChange()">
+
+    <ul class="ngj-select-ul" *ngIf="showSearchList">
+      <ng-container *ngFor="let item of itemList">
+        <li (click)="onSelectItem(item)">
+          {{ item.name }}
+        </li>
+      </ng-container>
+    </ul>
+    <button type="button"  *ngIf="ActionIcon"><span class="material-icons" (click)="showAddEditModal = true">{{ ActionIcon }}</span></button>
+  </div>
+</div>
+
+<ng-container *ngIf="showAddEditModal">
+    <app-ng-jselect-modal [Title]="'Courier'"></app-ng-jselect-modal>
+</ng-container>

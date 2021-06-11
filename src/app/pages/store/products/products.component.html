@@ -1,0 +1,753 @@
+<main>
+  <div class="container">
+    <div class="layout layout-search">
+      <div class="wrapper">
+        <div class="wrap wrap-input">
+          <div class="input">
+            <input
+              type="text"
+              [(ngModel)]="searchValue"
+              (keyup.enter)="onSearchValueChange()"
+              placeholder="Search By Id, Description, Brand Name, Product Name..."
+            />
+          </div>
+        </div>
+
+        <div class="wrap wrap-btn">
+          <button class="btn btn-refresh">Refresh</button>
+        </div>
+        <div class="wrap wrap-btn">
+          <button class="btn btn-add-product" (click)="showAddProductFunc()">
+            Add Product
+          </button>
+        </div>
+        <div class="wrap wrap-hiding">
+          <div class="check">
+            <input
+              type="checkbox"
+              id="showType"
+              name="showType"
+              (change)="updateHideList()"
+              [(ngModel)]="showFieldType"
+            />
+            <label for="showType">TYPE</label>
+          </div>
+          <div class="check">
+            <input
+              type="checkbox"
+              id="showKeyword"
+              name="showKeyword"
+              (change)="updateHideList()"
+              [(ngModel)]="showFieldKeyword"
+            />
+            <label for="showKeyword">KEYWORD</label>
+          </div>
+          <div class="check">
+            <input
+              type="checkbox"
+              id="showVendorProductName"
+              name="showVendorProductName"
+              (change)="updateHideList()"
+              [(ngModel)]="showFieldVendorProductName"
+            />
+            <label for="showVendorProductName">Vendor Product Name</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout layout-table">
+      <div class="wrapper table-wrapper">
+        <div class="table table-1">
+          <table>
+            <colgroup>
+              <col span="1" style="width: 50px" />
+              <col span="1" style="width: 80px" class="sku" />
+              <col span="1" style="width: 50px" class="image" />
+              <col span="1" style="width: 300px" class="desc" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="product-id">
+                  <p>#</p>
+                </th>
+                <th class="sku">
+                  <p>SKU</p>
+                </th>
+                <th class="image">Image</th>
+                <th class="desc">
+                  <p>Product Description</p>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let item of getProducts() | async">
+                <tr
+                  [ngClass]="{
+                    'active-update': checkUpdateActive(item.productId)
+                  }"
+                >
+                  <ng-container *ngIf="!checkUpdateActive(item.productId)">
+                    <td class="id">
+                      <p>{{ item.productId }}</p>
+                    </td>
+                    <td class="sku">
+                      <div>
+                        <p>{{ item.sku }}</p>
+                      </div>
+                    </td>
+                    <td class="image">
+                      <img
+                        class="thumb"
+                        src="{{
+                          item.productImage ||
+                            '../../../../assets/images/no-image.png'
+                        }}"
+                        alt=""
+                      />
+                      <img
+                        class="preview"
+                        src="{{
+                          item.productImage ||
+                            '../../../../assets/images/no-image.png'
+                        }}"
+                        alt=""
+                      />
+                    </td>
+                    <td class="desc">
+                      <div class="tooltip">
+                        <p>{{ item.productDesc }}</p>
+                        <ng-container *ngIf="item.productDesc.length > 45">
+                          <span class="tooltiptext">{{
+                            item.productDesc
+                          }}</span>
+                        </ng-container>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <ng-container *ngIf="checkUpdateActive(item.productId)">
+                    <ng-container *ngIf="vm.getProductSelected(); let product">
+                      <td class="id">
+                        <p>{{ item.productId }}</p>
+                      </td>
+                      <td class="sku">
+                        <div>
+                          <input
+                            type="text"
+                            [(ngModel)]="product.sku"
+                            (keyup.enter)="updateProductFunc()"
+                          />
+                        </div>
+                      </td>
+                      <td class="image">
+                        <img
+                          class="thumb"
+                          src="{{
+                            item.productImage ||
+                              '../../../../assets/images/no-image.png'
+                          }}"
+                          alt=""
+                        />
+                        <img
+                          class="preview"
+                          src="{{
+                            item.productImage ||
+                              '../../../../assets/images/no-image.png'
+                          }}"
+                          alt=""
+                        />
+                      </td>
+                      <td class="desc">
+                        <div>
+                          <input
+                            type="text"
+                            [(ngModel)]="product.productDesc"
+                            readonly
+                          />
+                        </div>
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table table-2">
+          <table>
+            <colgroup>
+              <!-- <col span="1" style="width: 150px" class="name" /> -->
+              <!-- <col span="1" style="width: 150px" class="number" /> -->
+              <col span="1" style="width: 70px" class="brand" />
+              <ng-container *ngIf="showFieldType">
+                <col span="1" style="width: 100px" class="type" />
+              </ng-container>
+              <ng-container *ngIf="showFieldKeyword">
+                <col span="1" style="width: 100px" class="keywords" />
+              </ng-container>
+
+              <col span="1" style="width: 80px" class="version" />
+              <col span="1" style="width: 70px" class="size" />
+              <col span="1" style="width: 70px" class="color" />
+              <col span="1" style="width: 90px" class="srp" />
+              <col span="1" style="width: 60px" class="stock-qty" />
+              <col span="1" style="width: 60px" class="reorder-qty" />
+              <col span="1" style="width: 150px" class="category" />
+              <col span="1" style="width: 50px" class="ranking-index" />
+              <col span="1" style="width: 100px" class="lifecycler" />
+              <col span="1" style="width: 100px" class="shipping" />
+              <col span="1" style="width: 100px" class="promotion" />
+              <col span="1" style="width: 140px" class="vendor-id" />
+              <ng-container *ngIf="showFieldVendorProductName">
+                <col
+                  span="1"
+                  style="width: 150px"
+                  class="vendor-product-name"
+                />
+              </ng-container>
+            </colgroup>
+            <thead>
+              <tr>
+                <!-- <th class="name">
+                  <p>Product Name</p>
+                </th>
+                <th class="number">
+                  <p>Product Number</p>
+                </th> -->
+
+                <th class="brand">
+                  <p>Brand</p>
+                </th>
+                <ng-container *ngIf="showFieldType">
+                  <th class="type">
+                    <p>Product Type</p>
+                  </th>
+                </ng-container>
+                <ng-container *ngIf="showFieldKeyword">
+                  <th class="keyword">
+                    <p>Keywords</p>
+                  </th>
+                </ng-container>
+
+                <th class="version">
+                  <p>Version</p>
+                </th>
+
+                <th class="size">
+                  <p>Size</p>
+                </th>
+
+                <th class="color">
+                  <p>Color</p>
+                </th>
+
+                <th class="srp">
+                  <p>SRP</p>
+                </th>
+
+                <th class="stock-qty">
+                  <p>S.Qty</p>
+                </th>
+                <th class="reorder-qty">
+                  <p>Reorder</p>
+                </th>
+
+                <th class="category">
+                  <p>Category</p>
+                </th>
+                <th class="ranking-index">
+                  <p>R.Index</p>
+                </th>
+                <th class="lifecycle">
+                  <p>Lifecycle</p>
+                </th>
+                <th class="shipping">
+                  <p>Shipping</p>
+                </th>
+
+                <th class="promotion">
+                  <p>Promotion</p>
+                </th>
+
+                <th class="vendor-id">
+                  <p>Vendor ID</p>
+                </th>
+                <ng-container *ngIf="showFieldVendorProductName">
+                  <th class="vendor-product-name">
+                    <p>Vendor Product Name</p>
+                  </th>
+                </ng-container>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let item of getProducts() | async">
+                <tr
+                  (click)="onSelectProduct(item)"
+                  [ngClass]="{
+                    'active-update': checkUpdateActive(item.productId)
+                  }"
+                >
+                  <ng-container *ngIf="!checkUpdateActive(item.productId)">
+                    <td class="brand">
+                      <div class="tooltip">
+                        <p>{{ item.brandName }}</p>
+                        <ng-container *ngIf="item.brandName.length > 15">
+                          <span class="tooltiptext">{{ item.brandName }}</span>
+                        </ng-container>
+                      </div>
+                    </td>
+
+                    <ng-container *ngIf="showFieldType">
+                      <td class="type">
+                        <div class="tooltip">
+                          <p>{{ item.productType }}</p>
+                          <ng-container *ngIf="item.productType.length > 15">
+                            <span class="tooltiptext">{{
+                              item.productType
+                            }}</span>
+                          </ng-container>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                    <ng-container *ngIf="showFieldKeyword">
+                      <td class="keyword">
+                        <div class="tooltip">
+                          <p>{{ item.keywords }}</p>
+                          <ng-container *ngIf="item.keywords.length > 15">
+                            <span class="tooltiptext">{{ item.keywords }}</span>
+                          </ng-container>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                    <td class="version">
+                      <div class="tooltip">
+                        <p>{{ item.versionName }}</p>
+                      </div>
+                    </td>
+
+                    <td class="size">
+                      <div class="tooltip">
+                        <p>{{ item.sizeName }}</p>
+                      </div>
+                    </td>
+
+                    <td class="color">
+                      <div class="tooltip">
+                        <p>{{ item.colorName }}</p>
+                      </div>
+                    </td>
+
+                    <td class="srp">
+                      <div>
+                        <p>{{ item.srp | currency: "":"":"0.0" }}</p>
+                      </div>
+                    </td>
+
+                    <td class="stock-qty">
+                      <div>
+                        <p>{{ item.stockQty }}</p>
+                      </div>
+                    </td>
+
+                    <td class="reorder-qty">
+                      <div>
+                        <p>{{ item.reorderQty }}</p>
+                      </div>
+                    </td>
+
+                    <td class="category">
+                      <div class="category-wrapper">
+                        <p>{{ getCategoryName(item) }}</p>
+                      </div>
+                    </td>
+
+                    <td class="ranking-index">
+                      <div>
+                        <p>{{ item.orderIndex }}</p>
+                      </div>
+                    </td>
+
+                    <td class="lifecycle">
+                      <div>
+                        <p>{{ item.lifecycleFlagName }}</p>
+                      </div>
+                    </td>
+
+                    <td class="shipping">
+                      <div>
+                        <p>{{ item.shippingFlagName }}</p>
+                      </div>
+                    </td>
+
+                    <td class="promotion">
+                      <div>
+                        <p>{{ item.promotionFlagName }}</p>
+                      </div>
+                    </td>
+
+                    <td class="vendor-id">
+                      <div class="tooltip">
+                        <p>{{ item.vendorId }}</p>
+                        <ng-container *ngIf="item.vendorName.length > 0">
+                          <span class="tooltiptext">{{ item.vendorName }}</span>
+                        </ng-container>
+                      </div>
+                    </td>
+                    <ng-container *ngIf="showFieldVendorProductName">
+                      <td class="vendor-product-name">
+                        <div>
+                          <p>{{ item.vendorProductName }}</p>
+                        </div>
+                      </td>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-container *ngIf="checkUpdateActive(item.productId)">
+                    <ng-container *ngIf="vm.getProductSelected(); let product">
+                      <td class="brand">
+                        <div class="wrap wrap-selector">
+                          <div
+                            class="show-sector"
+                            (click)="showSelectBrand = true"
+                          >
+                            <p>{{ product.brandName }}</p>
+                            <span class="material-icons"> launch </span>
+                          </div>
+                          <div
+                            class="clear-sector"
+                            (click)="clearSelectBrand()"
+                          >
+                            <span class="material-icons"> clear </span>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="type" *ngIf="showFieldType">
+                        <div>
+                          <input
+                            type="text"
+                            [(ngModel)]="product.productType"
+                            (change)="onFormChange()"
+                            (keyup.enter)="updateProductFunc()"
+                          />
+                        </div>
+                      </td>
+
+                      <td class="keywords" *ngIf="showFieldKeyword">
+                        <div>
+                          <input
+                            type="text"
+                            [(ngModel)]="product.keywords"
+                            (change)="onFormChange()"
+                            (keyup.enter)="updateProductFunc()"
+                          />
+                        </div>
+                      </td>
+                      <td class="version">
+                        <div>
+                          <select
+                            [(ngModel)]="product.versionId"
+                            (change)="onFormChange()"
+                          >
+                            <option [ngValue]="0">None</option>
+                            <ng-container
+                              *ngFor="let item of refVm.getVersions()"
+                            >
+                              <option [ngValue]="item.variantId">
+                                {{ item.variantValue }}
+                              </option>
+                            </ng-container>
+                          </select>
+                        </div>
+                      </td>
+                      <td class="size">
+                        <div class="wrap wrap-selector">
+                          <div
+                            class="show-sector"
+                            (click)="showSelectSize = true"
+                          >
+                            <p>{{ product.sizeName }}</p>
+                            <span class="material-icons"> launch </span>
+                          </div>
+                          <div class="clear-sector" (click)="clearSelectSize()">
+                            <span class="material-icons"> clear </span>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="color">
+                        <div class="wrap wrap-selector">
+                          <div
+                            class="show-sector"
+                            (click)="showSelectColor = true"
+                          >
+                            <p>{{ product.colorName }}</p>
+                            <span class="material-icons"> launch </span>
+                          </div>
+                          <div
+                            class="clear-sector"
+                            (click)="clearSelectColor()"
+                          >
+                            <span class="material-icons"> clear </span>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="srp">
+                        <div>
+                          <input
+                            type="number"
+                            [(ngModel)]="product.srp"
+                            (keyup.enter)="updateProductFunc()"
+                          />
+                        </div>
+                      </td>
+                      <td class="stock-qty">
+                        <div>
+                          <input
+                            type="number"
+                            [(ngModel)]="product.stockQty"
+                            readonly
+                          />
+                        </div>
+                      </td>
+                      <td class="reorder-qty">
+                        <div>
+                          <input
+                            type="number"
+                            [(ngModel)]="product.reorderQty"
+                            (keyup.enter)="updateProductFunc()"
+                          />
+                        </div>
+                      </td>
+
+                      <td class="category">
+                        <div class="wrap wrap-selector">
+                          <div
+                            class="show-sector"
+                            (click)="showSelectCategoryFunc(product)"
+                          >
+                            <p>{{ getCategoryName(product) }}</p>
+                            <span class="material-icons"> launch </span>
+                          </div>
+                          <div
+                            class="clear-sector"
+                            (click)="vm.clearSelectedCategory()"
+                          >
+                            <span class="material-icons"> clear </span>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="ranking-index">
+                        <div>
+                          <input
+                            type="number"
+                            [(ngModel)]="product.orderIndex"
+                            (keyup.enter)="updateProductFunc()"
+                          />
+                        </div>
+                      </td>
+
+                      <td class="lifecycle">
+                        <div>
+                          <select [(ngModel)]="product.lifecycleFlagId">
+                            <option [ngValue]="9">New</option>
+                            <option [ngValue]="10">Normal</option>
+                            <option [ngValue]="11">EOL</option>
+                          </select>
+                        </div>
+                      </td>
+
+                      <td class="shipping">
+                        <div>
+                          <select [(ngModel)]="product.shippingFlagId">
+                            <option [ngValue]="0">No Shipping</option>
+                            <option [ngValue]="7">Vientiane Free</option>
+                            <option [ngValue]="8">Shipping Free</option>
+                          </select>
+                        </div>
+                      </td>
+
+                      <td class="promotion">
+                        <div>
+                          <select [(ngModel)]="product.promotionFlagId">
+                            <option [ngValue]="0">None</option>
+                            <option [ngValue]="1">New</option>
+                            <option [ngValue]="2">Super Deal</option>
+                            <option [ngValue]="3">Best Seller</option>
+                            <option [ngValue]="4">Top Brand</option>
+                          </select>
+                        </div>
+                      </td>
+
+                      <td class="vendor-id">
+                        <div class="wrap wrap-selector">
+                          <div
+                            class="show-sector"
+                            (click)="showSelectVendor = true"
+                          >
+                            <p>{{ product.vendorName }}</p>
+                            <span class="material-icons"> launch </span>
+                          </div>
+                        </div>
+                      </td>
+                      <ng-container *ngIf="showFieldVendorProductName">
+                        <td class="vendor-product-name">
+                          <div>
+                            <input
+                              type="text"
+                              [(ngModel)]="product.vendorProductName"
+                              (keyup.enter)="updateProductFunc()"
+                            />
+                          </div>
+                        </td>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <div class="table table-3">
+          <table>
+            <colgroup>
+              <col span="1" style="width: 50%" />
+              <col span="1" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="publish-status">
+                  <p>Status</p>
+                </th>
+                <th class="detail">
+                  <p>Action</p>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let item of getProducts() | async">
+                <tr
+                  [ngClass]="{
+                    'active-update': checkUpdateActive(item.productId)
+                  }"
+                >
+                  <td class="publish-status">
+                    <div class="wrap wrap-select">
+                      <select
+                        #publishSelect
+                        [(ngModel)]="item.publishStatus"
+                        (change)="vm.setProductSelected(item)"
+                      >
+                        <option [ngValue]="2">Unpublish</option>
+                        <option [ngValue]="1">Publish</option>
+                      </select>
+                    </div>
+                  </td>
+                  <td class="action">
+                    <ng-container *ngIf="checkUpdateActive(item.productId)">
+                      <div class="wrap wrap-btn">
+                        <button
+                          class="btn btn-update"
+                          (click)="updateProductFunc()"
+                        >
+                          UPDATE
+                        </button>
+                        <button
+                          class="btn-cancel"
+                          (click)="vm.clearProductSelected()"
+                        >
+                          <span class="material-icons"> clear </span>
+                        </button>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="!checkUpdateActive(item.productId)">
+                      <div class="main-btn">
+                        <button
+                          class="btn btn-detail"
+                          [routerLink]="['./detail', item.productId]"
+                        >
+                          DETAIL
+                        </button>
+                      </div>
+                    </ng-container>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="layout layout-pagination">
+      <div class="wrap wrap-pagination">
+        <app-pagination
+          *ngIf="vm.getProductsLength() > pageSize"
+          [ItemsCount]="vm.getProductsLength()"
+          [PageSize]="pageSize"
+          [PagePos]="pos"
+          (PositionEventEmitter)="pos = $event"
+        ></app-pagination>
+      </div>
+    </div>
+  </div>
+</main>
+<router-outlet></router-outlet>
+
+<ng-container *ngIf="showSelectModel">
+  <app-select-model
+    (selectItem)="onSelectModel($event)"
+    (closeEvent)="showSelectModel = false"
+  ></app-select-model>
+</ng-container>
+
+<ng-container *ngIf="showSelectCategory">
+  <app-select-category
+    [category1Id]="cat1IdSelect"
+    [category2Id]="cat2IdSelect"
+    [category3Id]="cat3IdSelect"
+    (selectCategoryResult)="onSelectCategory($event)"
+    (closeEvent)="showSelectCategory = false"
+  >
+  </app-select-category>
+</ng-container>
+
+<ng-container *ngIf="showSelectBrand">
+  <app-select-brand
+    (selectItem)="onSelectBrand($event)"
+    (closeEvent)="showSelectBrand = false"
+  ></app-select-brand>
+</ng-container>
+
+<ng-container *ngIf="showSelectSize">
+  <app-select-size
+    (selectItem)="onSelectSize($event)"
+    (closeEvent)="showSelectSize = false"
+  ></app-select-size>
+</ng-container>
+
+<ng-container *ngIf="showSelectColor">
+  <app-select-color
+    (selectItem)="onSelectColor($event)"
+    (closeEvent)="showSelectColor = false"
+  ></app-select-color>
+</ng-container>
+
+<ng-container *ngIf="showSelectVendor">
+  <app-select-vendor
+    (selectItem)="onSelectVendor($event)"
+    (closeEvent)="showSelectVendor = false"
+  ></app-select-vendor>
+</ng-container>
+
+<ng-container *ngIf="showAddProduct">
+  <app-add-product
+    (addSuccessfully)="onAddSuccessfully($event)"
+    (closeEvent)="showAddProduct = false"
+  >
+  </app-add-product>
+</ng-container>

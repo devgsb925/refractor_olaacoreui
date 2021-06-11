@@ -1,0 +1,121 @@
+<main class="d-modal">
+  <div class="d-container card">
+    <div class="d-header">
+      <span class="material-icons">sync_alt</span>
+        Distribute
+    </div>
+
+    <div class="d-options">
+      <div class="h-input-group">
+        <label for="moveby">Move By</label>
+        <input type="text" [(ngModel)]="this.vmDistributeModalService.selected_product.moveBy">
+      </div>
+
+      <div class="h-input-group">
+        <label for="moveby">Request By</label>
+        <input type="text" [(ngModel)]="this.vmDistributeModalService.selected_product.requestBy">
+      </div>
+    </div>
+
+    <div class="d-product" *ngFor="let product of vmDistributeModalService.products">
+
+      <div class="h-input-group">
+        <label for="prodid">Product Id</label>
+        <input type="number" [(ngModel)]="product.pId" readonly>
+      </div>
+
+      <div class="h-input-group">
+        <label for="sku">SKU</label>
+        <input type="text" [(ngModel)]="product.sku" readonly>
+      </div>
+
+      <div class="h-input-group">
+        <label for="prodDesc">Product Description</label>
+        <input type="text" [(ngModel)]="product.productDesc" readonly>
+      </div>
+
+    </div>
+
+    <fieldset class="d-stock-details">
+
+      <legend>Stock Details</legend>
+
+      <div class="g-row">
+        <div class="h-input-group">
+          <label for="stockQty">Stock Qty</label>
+          <input type="number" [(ngModel)]="this.vmDistributeModalService.selected_product.stockQty" readonly>
+        </div>
+        <div class="h-input-group">
+          <label for="unitInWarehouse">Units in Warehouse</label>
+          <input type="number"  [(ngModel)]="this.vmDistributeModalService.selected_product.unitInWarehouse" readonly>
+        </div>
+        <div class="h-input-group">
+          <label for="unitInDisplay">Units in Display </label>
+          <input type="number"  [(ngModel)]="this.vmDistributeModalService.selected_product.unitInDisplay" readonly>
+        </div>
+        <div class="h-input-group">
+          <label for="unitInDemo">Units in Demo</label>
+          <input type="number"  [(ngModel)]="this.vmDistributeModalService.selected_product.unitInDemo" readonly>
+        </div>
+        <div class="h-input-group">
+          <label for="unitInQc">Units on QC</label>
+          <input type="number"  [(ngModel)]="this.vmDistributeModalService.selected_product.unitInQc" readonly>
+        </div>
+      </div>
+
+      <div class="g-row" style="margin-top: 1rem;">
+        <div class="h-input-group">
+          <label for="stockQty">Move From</label>
+          <select name="moveby" id="moveby" [(ngModel)]="this.vmDistributeModalService.selected_product.moveFrom" (change)="onChangeMoveFrom()">
+            <option *ngFor="let move of this.vmDistributeModalService.moveFrom" [ngValue]="move.name" [disabled]="hasStock(move.name)">
+              {{ move.name}}
+            </option>
+          </select>
+        </div>
+        <div class="h-input-group">
+          <label for="movedQty">Qty</label>
+          <input type="number" id="movedQty" name="movedQty" [(ngModel)]="this.vmDistributeModalService.selected_product.movedQty" (change)="onMoveQty()" [readonly]="hasUid()">
+        </div>
+
+        <div class="h-input-group">
+          <label for="moveby">To</label>
+          <select name="moveby" id="moveby" [(ngModel)]="this.vmDistributeModalService.selected_product.to" [disabled]="enableMoveTo()">
+            <option *ngFor="let move of this.vmDistributeModalService.moveTo" [ngValue]="move.name" [disabled]="move.lock">
+              {{ move.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="g-row-3" style="margin-top: 1rem;" *ngIf="this.vmDistributeModalService.selected_product.uidType.length > 0">
+        <div class="uid-input-wrapper">
+          <label for="ui">UID:</label>
+          <input type="text" placeholder="scan uid" [(ngModel)]="uidStr" (keyup.enter)="scanUid(uidStr, this.vmDistributeModalService.selected_product.moveFrom)">
+        </div>
+
+        <div class="uid-grid">
+          <ng-container *ngFor="let uid of this.vmDistributeModalService.selected_product.uid">
+            <div class="uid-item" [ngClass]="{ 'active-uid': uid.select}">
+              <label for="sel-uid"> {{ this.vmStockManagementService.getUidTypeName(uid.uidType) }}:&nbsp;&nbsp;{{ uid.uidValue }}</label>
+              <input class="input-uid" type="checkbox" [(ngModel)]="uid.select" (change)="onClickChangeSelect(uid.uidValue, this.vmDistributeModalService.selected_product.moveFrom)">
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+
+    </fieldset>
+
+    <div class="d-remarks">
+      <label for="lbl-remarks">Remarks</label>
+      <textarea  cols="15" rows="5" [(ngModel)]="this.vmDistributeModalService.selected_product.remarks"></textarea>
+    </div>
+
+    <div class="d-actions">
+      <button type="button" [disabled]="enableSave()" (click)="submitDistributeProd()">
+        <span class="material-icons">save</span> &nbsp;Save</button>
+      <button type="button" (click)="closeModal()">Close</button>
+    </div>
+
+  </div>
+</main>

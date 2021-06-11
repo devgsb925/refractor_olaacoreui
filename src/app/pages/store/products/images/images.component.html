@@ -1,0 +1,193 @@
+<main class="card">
+  <div class="container">
+    <section class="layout layout-tab">
+      <div class="wrapper wrapper-tab">
+        <div class="wrap wrap-tab wrap-tab-active">
+          <div class="tab tab-information">
+            <span class="material-icons">
+              insert_photo
+            </span>
+            <p> Product Images</p>
+          </div>
+        </div>
+      </div>
+      <div class="wrapper wrapper-btn">
+        <div class="wrap wrap-btn">
+          <a class="btn btn-close" (click)="closeFunc()">
+            <span class="material-icons">
+              close
+            </span>
+          </a>
+        </div>
+        <div class="wrap wrap-btn">
+          <button class="btn btn-save" (click)="saveUpdateOrderIndex()">
+            Update OrderIndex
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="layout layout-product-img">
+      <fieldset class="wrapper wrapper-cover">
+        <legend>
+          <h2>Cover Images</h2>
+        </legend>
+        <div class="wrap wrap-action">
+          <div class="search">
+            <input type="text" placeholder="Search Name ...">
+          </div>
+          <div class="btn">
+            <button class="btn-add" (click)="showAddModalFunc(1)">Add</button>
+          </div>
+        </div>
+
+        <div class="wrap wrap-images">
+
+          <ng-container *ngFor="let item of imagesViewModel.getCovers()">
+            <div class="item">
+              <div class="img">
+                <img [src]=item.url alt="">
+              </div>
+              <div class="name">
+                <p>{{item.name}}</p>
+              </div>
+
+              <div class="order-index">
+                <label for="orderIndex">Order Index</label>
+                <input type="number" [value]=item.orderIndex (change)="updateIndexOfImages(item.productImageId,$event,0)">
+              </div>
+
+              <div class="action">
+                <a (click)="showPreviewFunc(item.orderIndex,0)">
+                  Preview
+                </a>
+                <a (click)="deleteFunc(item.productImageId)">
+                  Delete
+                </a>
+              </div>
+              <!-- <div class="select">
+
+              </div> -->
+
+            </div>
+          </ng-container>
+
+
+        </div>
+      </fieldset>
+      <fieldset class="wrapper wrapper-overview">
+        <legend>
+          <h2>Overview Images</h2>
+        </legend>
+        <div class="wrap-action">
+          <div class="search">
+            <input type="text" placeholder="Search Name ...">
+          </div>
+          <div class="btn">
+            <button class="btn-add" (click)="showAddModalFunc(4)">Add</button>
+          </div>
+        </div>
+
+        <div class="wrap wrap-images">
+          <ng-container *ngFor="let item of imagesViewModel.getOverviews()">
+            <div class="item">
+              <div class="img">
+                <img [src]=item.url alt="">
+              </div>
+              <div class="name">
+                <p>{{item.name}}</p>
+              </div>
+
+              <div class="order-index">
+                <label for="orderIndex">Order Index</label>
+                <input type="number" [value]=item.orderIndex (change)="updateIndexOfImages(item.productImageId,$event,1)">
+              </div>
+
+              <div class="action">
+                <a (click)="showPreviewFunc(item.orderIndex,1)">
+                  Preview
+                </a>
+                <a (click)="deleteFunc(item.productImageId)">
+                  Delete
+                </a>
+              </div>
+              <!-- <div class="select">
+
+              </div> -->
+
+            </div>
+          </ng-container>
+
+
+        </div>
+      </fieldset>
+    </section>
+  </div>
+</main>
+
+<ng-container *ngIf="showAddModal">
+  <main class="add-pending-list-images">
+    <div class="container">
+      <div class="wrapper wrapper-preview">
+        <ng-container *ngFor="let item of imgUrl; let i = index">
+          <div class="item">
+            <div class="img">
+              <img [src]=item alt="">
+            </div>
+            <div class="name">
+              <p>{{getName(i)}}</p>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="wrapper wrapper-btn">
+        <input type="file" #files accept="image/*" hidden multiple (change)="onFilesChange(files.files)">
+        <button class="btn btn-choose" (click)="files.click()">
+          Choose Files
+        </button>
+        <button class="btn btn-test" (click)="uploadFunc()">
+          Upload
+        </button>
+        <button class="btn btn-clear" (click)="clearFunc()">
+          Clear
+        </button>
+        <button class="btn btn-close" (click)="showAddModal = false">
+          Close
+        </button>
+      </div>
+    </div>
+  </main>
+</ng-container>
+
+
+<ng-container *ngIf="showPreview">
+  <main class="preview-layout" >
+    <div class="container">
+      <div class="wrapper wrapper-img" (click)="showPreview = false">
+        <ng-container *ngIf="coverIndex > 0">
+          <div class="img">
+            <img [src]=getPreviewCovers() alt="">
+          </div>
+        </ng-container>
+        <ng-container *ngIf="overViewIndex > 0">
+          <div class="img">
+            <img [src]=getPreviewOverView() alt="">
+          </div>
+        </ng-container>
+      </div>
+      <div class="wrapper wrapper-btn">
+        <div class="wrap wrap-btn">
+          <button class="btn btn-prev" (click)="prevPreviewFunc()">
+            PREV
+          </button>
+        </div>
+        <div class="wrap wrap-btn">
+          <button class="btn btn-next" (click)="nextPreviewFunc()">
+            NEXT
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</ng-container>

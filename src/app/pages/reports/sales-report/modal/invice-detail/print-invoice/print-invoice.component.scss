@@ -1,0 +1,154 @@
+.invoice-warpper {
+  width: 72mm;
+  font-family: "Noto Sans Lao";
+  .invice-head {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    img {
+      width: 85px;
+      height: 85px;
+    }
+
+    .social {
+      display: flex;
+      margin-top: 1rem;
+    }
+
+    .so-item {
+      display: flex;
+      align-items: center;
+      &:nth-child(1) {
+        border-right: 1px solid black;
+        padding-right: 1rem;
+      }
+      &:nth-child(2) {
+        padding-left: 1rem;
+      }
+    }
+
+    .head-title {
+      margin-top: 0.5rem;
+      border-top: 1px solid black;
+    }
+  }
+
+  .infor {
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid black;
+    label {
+      font-size: 12px;
+      font-weight: 500;
+      span {
+        font-weight: normal;
+      }
+    }
+    .invno {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .infor-item {
+      .userid {
+        border-bottom: 1px solid black;
+        display: inline-flex;
+        align-items: center;
+
+        .material-icons {
+          margin-right: 15px;
+        }
+        .in {
+          margin-left: 5px;
+        }
+      }
+      .user-info {
+        display: flex;
+        align-items: center;
+        span:nth-child(1) {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+
+  .product-list {
+    margin-bottom: 0.5rem;
+
+    .pod-title{
+      font-weight: 500;
+    }
+
+    .pod-list,.pod-title{
+      display: flex;
+      .pod-dsc{
+        width: 50%;
+      }
+
+      .price{
+        width: 20%;
+        text-align: end;
+      }
+
+      .qty{
+        width: 10%;
+        text-align: center;
+      }
+
+      .pod-total{
+        text-align: end;
+        width: 20%;
+      }
+    }
+
+    .pod-list{
+      margin: 0.5rem 0;
+
+    }
+
+  }
+
+  .service{
+
+    padding-top: 0.5rem;
+    .service-title{
+      margin: 0.5rem 0;
+      font-weight: 500;
+    }
+    .service-item{
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+
+  .total {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 8px 0;
+    .total-item {
+      display: flex;
+      justify-content: space-between;
+      padding-right: 2px;
+      &:nth-child(2){
+        margin-bottom: 0.3rem;
+      }
+      label {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .footer {
+    .message {
+      text-align: center;
+    }
+    .note {
+      border-bottom: black 1px solid;
+      width: 55px;
+      margin-bottom: 00.5rem;
+    }
+  }
+}

@@ -1,0 +1,86 @@
+//==========================//
+//        Ripple
+//==========================//
+
+.animation-ripple {
+  background-position: center;
+  transition: background 0.8s;
+}
+
+.animation-ripple:hover {
+  background: #ff4747 radial-gradient(circle, transparent 1%, #ff6b6b 1%) center/15000%;
+  color: #fff;
+}
+
+.animation-ripple:active {
+  background-color: #ff4747;
+  background-size: 100%;
+  transition: background 0s;
+}
+
+//==========================//
+//        Cards
+//==========================//
+.card {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: #fff;
+}
+
+button {
+  border: none;
+  color: #222;
+  padding: 4px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+.btn-span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #222;
+}
+
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  p{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+     -webkit-box-orient: vertical;
+
+  }
+
+  .tooltiptext {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px;
+    white-space: nowrap;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top:0;
+    left: 0;
+  }
+
+  &:hover{
+    .tooltiptext {
+      visibility: visible;
+    }
+  }
+}

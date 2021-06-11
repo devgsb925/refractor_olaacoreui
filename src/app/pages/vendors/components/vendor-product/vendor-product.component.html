@@ -1,0 +1,88 @@
+<div class="action-button">
+  <div class="input-group">
+    <button>
+      <span class="material-icons"> search </span>
+    </button>
+    <input type="text" placeholder="Search by product id, description " [(ngModel)]="searchProduct"
+    (keyup.enter)="searchVendorProduct()" />
+
+  </div>
+  <div class="button-2"></div>
+</div>
+
+<div class="table-wrapper product-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>P.ID</th>
+        <th>SKU</th>
+        <th>Product&nbsp;Description</th>
+        <th>Product&nbsp;Number</th>
+        <th>Brand</th>
+      </tr>
+    </thead>
+
+    <tbody *ngIf="getProduct() | async as products">
+      <tr *ngFor="let product of products" (click)="activeSel = product.productId" [ngClass]="{'active-tr': activeSel === product.productId}">
+        <td>{{ product.productId }}</td>
+
+        <td>
+          <ng-container *ngIf="!product.sku">-</ng-container>
+          <ng-container *ngIf="product.sku">{{product.sku}}</ng-container>
+        </td>
+
+        <td>
+          <p *ngIf="chackToolTip(product.productDescription.length, 35) === false">
+            {{ product.productDescription }}
+          </p>
+          <div class="tooltip" *ngIf="chackToolTip(product.productDescription.length, 35)">
+            <p>{{ product.productDescription }}</p>
+            <span class="tooltiptext text-overflow">
+              {{ product.productDescription }}</span>
+          </div>
+        </td>
+
+        <td>
+
+          <ng-container *ngIf="!product.productNo">
+            <p>-</p>
+          </ng-container>
+
+          <ng-container *ngIf="product.productNo">
+            <p *ngIf="chackToolTip(product.productNo.length, 20) === false">
+              {{ product.productNo }}
+            </p>
+            <div class="tooltip" *ngIf="chackToolTip(product.productNo.length, 20)">
+              <p>{{ product.productNo }}</p>
+              <span class="tooltiptext text-overflow">{{
+                product.productNo
+                }}</span>
+            </div>
+          </ng-container>
+
+
+        </td>
+
+        <td>
+          <p *ngIf="chackToolTip(product.brandName.length, 9) === false">
+            {{ product.brandName }}
+          </p>
+          <div class="tooltip" *ngIf="chackToolTip(product.brandName.length, 9)">
+            <p>{{ product.brandName }}</p>
+            <span class="tooltiptext text-overflow">{{product.brandName }}</span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer" *ngIf="getVendorPodCount() > 0">
+  <label >Total Product:&nbsp;&nbsp;  {{getVendorPodCount()}}</label>
+  <div class="pagination">
+    <app-pagination [ItemsCount]="getVendorPodCount()" [PageSize]="200" [PagePos]="position"
+    (PositionEventEmitter)="getPagePosition($event)">
+    </app-pagination>
+  </div>
+
+</div>

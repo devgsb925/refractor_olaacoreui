@@ -1,0 +1,15 @@
+<main class="remarks-modal">
+  <div class="r-container card">
+    <div class="r-header">
+      <span class="material-icons" style="color: #FF4747;">warning_amber</span>
+        Remarks
+    </div>
+
+    <textarea class="r-remarks" cols="30" rows="6" [(ngModel)]="vmStockManagementService.selected_stockmgt.remarks"></textarea>
+
+    <div class="r-actions">
+      <button type="button" (click)="submitRemarks()">OK</button>
+      <button type="button" (click)="vmStockManagementService.showRemarksModal = false">Cancel</button>
+    </div>
+  </div>
+</main>

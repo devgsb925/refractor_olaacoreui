@@ -1,0 +1,30 @@
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Inventory Date</th>
+        <th>Last Update</th>
+        <th>Items Count</th>
+        <th>Operator</th>
+        <th>Inventory Status</th>
+        <th>Action</th>
+        <!-- 1 - on-going, 2 - complete -->
+      </tr>
+    </thead>
+
+    <tbody *ngIf="vmInventory.inventoryList.length > 0">
+      <tr *ngFor="let item of getInv()">
+        <td>{{item.inventoryDate | date:'d/M/yy'}}</td>
+        <td>{{item.lastUpdate | date:'d/M/yy'}}</td>
+        <td>{{item.itemsCount}}</td>
+        <td>{{item.operatorName}}</td>
+        <td>{{getStatus(item.inventoryStatus)}}</td>
+        <td><button (click)="editInventory(item)">edit</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<app-pagination class="pagination" [ItemsCount]="getCountItem()" [PageSize]="20" [PagePos]="pos"
+(PositionEventEmitter)="getPagePosition($event)">
+</app-pagination>

@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="card-wrapper card">
+    <div class="tabs">
+      <button style="display: inline-block" type="button" [ngClass]="{ 'active-tab': vmOrder.tab == 1 }"
+        (click)="vmOrder.tab = 1">
+        Orders
+      </button>
+      <button style="display: inline-block" type="button" [ngClass]="{ 'active-tab': vmOrder.tab == 2 }"
+        (click)="vmOrder.tab = 2">
+        Pending List
+      </button>
+      <button style="display: inline-block" type="button" [ngClass]="{ 'active-tab': vmOrder.tab == 3 }"
+        (click)="vmOrder.tab = 3">
+        Inventory
+      </button>
+    </div>
+
+    <ng-container *ngIf="vmOrder.tab == 1">
+      <app-order></app-order>
+    </ng-container>
+
+    <ng-container *ngIf="vmOrder.tab == 2">
+      <app-pending-order></app-pending-order>
+    </ng-container>
+
+    <ng-container *ngIf="vmOrder.tab == 3">
+      <app-stock></app-stock>
+    </ng-container>
+
+    <ng-container *ngIf="vmOrder.showEditOrderModal">
+      <app-edit-order></app-edit-order>
+    </ng-container>
+
+    <ng-container *ngIf="vmOrder.showAddOrderDetail">
+      <app-add-order-detail></app-add-order-detail>
+    </ng-container>
+
+    <ng-container *ngIf="vmOrder.showExchangeRateModal">
+      <app-exchange-rate-selector-modal></app-exchange-rate-selector-modal>
+    </ng-container>
+  </div>
+</div>

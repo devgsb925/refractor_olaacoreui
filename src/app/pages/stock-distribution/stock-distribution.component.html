@@ -1,0 +1,14 @@
+<main class="container card">
+
+  <section class="tabs">
+    <button class="btn-tab" type="button" [ngClass]="{ 'active-tab':  getActiveTab() === 0 }" (click)="setActiveTab(0)">Stock Distribution</button>
+    <button class="btn-tab" type="button" [ngClass]="{ 'active-tab':  getActiveTab() === 1 }" (click)="setActiveTab(1)">Distribution Logs</button>
+  </section>
+  <section class="tab-content" *ngIf="getActiveTab() === 0">
+    <app-tab-stock-distribution [products]="prods"></app-tab-stock-distribution>
+  </section>
+  <section class="tab-content" *ngIf="getActiveTab() === 1">
+    <app-tab-distribution-logs></app-tab-distribution-logs>
+  </section>
+
+</main>

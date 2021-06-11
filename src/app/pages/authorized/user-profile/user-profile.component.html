@@ -1,0 +1,123 @@
+<div class="profile-container">
+  <div class="profile-tabs">
+    <button (click)="vmUser.tabs = 0" [ngClass]="{ active: vmUser.tabs == 0 }">
+      Profile
+    </button>
+
+  </div>
+
+  <div  class="profile" [ngClass]="{ 'show-tab': vmUser.tabs == 0 }" >
+    <div class="user-profile">
+      <div class="avatar">
+        <img src="{{ baseUrl + vmUser.userProfile.avatar }}" alt="img" *ngIf="!imgURL" />
+        <img src="{{imgURL}}" alt="" *ngIf="imgURL">
+      </div>
+
+      <div class="user-info">
+        <div class="user-profile-info">
+          <h3>My Profile</h3>
+          <div class="user-profile-form">
+
+
+            <form [formGroup]="profile_form" >
+
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" formControlName="firstName"  class="form-control" (change)="vmUser.userProfile.hasEdit === true"/>
+
+                <div *ngIf="  profile_form.controls['firstName'].touched &&  profile_form.controls['firstName'].invalid " class="alert-error"  >
+                  <div  *ngIf="  profile_form.controls['firstName'].errors.required"  >
+                    firstName is required.
+                  </div>
+
+                  <div  *ngIf="  profile_form.controls['firstName'].errors.minlength"  >
+                    firstName is required. min. of 8 characters.
+                  </div>
+
+                  <div  *ngIf="  profile_form.controls['firstName'].errors.maxlength"  >
+                    firstName is required. min. of 128 characters.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" formControlName="lastName"  class="form-control" />
+
+                <div *ngIf="  profile_form.controls['lastName'].touched &&  profile_form.controls['lastName'].invalid " class="alert-error"  >
+                  <div  *ngIf="  profile_form.controls['lastName'].errors.required">
+                    last name is required.
+                  </div>
+
+                  <div  *ngIf="  profile_form.controls['lastName'].errors.minlength">
+                    last name is required. min. of 8 characters.
+                  </div>
+
+                  <div  *ngIf="  profile_form.controls['lastName'].errors.maxlength">
+                    last name is required. max. of 128 characters.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Email</label>
+                <input type="text" formControlName="email"  class="form-control"/>
+                <div *ngIf="  profile_form.controls['email'].touched &&  profile_form.controls['email'].invalid " class="alert-error"  >
+                  <div  *ngIf="  profile_form.controls['email'].errors.required">
+                    last name is required.
+                  </div>
+
+                  <div  *ngIf="  profile_form.controls['email'].errors.minlength">
+                    last name is required. min. of 8 characters.
+                  </div>
+
+                  <div  *ngIf="  profile_form.controls['email'].errors.maxlength">
+                    last name is required. max. of 128 characters.
+                  </div>
+
+                  <div  *ngIf="  profile_form.controls['email'].errors.email">
+                    sample@sample.com
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>MobileNo</label>
+                <input type="text" formControlName="mobileNo" class="form-control"/>
+
+                <div *ngIf="  profile_form.controls['mobileNo'].touched &&  profile_form.controls['mobileNo'].invalid " class="alert-error"  >
+                  <div  *ngIf="  profile_form.controls['mobileNo'].errors.required">
+                    mobileNo is required.
+                  </div>
+
+                  <div  *ngIf="  profile_form.controls['mobileNo'].errors.minlength">
+                    mobileNo is required. min. of 8 characters.
+                  </div>
+
+                  <div  *ngIf="  profile_form.controls['mobileNo'].errors.maxlength">
+                    mobileNo is required. max. of 128 characters.
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-group">
+                <label>Upload Images</label>
+                <input type="file" class="form-control" formControlName="avatar"  (change)="handleFileInput($event.target.files)"/>
+              </div>
+
+
+
+              <div class="btn-custom">
+                <button (click)="saveSubMit()" >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

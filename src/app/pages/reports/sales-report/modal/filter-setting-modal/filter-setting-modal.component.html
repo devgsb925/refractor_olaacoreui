@@ -1,0 +1,72 @@
+<div class="modal-wrapper">
+  <div class="modal-content card">
+    <div class="close-button">
+      <button type="button" (click)="vmSalesReport.invoiceFilter.show=false">
+        <span class="material-icons"> close </span>
+      </button>
+    </div>
+    <div class="title">
+      <span>Filter Settings</span>
+    </div>
+    <div class="drodown-wraper">
+      <div class="select-date">
+        <span>Date</span>
+        <select [(ngModel)]="vmSalesReport.invoiceFilter.invoiceDate" >
+          <option value="All" selected>All</option>
+          <option value="1">Last 1 Month</option>
+          <option value="3">Last 3 Month</option>
+          <option value="12">Last 1 Year</option>
+          <option value="Custom">Custom</option>
+        </select>
+      </div>
+      <div class="select-group">
+        <div class="select-sell-type">
+          <span>Sell Type</span>
+          <select [(ngModel)]="vmSalesReport.invoiceFilter.sellType">
+            <option value="0" selected>All Sell Type</option>
+            <option value="1">Normal</option>
+            <option value="2">Leasing</option>
+            <option value="3">Deposit</option>
+          </select>
+        </div>
+        <div class="select-leasing-by">
+          <span>Leasing By</span>
+          <select [(ngModel)]="vmSalesReport.invoiceFilter.leasingBy" disabled="{{vmSalesReport.invoiceFilter.sellType != '2'}}">
+            <option value="All Leasing" selected>All Leasing</option>
+            <option value="AEON">AEON</option>
+            <option value="KRUNGSRI">KRUNGSRI</option>
+            <option value="THAI ACE">THAI ACE</option>
+            <option value="NGI">NGI</option>
+            <option value="GENERIC">GENERIC</option>
+          </select>
+        </div>
+      </div>
+      <!--End group-->
+      <div class="select-sell-method">
+        <span>Sell Method</span>
+        <select [(ngModel)]="vmSalesReport.invoiceFilter.sellMethod">
+          <option value="0" selected>All Sell Method</option>
+          <option value="1">Shop</option>
+          <option value="2">Online</option>
+        </select>
+      </div>
+      <div class="select-operation">
+        <span>Operation</span>
+        <select [(ngModel)]="vmSalesReport.invoiceFilter.operator">
+          <option [ngValue]="0" selected>All Operator</option>
+          <option [ngValue]="item.id" *ngFor="let item of vmSalesReport.invoiceOperators">{{item.name}}</option>
+        </select>
+
+      </div>
+      <div class="btn-save">
+        <button type="button" (click)="saveSettings()">
+          <span class="material-icons">
+            save
+            </span>
+            SAVE
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

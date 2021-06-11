@@ -1,0 +1,168 @@
+.font-tin {
+  color: #ccc;
+  margin-bottom: 0.125rem;
+}
+.fw {
+  font-weight: 700;
+}
+.profile-container {
+  margin: 1rem;
+  .profile-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 1rem;
+    button {
+      padding: 0.5rem 0.75rem;
+      text-transform: uppercase;
+      border: none;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+  }
+
+  .profile,
+  .change-password {
+    display: none;
+  }
+  .profile {
+    margin: 1rem 0rem;
+    .user-profile {
+      display: grid;
+      grid-template-columns: 2fr 6fr;
+      grid-gap: 1rem;
+
+      .avatar {
+        overflow: hidden;
+        padding: 1.5rem;
+        box-shadow: 0 0px 8px rgba(0, 0, 0, 0.1);
+        img {
+          width: 100%;
+          height: auto;
+        }
+        .user-desc {
+          padding: 0.5rem 0;
+          .user-desc-name,
+          .user-desc-detail,
+          .user-role {
+            padding: 0.25rem 0;
+          }
+          .user-desc-name {
+            h3 {
+              margin-bottom: 0.25rem;
+            }
+          }
+          .user-role {
+            p {
+              border-bottom: 1px solid #ddd;
+              padding: 0.5rem;
+              display: block;
+              font-weight: 400;
+              &:first-child {
+                border-top: 1px solid #ddd;
+              }
+              span {
+                display: inline-block;
+                font-weight: 400;
+                min-width: 130px;
+              }
+            }
+          }
+        }
+      }
+      .user-info {
+        box-shadow: 0 0px 8px rgba(0, 0, 0, 0.1);
+        .user-profile-info {
+          h3 {
+            background: #ff4747;
+            padding: 1rem 1.5rem;
+            color: #fff;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+          }
+          .edit-profile {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+            color: #fff;
+          }
+
+          .user-profile-form {
+            padding: 1.5rem;
+            form {
+              columns: 2;
+            }
+
+            .form-group {
+              margin-bottom: 1rem;
+              width: 100%;
+              label {
+                min-width: 230px;
+                display: inline-block;
+              }
+              input:read-only {
+                background-color: #ddd;
+                cursor: not-allowed;
+              }
+              input[type="file"] {
+                vertical-align: middle;
+                padding-top: 0.4rem;
+              }
+              textarea {
+                font-family: "Nunito san";
+                padding: 0.5rem;
+                outline: none;
+                border: 1px solid #ddd;
+                font-weight: 300;
+                resize: none;
+                width: 100%;
+                font-size: 1rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .change-password {
+    .form {
+      .form-group {
+        margin-bottom: 1rem;
+        width: 100%;
+      }
+      .btn-save {
+        padding: 0.5rem 1rem;
+        margin-top: 2rem;
+        transition: all 400ms ease;
+        // &:hover{
+        //     border: 1px solid #333;
+        //     box-shadow: rgba(34, 34, 34, 1) 0 0px 0px 40px inset;
+        // }
+      }
+      .btn[disabled] {
+        cursor: not-allowed;
+        opacity: 0.65;
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+.alert-error {
+  color: red;
+  font-size: 0.75rem;
+  margin-top: 5px;
+}
+.active {
+  background-color: #ff4747;
+  color: #fff;
+  font-weight: 700;
+}
+.show-tab {
+  display: block !important;
+}
+.btn-custom {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 3rem;
+}

@@ -1,0 +1,108 @@
+<div class="sm-grid">
+  <div class="sm-table-settings">
+
+    <div class="input-group">
+      <input type="text" placeholder="Search by id, sky, description, barcode...">
+      <span class="material-icons">launch</span>
+    </div>
+
+  </div>
+
+  <div class="sm-table-data">
+
+    <div class="table-wrapper">
+
+      <table>
+        <thead>
+          <tr>
+            <th class="thead">P.ID</th>
+            <th class="thead">SKU</th>
+            <th class="thead">Product Description</th>
+            <th class="thead">Stock Qty</th>
+            <th class="thead">Warehouse</th>
+            <th class="thead">Display</th>
+            <th class="thead">Demo</th>
+            <th class="thead">QC</th>
+            <th class="thead">Remarks</th>
+            <th class="thead">Operator</th>
+            <th class="thead">
+
+              <label class="check" for="check" (click)="filterByDateOrder()">
+                Date
+                <span class="material-icons" [ngClass]="{ 'rotate180': sortDate }">
+                  arrow_drop_down
+                  </span>
+              </label>
+
+            </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let prod of getProducts()">
+            <td>{{prod.pId }}</td>
+            <td>{{prod.sku }}</td>
+            <td>
+              <p *ngIf="chackToolTip(prod.productDescription.length, 30) === false">
+                {{ prod.productDescription }}
+              </p>
+              <div class="tooltip" *ngIf="chackToolTip(prod.productDescription.length, 30)">
+                <p>{{ prod.productDescription }}</p>
+                <span class="tooltiptext text-overflow">
+                  {{ prod.productDescription }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="item-td">
+                <span class="qty">{{prod.stockQty }}</span>
+                <span class="qty" [ngClass]="{ 'qty-under': prod.stockFlag === 1, 'qty-over': prod.stockFlag === 2}">{{prod.invStockQty }}</span>
+              </div>
+
+            </td>
+            <td>
+              <div class="item-td">
+                <span class="qty">{{prod.warehouseQty }}</span>
+                <span class="qty" [ngClass]="{ 'qty-under': prod.warehouseFlag === 1, 'qty-over': prod.warehouseFlag === 2}">{{prod.invWarehouseQty }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="item-td">
+                <span class="qty">{{prod.displayQty }}</span>
+              <span class="qty" [ngClass]="{ 'qty-under': prod.displayFlag === 1, 'qty-over': prod.displayFlag === 2}">{{prod.invDisplayQty }}</span>
+              </div>
+
+
+            <td>
+              <div class="item-td">
+                <span class="qty">{{prod.demoQty }}</span>
+              <span class="qty" [ngClass]="{ 'qty-under': prod.demoFlag === 1, 'qty-over': prod.demoFlag === 2}">{{prod.invDemoQty }}</span>
+              </div>
+
+
+            <td>
+              <div class="item-td">
+                <span class="qty">{{prod.qcQty }}</span>
+                <span class="qty" [ngClass]="{ 'qty-under': prod.qcFlag === 1, 'qty-over': prod.qcFlag === 2}">{{prod.invQcQty }}</span>
+              </div>
+
+
+            </td>
+            <td>{{prod.remarks }}</td>
+            <td>{{ prod.operatorCheck }}</td>
+            <td>
+              {{prod.date | date:'yyyy-MM-dd HH:mm a' }}
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <div class="pagination-wrapper" *ngIf="prodLength > 150">
+      <app-pagination class="pagination" [ItemsCount]="prodLength" [PageSize]="150" [PagePos]="pagePos" (PositionEventEmitter)="posEventEmmit($event)"></app-pagination>
+    </div>
+
+
+  </div>
+</div>

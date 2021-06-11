@@ -1,0 +1,247 @@
+<div class="modal-container">
+
+
+  <div class="page-container2">
+    <div class="grid2" *ngIf="productList() as pods">
+
+      <div class="grid-tabs2">
+
+        <div class="title">
+          <label for=""><span class="material-icons">
+              description
+            </span>Received&nbsp;Shipment&nbsp;details</label>
+        </div>
+
+        <div class="button-action">
+          <button (click)="onCloseReceivedShipmentDetails()"><span class="material-icons">
+              close
+            </span></button>
+        </div>
+
+
+      </div>
+
+      <div class="grid-options2">
+
+        <div class="option-input">
+
+          <div class="input-group2">
+            <label for="">Shipment&nbsp;ID</label>
+            <input type="text" readonly [(ngModel)]="vmPendingShipment.selectReceivedDetail.shipmentId">
+          </div>
+
+          <div class="input-group2">
+            <label for="">Forwarder&nbsp;No</label>
+            <input type="text" readonly [(ngModel)]="vmPendingShipment.selectReceivedDetail.forwarderNo">
+          </div>
+
+          <div class="input-group2">
+            <label for="">Tracking&nbsp;No</label>
+            <input type="text" readonly [(ngModel)]="vmPendingShipment.selectReceivedDetail.trackingNo">
+          </div>
+
+          <div class="input-group2">
+            <label for="">Box&nbsp;Count</label>
+            <input type="text" readonly [(ngModel)]="vmPendingShipment.selectReceivedDetail.boxCount">
+          </div>
+
+          <div class="input-group2">
+            <label for="">Weight</label>
+            <input type="text" readonly [(ngModel)]="vmPendingShipment.selectReceivedDetail.weight">
+          </div>
+
+          <div class="input-group2">
+            <label for="">Volume</label>
+            <input type="text" readonly [(ngModel)]="vmPendingShipment.selectReceivedDetail.volume">
+          </div>
+
+          <div class="input-group2">
+            <label for="">Shipment&nbsp;Date</label>
+            <input type="text" readonly value="{{datimeFunc(vmPendingShipment.selectReceivedDetail.shipmentDtate)}}">
+          </div>
+
+          <div class="input-group2">
+            <label for="">Received&nbsp;Date</label>
+            <input type="text" readonly value="{{datimeFunc(vmPendingShipment.selectReceivedDetail.recievedDate)}}">
+          </div>
+
+          <div class="btn-action">
+            <button [ngClass]="{'save-active': checkHasupdate(pods) }"
+              (click)="onSubmitUpdateReceivedShipment(vmPendingShipment.selectReceivedDetail)">
+              <span class="material-icons">
+                save
+              </span>
+              Save
+            </button>
+
+            <button (click)="addBarCodeSubmit(pods)">
+              <span class="material-icons">
+                local_offer
+              </span>
+              Add To Barcode & UID
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="option-title">
+          <label for="">
+            <span class="material-icons">
+              list
+            </span>
+            Product List</label>
+        </div>
+
+      </div>
+
+      <div class="grid-table2">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th class="orederid">Order&nbsp;ID</th>
+                <th class="productid">Product&nbsp;ID</th>
+                <th class="sku">SKU</th>
+                <th class="product-dsc">Product&nbsp;Description</th>
+                <th class="product-number">Product&nbsp;Number</th>
+                <th class="brand">Brand</th>
+                <th class="shipped">Shipped&nbsp;Qty</th>
+                <th class="re-qty">Received&nbsp;Qty</th>
+                <th class="barcode">Barcode</th>
+                <th class="remark">Remarks</th>
+                <th class="status">UID&nbsp;Status</th>
+                <th class="boxbox">
+                  <label class="containerB cb">
+                    <input type="checkbox" [(ngModel)]="select" (click)="checkAllFunction(pods)" />
+                    <span class="checkmark"></span>
+                  </label>
+                </th>
+
+                <th class="dot"></th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let pod of productList()" (click)="selTable = pod.shipmentDetailId">
+                <td class="orederid">{{pod.orderId}}</td>
+                <td class="productid">{{pod.productId}}</td>
+                <td class="sku">sku</td>
+                <td class="product-dsc">
+                  <p *ngIf="!chackToolTip( pod.productDescription.length, 35)">
+                    {{ pod.productDescription }}
+                  </p>
+                  <div class="tooltip" *ngIf="chackToolTip( pod.productDescription.length, 35)">
+                    <p>{{ pod.productDescription }}</p>
+                    <span class="tooltiptext text-overflow">
+                      {{ pod.productDescription }}</span>
+                  </div>
+                  <div class="flag" *ngIf="pod.newStatus">
+                    <p>New</p>
+                  </div>
+                </td>
+                <td class="product-number">
+
+                  <ng-container *ngIf="!pod.productNo">-</ng-container>
+
+                  <ng-container *ngIf="pod.productNo">
+                    <p *ngIf="!chackToolTip( pod.productNo.length, 14)">
+                      {{ pod.productNo }}
+                    </p>
+                    <div class="tooltip" *ngIf="chackToolTip( pod.productNo.length, 14)">
+                      <p>{{ pod.productNo }}</p>
+                      <span class="tooltiptext text-overflow">
+                        {{ pod.productNo }}</span>
+                    </div>
+                  </ng-container>
+                </td>
+                <td class="brand">
+                  <p *ngIf="!chackToolTip(pod.brandName.length, 15)">
+                    {{pod.brandName }}
+                  </p>
+                  <div class="tooltip" *ngIf="chackToolTip(pod.brandName.length, 15)">
+                    <p>{{pod.brandName }}</p>
+                    <span class="tooltiptext text-overflow">
+                      {{pod.brandName }}</span>
+                  </div>
+                </td>
+                <td class="shipped"> {{pod.shippedQty}}</td>
+                <td class="re-qty">
+                  <p class="received" *ngIf="selTable !== pod.shipmentDetailId"
+                    [ngStyle]="{'background-color': vmPendingShipment.receivedQtyFlag(pod.receivedQty,pod.shippedQty)}">
+                    {{pod.receivedQty}}
+                  </p>
+
+                  <input type="number" [(ngModel)]="pod.receivedQty"
+                    [ngClass]="{'sel-tr': selTable === pod.shipmentDetailId}"
+                    [readonly]="selTable !== pod.shipmentDetailId"
+                    *ngIf="selTable === pod.shipmentDetailId && pod.lockStatus !== true "
+                    (ngModelChange)="checkReceivedQty(pod.shipmentDetailId);pod.hasUpdate = true;">
+
+                  <p class="received" *ngIf="pod.lockStatus && selTable === pod.shipmentDetailId"
+                    [ngStyle]="{'background-color': vmPendingShipment.receivedQtyFlag(pod.receivedQty,pod.shippedQty)}">
+                    {{pod.receivedQty}}
+                  </p>
+
+                </td>
+                <td class="barcode"><p>{{pod.barcode}}</p></td>
+                <td class="remark">
+                  <p *ngIf="selTable !== pod.shipmentDetailId">
+                    {{pod.remarks}}
+                  </p>
+                  <input type="text" [(ngModel)]="pod.remarks" *ngIf="selTable === pod.shipmentDetailId"
+                    (ngModelChange)="pod.hasUpdate = true" [ngClass]="{'sel-tr': selTable === pod.shipmentDetailId}">
+                </td>
+                <td class="status">
+                  <p [ngStyle]="{'background-color': '#ffc5c4'}">{{checkUidStatus(pod.uidType)}}</p>
+                </td>
+
+                <td class="boxbox">
+                  <label class="containerB cb ">
+                    <input type="checkbox" [(ngModel)]="pod.hasSelect"
+                      (ngModelChange)="onChangeProductHasSelect(pods)" />
+                    <span class="checkmark"></span>
+                  </label>
+                </td>
+
+                <td class="dot">
+                  <div [ngClass]="{'has-update': pod.hasUpdate === true}"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+      <div class="grid-pagination2">
+        <app-pagination class="pagination" [ItemsCount]="getItemsCount()" [PageSize]="20" [PagePos]="posProduct"
+          (PositionEventEmitter)="posEventEmmit($event)">
+        </app-pagination>
+
+        <div class="tab-next">
+          <button (click)="nextDetailFunc(vmPendingShipment.selectReceivedDetail.shipmentId, 0)" [disabled]="disBack">
+            <span class="material-icons">
+              chevron_left
+            </span>
+          </button>
+          <button (click)="nextDetailFunc(vmPendingShipment.selectReceivedDetail.shipmentId, 1)" [disabled]="disNext">
+            <span class="material-icons">
+            navigate_next
+          </span>
+        </button>
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+</div>
+
+<app-barcode-uid *ngIf="vmPendingShipment.barcode"></app-barcode-uid>

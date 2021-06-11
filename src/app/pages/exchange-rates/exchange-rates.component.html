@@ -1,0 +1,166 @@
+<!-- old sty -->
+<div class="exchange-container card">
+  <div class="grid-content">
+    <div class="grid-option">
+      <div class="select-wrapper">
+        <select
+          #selectCurrency
+          (change)="searchExchangeRate(searchEl.value, selectCurrency.value)"
+        >
+          <option [value]="0">All</option>
+          <ng-container
+            *ngFor="let item of vmReferecnce.RefCurrencyTypes$ | async"
+          >
+            <ng-container *ngIf="item.purchasingRefCurrencyTypeId > 1">
+              <option value="{{ item.purchasingRefCurrencyTypeId }}">
+                {{ item.currencyName }}
+              </option>
+            </ng-container>
+          </ng-container>
+        </select>
+      </div>
+      <div class="search-wrapper">
+        <input
+          type="text"
+          placeholder="search..."
+          #searchEl
+          (change)="searchExchangeRate(searchEl.value, selectCurrency.value)"
+        />
+        <span class="material-icons"> search </span>
+      </div>
+
+      <div class="button-groud">
+        <button
+          class="btn btn-success animation-ripple"
+          (click)="addModelForm = true"
+        >
+          <span class="material-icons">add</span>Add Exchange Rate
+        </button>
+      </div>
+    </div>
+
+    <div class="grid-table">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Exchange&nbsp;RateID</th>
+              <th>Currency</th>
+              <th>Rate&nbsp;(LAK)</th>
+              <th></th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr
+              *ngFor="
+                let rate of getExchangeRates(selectCurrency.value).slice(
+                  position * pageSize,
+                  (position + 1) * pageSize
+                )
+              "
+            >
+              <td>
+                {{ rate.purchasingExchangeRateId }}
+              </td>
+              <td>
+                <p>{{ rate.refCurrencyType }}</p>
+              </td>
+              <td
+                [ngClass]="{
+                  'active-border': selRow === rate.purchasingExchangeRateId
+                }"
+              >
+                <p>
+                  {{ rate.rateCurrencyToKip | currency: "":"":"0.0" }}
+                </p>
+              </td>
+
+              <td></td>
+
+              <td class="align-middle">
+                <input
+                  (click)="
+                    updateExchangeRate(
+                      rate.purchasingExchangeRateId,
+                      rate.purchasingRefCurrencyTypeId,
+                      $event
+                    )
+                  "
+                  type="checkbox"
+                  class="switch"
+                  [checked]="rate.exchangeRatesStatus > 0"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid-footer">
+      <app-pagination
+        class="pagination"
+        [ItemsCount]="vmExchangeRate.exchangeRates.length"
+        [PageSize]="pageSize"
+        [PagePos]="position"
+        (PositionEventEmitter)="position = $event"
+      >
+      </app-pagination>
+    </div>
+  </div>
+</div>
+
+<div class="modal-wrapper" *ngIf="addModelForm">
+  <div class="modal-content">
+    <div class="displsy-grid card">
+      <div class="modal-header">
+        <div class="close-button">
+          <div></div>
+          <button type="button" (click)="addModelForm = false">
+            <span class="material-icons"> close </span>
+          </button>
+        </div>
+
+        <div class="modal-title">
+          <button>
+            <span class="material-icons"> supervisor_account </span>
+            Add Exchange Rate
+          </button>
+        </div>
+
+        <div class="button-action">
+          <button
+            type="button"
+            (click)="addNewExchangeRate(currencyType.value, rateValue.value)"
+          >
+            <span class="material-icons">save</span> Save
+          </button>
+        </div>
+      </div>
+
+      <div class="model-body">
+        <div class="item">
+          <label for="">Currency</label>
+          <select id="rate" #currencyType>
+            <ng-container
+              *ngFor="let item of vmReferecnce.RefCurrencyTypes$ | async"
+            >
+              <ng-container *ngIf="item.purchasingRefCurrencyTypeId > 1">
+                <option value="{{ item.purchasingRefCurrencyTypeId }}">
+                  {{ item.currencyName }}
+                </option>
+              </ng-container>
+            </ng-container>
+          </select>
+        </div>
+
+        <div class="item">
+          <label for="">Rate&nbsp;(LAK)</label>
+          <input type="number" #rateValue />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

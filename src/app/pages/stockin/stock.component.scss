@@ -1,0 +1,32 @@
+* {
+  font-size: 13px;
+}
+
+.grid2 {
+
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+
+  .grid-tabs2 {
+    grid-row: 1 / 2;
+
+    button {
+      border: none;
+      height: 40px;
+    }
+
+    button:nth-child(2) {
+      border-top-right-radius: 10px;
+    }
+  }
+
+  .grid-data-container {
+    grid-row: 2/3;
+  }
+
+}
+
+.card {
+  height: 100%;
+}

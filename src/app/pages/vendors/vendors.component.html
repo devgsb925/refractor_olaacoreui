@@ -1,0 +1,122 @@
+<main class="main card">
+  <div class="container">
+    <div class="tab-content grid-right">
+      <div class="action-button">
+
+        <div class="input-group">
+          <button>
+            <span class="material-icons"> search </span>
+          </button>
+          <input placeholder="Search by vendor id, vendor name, contact name..." type="text" [(ngModel)]="searchValue" (keyup.enter)="searchVendor()" />
+
+        </div>
+
+        <div class="button-2">
+          <button class="btn btn-success animation-ripple" (click)="vmVendors.addNewModal = true">
+            <span class="material-icons">
+              add_circle
+              </span> Add&nbsp;Vendor
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrapper vendor-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>V.ID</th>
+              <th>Vendor&nbsp;Name</th>
+              <th>Contact&nbsp;Name</th>
+              <th>Brand</th>
+              <th>Product&nbsp;Type</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+
+          <tbody *ngIf="getVendor() | async as vendors">
+            <tr *ngFor="let vendor of vendors" (click)="getVendorDetailByid(vendor.vendorID)"
+              [ngClass]="{'sel-active':vmVendors.vendorId === vendor.vendorID}">
+              <td>{{ vendor.vendorID }}</td>
+              <td>
+                <p *ngIf="chackToolTip(vendor.vendorName.length, 35) === false">
+                  {{ vendor.vendorName }}
+                </p>
+                <div class="tooltip" *ngIf="chackToolTip(vendor.vendorName.length, 35)">
+                  <p>{{ vendor.vendorName }}</p>
+                  <span class="tooltiptext text-overflow">
+                    {{ vendor.vendorName }}</span>
+                </div>
+              </td>
+              <td>
+                <p *ngIf="chackToolTip(vendor.contactName.length, 13) === false">
+                  {{ vendor.contactName }}
+                </p>
+                <div class="tooltip" *ngIf="chackToolTip(vendor.contactName.length, 13)">
+                  <p>{{ vendor.contactName }}</p>
+                  <span class="tooltiptext text-overflow">
+                    {{ vendor.contactName }}</span>
+                </div>
+              </td>
+              <td>
+                <p *ngIf="chackToolTip(vendor.brand.length, 13) === false">
+                  {{ vendor.brand }}
+                </p>
+                <div class="tooltip" *ngIf="chackToolTip(vendor.brand.length, 13)">
+                  <p>{{ vendor.brand }}</p>
+                  <span class="tooltiptext text-overflow">
+                    {{ vendor.brand }}</span>
+                </div>
+              </td>
+              <td>
+                <p *ngIf="chackToolTip(vendor.productType.length, 30) === false">
+                  {{ vendor.productType }}
+                </p>
+                <div class="tooltip" *ngIf="chackToolTip(vendor.productType.length, 30)">
+                  <p>{{ vendor.productType }}</p>
+                  <span class="tooltiptext text-overflow las-table">
+                    {{ vendor.productType }}</span>
+                </div>
+              </td>
+              <td>
+                <button (click)="getVendorDetailByvendorId(vendor.vendorID)">
+                  Detail
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <label >Total Vendors:&nbsp;&nbsp;  {{getVendorCount()}}</label>
+        <div class="pagination">
+          <app-pagination [ItemsCount]="getVendorCount()" [PageSize]="100" [PagePos]="vendorPos"
+            (PositionEventEmitter)="getVendorPagePosition($event)">
+          </app-pagination>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="tab-content grid-left">
+
+      <div class="chang-tab">
+          <button (click)="changeTabs(0)" [ngClass]="{'active-tab': tab === 0}">Orders</button>
+          <button (click)="changeTabs(1)" [ngClass]="{'active-tab': tab === 1}">Products</button>
+      </div>
+
+      <app-vendor-product *ngIf="tab === 1"></app-vendor-product>
+      <app-vendor-order *ngIf="tab === 0"></app-vendor-order>
+
+    </div>
+
+  </div>
+
+  <!-- modal detail && edit-->
+  <app-model-vendor-detail *ngIf="vmVendors.modalDetail"></app-model-vendor-detail>
+  <!-- end modal details -->
+
+  <!-- modal add new -->
+  <app-model-add-vendor *ngIf="vmVendors.addNewModal"></app-model-add-vendor>
+  <!-- end add new -->
+</main>

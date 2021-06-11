@@ -1,0 +1,8 @@
+<div class="paginate" *ngIf="getPageList() | async as PageList">    
+
+    <button class="page-button" type="button" (click)="prev()" [disabled]="PagePos == 0">Previous</button>    
+    <ng-container  *ngFor="let pno of PageList;let i = index">        
+        <button class="page-button" [ngClass]="{ activePaginationBtn: i === PagePos  }" (click)="changePosition(i)"> {{ i + 1 }} </button>           
+    </ng-container>    
+    <button class="page-button"  [disabled]="PagePos === (PageList.length - 1)" (click)="next()">Next</button>        
+</div>

@@ -1,0 +1,326 @@
+
+  .invoice-report,
+  .product-report {
+    display: grid;
+    grid-template-columns: 75% 25%;
+    grid-template-rows: 70px calc(83vh - 120px) 50px;
+    height: 83vh;
+
+    .action-filter {
+      display: flex;
+      align-items: center;
+      grid-column: span 1;
+      grid-row: 1/2;
+      grid-column: 1/2;
+
+      .buttons {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+          height: 34px;
+          width: 140px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: row;
+          outline: 0;
+          border: 0;
+          color: white;
+          span {
+            margin-right: 0.7rem;
+            color: white;
+            font-size: 24px;
+          }
+        }
+        .btn-filter {
+          margin-right: 1rem;
+          background: #2b8ed3;
+        }
+        .btn-submit {
+          background: #17a2b8;
+
+          span {
+            transform: rotate(-30deg);
+            margin-bottom: 10px;
+          }
+        }
+      }
+      .input-group {
+        display: flex;
+        align-items: center;
+      }
+      .search-input-wraper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 38px;
+        width: 100%;
+
+        .search-input {
+          padding: 10px 2rem;
+
+          &::placeholder {
+            color: gainsboro;
+          }
+        }
+
+        span {
+          position: absolute;
+          left: 5px;
+          top: 0;
+          height: 38px;
+          display: flex;
+          align-items: center;
+          color: gainsboro;
+        }
+      }
+    }
+
+    .inv-summary {
+      grid-column: 2/3;
+      grid-row: 1/2;
+      display: flex;
+      align-items: flex-end;
+
+      flex-direction: column;
+      padding: 0 1rem;
+
+      .btn-print {
+        height: 34px;
+        width: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        outline: 0;
+        border: 0;
+        color: white;
+        background: #446a81;
+        margin-top: 1rem;
+        span {
+          color: white;
+          width: 40px;
+        }
+      }
+
+      h2 {
+        width: 100%;
+        text-align: left;
+        margin: 1.8rem 0;
+        color: #7e7e7e;
+      }
+      .h2-amount {
+        margin: 0;
+        margin-bottom: 1rem;
+      }
+      .total-wraper {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #f1f1f1;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        font-weight: 500;
+
+        .green {
+          color: #41c222;
+        }
+
+        .bold {
+          font-weight: 600;
+        }
+
+        span {
+          color: #666666;
+        }
+      }
+      .thick-border {
+        border-bottom: 2px solid #666666;
+      }
+    }
+
+    .table-grid {
+      width: 100%;
+      grid-column: 1/2;
+      grid-row: 2/3;
+      height: 70vh;
+
+      .t-rows-wraper {
+        overflow-y: auto;
+        height: calc(100vh - 320px);
+
+
+      }
+
+      .t-headers{
+        grid-auto-rows: 35px;
+      }
+      .t-headers,
+      .t-rows {
+        background: #f4f3f3;
+
+        display: grid;
+        grid-template-columns: repeat(13, 1fr);
+
+
+        max-height: 70vh;
+
+        .t-header,
+        .t-row {
+          grid-column: span 1;
+          grid-row: 1/2;
+          font-weight: 500;
+        }
+      }
+
+      .t-rows {
+        background: none;
+
+        &:hover{
+          .t-row{
+            background: #FFE9E9;
+          }
+        }
+
+
+
+        .t-row {
+          font-weight: normal;
+          height: 40px ;
+          del{
+            color: #666666;
+          }
+
+          .btn-detail {
+            outline: 0;
+            background: 0;
+            width: 70%;
+            height: 28px;
+            border: 1px solid #2196f3;
+            color: #2196f3;
+            // font-size: 0.9rem;
+            padding: 0;
+          }
+        }
+        .t-row:nth-child(13) {
+          padding: 5px;
+        }
+      }
+
+      .active-tr{
+        .t-row{
+          background: #FFE9E9;
+        }
+      }
+
+      .t-rows:nth-child(odd),
+      .t-rows-product:nth-child(odd) {
+        background: #fcfcfc;
+        border-bottom: 1px solid #f1f1f1;
+      }
+      .t-rows:nth-child(even),
+      .t-rows-product:nth-child(even){
+        border-bottom: 1px solid #f1f1f1;
+      }
+
+      .left {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      .right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
+
+      .center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .green {
+        color: #41c222;
+      }
+
+      /*-------------------------- END Invoice Report--------------------*/
+
+      .t-headers-product,
+      .t-rows-product {
+        width: 100%;
+        background: #f4f3f3;
+        display: grid;
+        grid-template-columns: 80px 100px 510px 150px 100px  100px 100px 150px;
+        max-height: 70vh;
+        white-space: nowrap;
+
+        span{
+         font-size: 14px;
+         color: #e4e4e4;
+        &:nth-child(2){
+          margin-left: -5px;
+        }
+        }
+        .product-qty,
+        .product-cost,
+        .product-amount {
+          cursor: pointer;
+          user-select: none;
+        }
+        .product-profit {
+          padding-right: 10px;
+          cursor: pointer;
+        }
+        .t-row ~ .product-profit{
+          padding-right: 30px;
+        }
+        .t-row ~ .product-amount{
+          padding-right: 20px;
+        }
+        .t-row ~ .product-cost{
+          padding-right: 20px;
+        }
+        .t-row ~ .product-qty{
+          padding-right: 25px;
+        }
+
+        .arrow{
+          color: #2bb6cc;
+        }
+      }
+
+      .t-headers-product{
+        height: 35px;
+      }
+
+      .t-rows-product {
+        background: none;
+
+        &:hover{
+          background: #FFE9E9;
+        }
+        .t-row {
+          height: 40px;
+        }
+
+      }
+
+      .active-pod{
+        .t-row{
+          background: #FFE9E9;
+        }
+      }
+
+    }
+
+    .pagination {
+      grid-column: 1/2;
+      grid-row: 3/4;
+      display: flex;
+      flex-direction: row-reverse;
+    }
+  }

@@ -1,0 +1,365 @@
+<div class="main card">
+  <div class="tabs">
+    <div class="tab" [ngClass]="{ 'active-tab': vmSalesReport.tab == 0 }" (click)="changeTabs(0)">
+      Invoices Report
+    </div>
+    <div class="tab" [ngClass]="{ 'active-tab': vmSalesReport.tab == 1 }" (click)="changeTabs(1)">
+      Products Report
+    </div>
+
+    <div class="tab" [ngClass]="{ 'active-tab': vmSalesReport.tab == 2 }" (click)="changeTabs(2)">
+      Stock Report
+    </div>
+  </div>
+
+
+  <div class="tab-content invoice-report" *ngIf="vmSalesReport.tab == 0">
+    <div class="action-filter">
+      <div class="input-group">
+        <label for="from">From</label>
+        <input type="Date" value="{{ vmSalesReport.invoiceFilter.invFromDate | date: 'yyyy-MM-dd' }}"
+          (change)="changeFromDateInvoic($event.target.value)" />
+      </div>
+      <div class="input-group">
+        <label for="to">To</label>
+        <input type="Date" value="{{ vmSalesReport.invoiceFilter.invToDate | date: 'yyyy-MM-dd' }}"
+          (change)="changeToDateInvoic($event.target.value)" />
+      </div>
+      <div class="input-group search-input-wraper">
+        <span class="material-icons">search</span>
+        <input type="text " class="search-input" placeholder="Search by invoice no ..."
+          [(ngModel)]="vmSalesReport.invoiceFilter.kw"
+          (keyup.enter)="filterInvoiceReport(vmSalesReport.invoiceFilter)" />
+      </div>
+      <div class="buttons">
+        <button class="btn-filter" type="button" (click)="vmSalesReport.invoiceFilter.show=true">
+          <span class="material-icons">filter_alt</span>
+          Filter
+        </button>
+        <button class="btn-submit" type="button" (click)="filterInvoiceReport(vmSalesReport.invoiceFilter)">
+          <span class="material-icons">send</span>
+          Submit
+        </button>
+      </div>
+    </div>
+
+    <div class="inv-summary">
+      <button class="btn-print">
+        <span class="material-icons">printer</span>
+        Print
+      </button>
+
+      <h2>INVOICES SUMMARY</h2>
+
+      <div class="total-wraper">
+        <span>Total:</span>
+        <span class="bold">{{vmSalesReport.invoiceProductSummary.invoicesSummary.totalAmount | currency:'':'':'0.0'}}
+          LAK</span>
+      </div>
+      <div class="total-wraper">
+        <span>Discount:</span>
+        <span class="bold">{{vmSalesReport.invoiceProductSummary.invoicesSummary.discountAmount | currency:'':'':'0.0'}}
+          LAK</span>
+      </div>
+      <div class="total-wraper">
+        <span>Tax:</span>
+        <span class="bold">{{vmSalesReport.invoiceProductSummary.invoicesSummary.taxAmount | currency:'':'':'0.0'}}
+          LAK</span>
+      </div>
+      <div class="total-wraper thick-border">
+        <span>Shipping Cost:</span>
+        <span class="bold">{{vmSalesReport.invoiceProductSummary.invoicesSummary.shippingCost | currency:'':'':'0.0'}}
+          LAK</span>
+      </div>
+
+      <div class="total-wraper">
+        <span>Grand Total:</span>
+        <span class="bold">{{vmSalesReport.invoiceProductSummary.invoicesSummary.grandTotal | currency:'':'':'0.0'}}
+          LAK</span>
+      </div>
+      <h2 class="h2-amount">RECEIVED AMOUNT</h2>
+
+      <div class="total-wraper">
+        <span>Cash:</span>
+        <span class="bold">{{vmSalesReport.invoiceProductSummary.invoicesSummary.cashAmount | currency:'':'':'0.0'}}
+          LAK</span>
+      </div>
+      <div class="total-wraper">
+        <span>Bank Transfer:</span>
+        <span
+          class="bold">{{vmSalesReport.invoiceProductSummary.invoicesSummary.bankTransferAmnount | currency:'':'':'0.0'}}
+          LAK</span>
+      </div>
+      <div class="total-wraper thick-border">
+        <span>Leasing:</span>
+        <span class="bold">{{vmSalesReport.invoiceProductSummary.invoicesSummary.leasingAmount | currency:'':'':'0.0'}}
+          LAK</span>
+      </div>
+
+      <div class="total-wraper">
+        <span>Total Cost:</span>
+        <span class="bold">{{vmSalesReport.invoiceProductSummary.invoicesSummary.totalCost | currency:'':'':'0.0'}}
+          LAK</span>
+      </div>
+      <div class="total-wraper">
+        <span>Total Profit:</span>
+        <span
+          class="bold green">{{vmSalesReport.invoiceProductSummary.invoicesSummary.totalProfit | currency:'':'':'0.0'}}
+          LAK</span>
+      </div>
+    </div>
+
+    <div class="table-grid">
+
+      <div class="t-headers">
+        <div class="t-header center">Invoice No</div>
+        <div class="t-header center">Sell Date</div>
+        <div class="t-header left">Customer Name</div>
+        <div class="t-header right">Total</div>
+        <div class="t-header right">Discount</div>
+        <div class="t-header right">Tax</div>
+        <div class="t-header right">Shipping Cost</div>
+        <div class="t-header right">Grand Total</div>
+        <div class="t-header right">Cash</div>
+        <div class="t-header right">Bank Transfer</div>
+        <div class="t-header right">Cost</div>
+        <div class="t-header center">Profit</div>
+        <div class="t-header center">Detail</div>
+      </div>
+
+      <div class="t-rows-wraper">
+
+        <ng-container *ngFor="let item of vmSalesReport.getInvoiceReportList()">
+
+          <div class="t-rows" *ngIf="item.invoiceStatus > 0" [ngClass]="{'active-tr': seltros === item.invoiceId}"
+            (click)="seltros = item.invoiceId">
+            <div class="t-row center">{{item.invoiceNo}}</div>
+            <div class="t-row center">{{item.sellDate | date:'dd/MM/yyyy'}}</div>
+
+            <div class="t-row left">
+              <!-- {{item.customerName}} -->
+              <p *ngIf="!chackToolTip(item.customerName.length, 20)" style="max-width: 300px;">
+                {{item.customerName }}
+              </p>
+              <div class="tooltip" *ngIf="chackToolTip(item.customerName.length, 20)">
+                <p>{{item.customerName }}</p>
+                <span class="tooltiptext text-overflow">
+                  {{item.customerName }}</span>
+              </div>
+            </div>
+
+            <div class="t-row right">{{item.total | currency:'':'':'0.0'}}</div>
+            <div class="t-row right">{{item.discount | currency:'':'':'0.0'}}</div>
+            <div class="t-row right">{{item.tax}}</div>
+            <div class="t-row right">{{item.shippingCost | currency:'':'':'0.0'}}</div>
+            <div class="t-row right">{{item.grandTotal | currency:'':'':'0.0'}}</div>
+            <div class="t-row right">{{item.cash | currency:'':'':'0.0'}}</div>
+            <div class="t-row right">{{item.bankTransfer | currency:'':'':'0.0'}}</div>
+            <div class="t-row right">{{item.cost | currency:'':'':'0.0'}}</div>
+            <div class="t-row center green">{{item.profit | currency:'':'':'0.0'}}</div>
+            <div class="t-row center">
+              <button class="btn-detail" (click)="submitDetail(item)">Detail</button>
+            </div>
+          </div>
+
+          <div class="t-rows" *ngIf="item.invoiceStatus === 0" [ngClass]="{'active-tr': seltros === item.invoiceId}"
+            (click)="seltros = item.invoiceId">
+            <div class="t-row center"><del>{{item.invoiceNo}}</del></div>
+            <div class="t-row center"><del>{{item.sellDate | date:'dd/MM/yyyy'}}</del></div>
+
+            <div class="t-row left">
+              <del>
+                <p *ngIf="!chackToolTip(item.customerName.length, 20)" style="max-width: 300px;">
+                  {{item.customerName }}
+                </p>
+                <div class="tooltip" *ngIf="chackToolTip(item.customerName.length, 20)">
+                  <p>{{item.customerName }}</p>
+                  <span class="tooltiptext text-overflow">
+                    {{item.customerName }}</span>
+                </div>
+              </del>
+            </div>
+
+
+            <div class="t-row right"><del>{{item.total | currency:'':'':'0.0'}}</del></div>
+            <div class="t-row right"><del>{{item.discount | currency:'':'':'0.0'}}</del></div>
+            <div class="t-row right"><del>{{item.tax}}</del></div>
+            <div class="t-row right"><del>{{item.shippingCost | currency:'':'':'0.0'}}</del></div>
+            <div class="t-row right"><del>{{item.grandTotal | currency:'':'':'0.0'}}</del></div>
+            <div class="t-row right"><del>{{item.cash | currency:'':'':'0.0'}}</del></div>
+            <div class="t-row right"><del>{{item.bankTransfer | currency:'':'':'0.0'}}</del></div>
+            <div class="t-row right"><del>{{item.cost | currency:'':'':'0.0'}}</del></div>
+            <div class="t-row center green"><del>{{item.profit | currency:'':'':'0.0'}}</del></div>
+            <div class="t-row center">
+              <button class="btn-detail" (click)="submitDetail(item)">Detail</button>
+            </div>
+          </div>
+
+
+        </ng-container>
+
+
+      </div>
+    </div>
+
+    <div class="pagination" *ngIf="this.vmSalesReport.invoiceProductSummary.invoicesReport.length > 0">
+      <app-pagination [ItemsCount]="vmSalesReport.invoiceCount" [PageSize]="vmSalesReport.invoicePageCount"
+        [PagePos]="vmSalesReport.invoicePos" (PositionEventEmitter)="vmSalesReport.invPosEventEmmit($event)">
+      </app-pagination>
+    </div>
+  </div>
+
+  <!---------------------------- END Invoice Report ------------------------>
+
+
+  <div class="tab-content product-report" *ngIf="vmSalesReport.tab == 1">
+    <div class="action-filter">
+      <div class="input-group">
+        <label for="from">From</label>
+        <input type="Date" [value]="vmSalesReport.productFilter.fromDt | date: 'yyyy-MM-dd'"
+          (change)=" changtFromDateProduct($event.target.value)" />
+      </div>
+      <div class="input-group">
+        <label for="to">To</label>
+        <input type="Date" [value]="vmSalesReport.productFilter.toDt | date: 'yyyy-MM-dd'"
+          (change)=" changeToDateProduct($event.target.value)" />
+      </div>
+      <div class="input-group search-input-wraper">
+        <span class="material-icons">search</span>
+        <input type="text " class="search-input" placeholder="Search by id. product description. barcode ..."
+          [(ngModel)]="this.vmSalesReport.productFilter.kw"
+          (keyup.enter)="filterProductReport(vmSalesReport.productFilter)" />
+      </div>
+      <div class="buttons">
+        <button class="btn-filter" type="button" (click)="vmSalesReport.productFilter.show = true">
+          <span class="material-icons">filter_alt</span>
+          Filter
+        </button>
+        <button class="btn-submit" type="button" (click)="filterProductReport(this.vmSalesReport.productFilter)">
+          <span class="material-icons">send</span>
+          Submit
+        </button>
+      </div>
+    </div>
+
+    <div class="inv-summary">
+
+      <button class="btn-print">
+        <span class="material-icons">printer</span>
+        Print
+      </button>
+
+      <h2>SUMMARY</h2>
+
+      <div class="total-wraper">
+        <span>Total Qty:</span>
+        <span class="bold">{{ this.vmSalesReport.productReportSummary.productsSummary.totalQty }} Qty</span>
+      </div>
+      <div class="total-wraper">
+        <span>Total Cost:</span>
+        <span class="bold">{{ this.vmSalesReport.productReportSummary.productsSummary.totalCost | currency:'':'':'0.0'}}
+          LAK</span>
+      </div>
+      <div class="total-wraper thick-border">
+        <span>Total Sale Amount:</span>
+        <span
+          class="bold">{{ this.vmSalesReport.productReportSummary.productsSummary.totalSalesAmount | currency:'':'':'0.0'}}
+          LAK</span>
+      </div>
+      <div class="total-wraper">
+        <span>Total Profit:</span>
+        <span
+          class="bold green">{{ this.vmSalesReport.productReportSummary.productsSummary.totalProfit | currency:'':'':'0.0'}}
+          LAK</span>
+      </div>
+
+    </div>
+
+    <div class="table-grid">
+      <div class="t-headers-product">
+        <div class="t-header product-id center">P.ID</div>
+        <div class="t-header product-sku center">SKU</div>
+        <div class="t-header product-description left">Product Description</div>
+        <div class="t-header product-number left">Product Number</div>
+        <div class="t-header product-brand right">Brand</div>
+        <div class="t-header product-qty right" (click)="sortingAmount(1, 'qty')">
+          Qty
+          <span class="material-icons" [ngClass]="{arrow: !sortQty && active1}">north</span>
+          <span class="material-icons" [ngClass]="{arrow: sortQty && active1}">south</span>
+        </div>
+
+        <div class="t-header product-amount right" (click)="sortingAmount(3, 'salesAmount')">
+          Sale Amount
+          <span class="material-icons" [ngClass]="{arrow: !sortAmount  && active3}">north</span>
+          <span class="material-icons" [ngClass]="{arrow: sortAmount  && active3}">south</span>
+        </div>
+
+        <div class="t-header product-cost right" (click)="sortingAmount(2, 'cost')">
+          Cost
+          <span class="material-icons" [ngClass]="{arrow: !sortCost && active2}">north</span>
+          <span class="material-icons" [ngClass]="{arrow: sortCost  && active2}">south</span>
+        </div>
+
+        <div class="t-header product-profit right" (click)="sortingAmount(4, 'profit')">
+          Profit
+          <span class="material-icons" [ngClass]="{arrow: !sortProfit  && active4}">north</span>
+          <span class="material-icons" [ngClass]="{arrow: sortProfit  && active4}">south</span>
+        </div>
+      </div>
+
+      <div class="t-rows-wraper">
+        <ng-container *ngIf="getProduct() | async as productList">
+          <div class="t-rows-product" *ngFor="let prod of productList" (click)="seltrPod = prod.productId"
+            [ngClass]="{'active-pod': seltrPod === prod.productId}">
+            <div class="t-row center">{{ prod.productId }}</div>
+            <div class="t-row center">
+              <ng-container *ngIf="!prod.sku">-</ng-container>
+              <ng-container *ngIf="prod.sku">{{ prod.sku }}</ng-container>
+
+            </div>
+            <div class="t-row left">
+
+
+              <p *ngIf="!chackToolTip(prod.description.length, 45)" style="width: 350px; ">
+                {{prod.description }}
+              </p>
+              <div class="tooltip" *ngIf="chackToolTip(prod.description.length, 45)">
+                <p style="width: 350px;">{{prod.description }}</p>
+                <span class="tooltiptext text-overflow">
+                  {{prod.description }}</span>
+              </div>
+
+            </div>
+            <div class="t-row left">
+              <ng-container *ngIf="!prod.productNumber">-</ng-container>
+              <ng-container *ngIf="prod.productNumber">{{prod.productNumber}}</ng-container>
+            </div>
+
+
+            <div class="t-row right">{{ prod.brand }}</div>
+            <div class="t-row product-qty right">{{ prod.qty }}</div>
+            <div class="t-row product-amount right">{{ prod.salesAmount | currency:'':'':'0.0'}}</div>
+            <div class="t-row product-cost right">{{ prod.cost | currency:'':'':'0.0'}}</div>
+
+            <div class="t-row product-profit right green">{{ prod.profit | currency:'':'':'0.0'}} </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="pagination">
+      <app-pagination [ItemsCount]="getProductCount()" [PageSize]="100" [PagePos]="productPos"
+        (PositionEventEmitter)="getProductPosition($event)">
+      </app-pagination>
+    </div>
+  </div>
+
+
+  <div  *ngIf="vmSalesReport.tab == 2">
+    <app-stock-report></app-stock-report>
+  </div>
+
+
+
+  <app-filter-setting-modal *ngIf="vmSalesReport.invoiceFilter.show"></app-filter-setting-modal>
+  <app-filter-products-modal *ngIf="vmSalesReport.productFilter.show"></app-filter-products-modal>
+  <app-invice-detail *ngIf="vmSalesReport.detail"></app-invice-detail>

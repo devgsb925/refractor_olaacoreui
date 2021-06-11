@@ -1,0 +1,377 @@
+.modal-wrapper {
+  display: grid;
+  grid-template-columns: 50px 1fr 50px;
+  padding: 20px 0;
+  font-size: 13px;
+  .card {
+    height: 100%;
+    position: relative;
+    display: grid;
+    grid-template-rows: 40px 70px 70px auto;
+
+    .close-btn{
+
+      position: absolute;
+      right: 1rem;
+      top: 0.5rem;
+
+      button{
+        background: none;
+        padding: 0;
+        margin: 0;
+        border: none;
+        outline: none;
+        span{
+          color: #ff4747;
+          font-weight: bold;
+        }
+      }
+
+    }
+
+    .tabs {
+      button:first-child {
+        border-top-left-radius: 5px;
+
+      }
+      button:last-child {
+        border-top-right-radius: 5px;
+      }
+    }
+    .layout-info {
+      display: grid;
+      grid-auto-flow: column;
+      gap: 10px;
+      margin: 10px 0 0 0;
+      .wrap {
+        min-width: 100px;
+      }
+      .wrap-balance,
+      .wrap-total-amount-lak,
+      .wrap-total-amount {
+        min-width: 200px;
+        text-align: end;
+      }
+    }
+
+    .btns-action {
+      display: flex;
+      align-items: center;
+      padding: 10px 0 0 0;
+      label {
+        width: 100%;
+      }
+      .btn {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        margin-left: 10px;
+        color: white;
+        span {
+          font-size: 18px;
+          margin-right: 2px;
+        }
+      }
+      .btn-add-order-detail {
+        background-color: #00a65a;
+      }
+      .btn-cancel {
+        background-color: #eb543a;
+      }
+      .btn-success {
+        background-color: #2196f3;
+      }
+    }
+
+
+    .layout-order-detail {
+      margin: 10px 0 0 0;
+      .prod-desc {
+        width: 250px;
+      }
+      p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+      }
+
+      table{
+
+        .active-tr{
+          td{
+            background:  #FFE9E9;
+            input{
+              // border: 1px solid gainsboro;
+              height: 28px;
+              background:white;
+            }
+          }
+        }
+
+
+
+        .notborder{
+          input{
+            background: none !important;
+          }
+        }
+
+      .id{
+        width: 80px;
+      }
+
+      .sku{
+        width: 120px;
+      }
+
+      .prod-desc{
+        width: 400px;
+      }
+
+      .prod-no, .model-number{
+        width: 150px;
+      }
+
+      .brand{
+        width: 120px;
+      }
+
+      .unit-price{
+        width: 120px;
+        text-align: end;
+        input{
+          text-align: end;
+          padding: 0 !important;
+          margin: 0;
+        }
+      }
+
+      .amount, .total-amount{
+        width: 120px;
+        text-align: end;
+      }
+
+      .order, .order-qty{
+        width: 80px;
+        text-align: center;
+
+        input{
+          text-align: center;
+
+        }
+      }
+
+      .shipped, .ship-qty{
+        width: 80px;
+
+          text-align: center;
+
+      }
+
+      .recover, .received{
+        width: 80px;
+        text-align: center;
+        input{
+          text-align: center;
+        }
+      }
+
+      .select{
+        width: 50px;
+
+        .cb{
+          margin-bottom: 20px;
+        }
+
+        .container {
+          display: block;
+          position: relative;
+          cursor: pointer;
+          font-size: 22px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          left: 5px;
+
+        }
+
+        /* Hide the browser's default checkbox */
+        .container input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+          height: 0;
+          width: 0;
+        }
+
+        /* Create a custom checkbox */
+        .checkmark {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 20px;
+          width: 20px;
+          background-color: white;
+          border: 1px solid gainsboro;
+        }
+
+        /* On mouse-over, add a grey background color */
+        .container:hover input~.checkmark {
+          background-color: #ccc;
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .container input:checked~.checkmark {
+          background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+          content: "";
+          position: absolute;
+          display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .container input:checked~.checkmark:after {
+          display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .container .checkmark:after {
+          left: 6px;
+          top: 3px;
+          width: 5px;
+          height: 10px;
+          border: solid white;
+          border-width: 0 3px 3px 0;
+          -webkit-transform: rotate(45deg);
+          -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+        }
+
+
+      }
+
+      .dot{
+        width: 30px;
+      }
+
+      }
+
+
+    }
+
+
+    .layout-shipment  {
+      display: grid;
+      grid-template-columns: 1fr 2fr ;
+      margin-top: 10px;
+      height: 87vh;
+      div.grid-left{
+        padding-right: 10px;
+        border-right: #e0e0e0 1px solid;
+      }
+      div.wrapper-shipment-detail{
+        padding-left: 10px;
+      }
+
+    }
+  }
+  aside {
+    display: grid;
+    place-items: center;
+    button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      border: none;
+    }
+  }
+}
+
+main.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #6666;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  .container {
+    background: #fff;
+    width: 700px;
+    height: 650px;
+    padding: 20px;
+    footer {
+      display: flex;
+      flex-direction: row-reverse;
+      .btn {
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+.table-wrapper{
+  height: 75vh;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+td.image {
+  text-align: center;
+  position: relative;
+  width: 50px;
+  img.thumb {
+    position: absolute;
+    height: 35px;
+    width: 35px;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+  img.preview {
+    background: #fff;
+    position: absolute;
+    height: 160px;
+    width: 160px;
+    max-width: 160px;
+    max-height: 160px;
+    top: 0;
+    left: 100%;
+    visibility: hidden;
+    z-index: 1000;
+  }
+
+  img.thumb:hover + img.preview {
+    visibility: visible;
+  }
+}
+tr:nth-last-child(-n + 3) {
+  .image {
+    img.preview {
+      top: auto;
+      bottom: 0;
+    }
+  }
+}
+tr:nth-child(-n + 3){
+  .image {
+    img.preview {
+      bottom:  auto;
+      top: 0;
+    }
+  }
+}

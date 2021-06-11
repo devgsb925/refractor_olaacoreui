@@ -1,0 +1,60 @@
+.card {
+  width: 482px;
+  height: 500px;
+  padding: 1.5rem;
+  font-size: 14px;
+
+  .close-button {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .title {
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .drodown-wraper {
+    .select-date {
+      margin-bottom: 30px;
+    }
+    .select-group {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+
+      .select-sell-type {
+        width: 90%;
+        margin-right: 20px;
+      }
+      .select-leasing-by {
+        width: 90%;
+      }
+    }
+  }
+  .select-sell-method {
+    margin-bottom: 30px;
+  }
+  .select-operation {
+    margin-bottom: 40px;
+  }
+  .btn-save {
+    display: flex;
+    flex-direction: row-reverse;
+
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 1.5rem;
+      height: 35px;
+      outline: 0;
+      border: 0;
+      background: #2196f3;
+      color: white;
+
+      span {
+        margin-right: 10px;
+      }
+    }
+  }
+}

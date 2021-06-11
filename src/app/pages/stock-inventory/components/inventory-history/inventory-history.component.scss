@@ -1,0 +1,14 @@
+.table-wrapper {
+  overflow-x: auto;
+  height: calc(100vh - 250px);
+  th {
+    width: 200px;
+  }
+}
+
+.pagination{
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row-reverse;
+}
+

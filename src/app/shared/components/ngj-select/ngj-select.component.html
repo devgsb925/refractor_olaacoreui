@@ -1,0 +1,49 @@
+<main>
+  <ng-container *ngIf="Selected_item$ | async as selected_item">
+    <div class="container">
+      <ng-container *ngIf="!showSearch">
+        <div class="layout layout-label" (click)="showSearch = true" style="overflow: hidden;">
+
+          <div class="wrap wrap-label">
+            <ng-container *ngIf="name == ''">
+              <p>{{placeHolder}}</p>
+            </ng-container>
+            <ng-container *ngIf="name != ''">
+              <p>{{name}}</p>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="showSearch">
+        <div class="layout layout-search">
+          <div class="wrapper wrapper-search">
+
+            <div class="wrap wrap-input">
+              <div class="input">
+                <input type="text" [(ngModel)]="search" placeholder="enter keyword" (ngModelChange)="onSearch()">
+              </div>
+              <div class="btn btn-cancel">
+                <button type="button" (click)="onCancel()"><span class="material-icons">close</span></button>
+              </div>
+            </div>
+            <div class="wrap wrap-items">
+              <ul class="scrollable-element">
+                <ng-container *ngIf="Results$ | async as results">
+                  <ng-container *ngFor="let result of results">
+                    <li class="item">
+                      <button class="btn btn-item" type="button" (click)="onSelectResult(result)">
+                        <span class="material-icons">add</span> &nbsp; <p>{{ result.Name }}</p>
+                      </button>
+                    </li>
+                  </ng-container>
+                </ng-container>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</main>

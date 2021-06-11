@@ -1,0 +1,191 @@
+<div class="modal-container">
+  <div class="page-container2">
+
+    <div class="grid2">
+
+      <div class="grid-tabs2">
+
+        <div class="title">
+          <label for=""><span class="material-icons">
+              description
+            </span>Pending&nbsp;Shipment&nbsp;Details</label>
+        </div>
+
+        <div class="button-action">
+          <button (click)="closePendingShipmentDetail()"><span class="material-icons">
+              close
+            </span></button>
+        </div>
+
+      </div>
+
+      <div class="grid-options2">
+
+        <div class="option-input">
+
+          <div class="input-group2">
+            <label for="">Shipment&nbsp;ID</label>
+            <input type="text" [(ngModel)]="vmPShipment.selectedPendingShipment.shipmentId" readonly>
+          </div>
+
+          <div class="input-group2">
+            <label for="">Forwarder&nbsp;No</label>
+            <input type="text" [(ngModel)]="vmPShipment.selectedPendingShipment.forwarderNo" readonly>
+          </div>
+
+          <div class="input-group2">
+            <label for="">Tracking&nbsp;No</label>
+            <input type="text" [(ngModel)]="vmPShipment.selectedPendingShipment.trackingNo" readonly>
+          </div>
+
+          <div class="input-group2">
+            <label for="">Box&nbsp;Count</label>
+            <input type="text" [(ngModel)]="vmPShipment.selectedPendingShipment.boxCount" readonly>
+          </div>
+
+          <div class="input-group2">
+            <label for="">Weight</label>
+            <input type="text" [(ngModel)]="vmPShipment.selectedPendingShipment.weight" readonly>
+          </div>
+
+          <div class="input-group2">
+            <label for="">Volume</label>
+            <input type="text" [(ngModel)]="vmPShipment.selectedPendingShipment.volume" readonly>
+          </div>
+
+          <div class="input-group2">
+            <label for="">Shipment&nbsp;Date</label>
+            <input type="text" [(ngModel)]="vmPShipment.selectedPendingShipment.weight" readonly>
+          </div>
+
+          <div class="input-group2">
+            <label for="">Received&nbsp;Date</label>
+            <input type="text" value="{{datimeFunc()}}"
+              (ngModelChange)="vmPShipment.selectedPendingShipment.hasUpdate = true" readonly>
+          </div>
+
+          <div class="btn-action">
+            <button (click)="saveSubmit(vmPShipment.selectedPendingShipment)"
+              [ngClass]="{'save-active': vmPShipment.selectedPendingShipment.hasUpdate === true || checkHasupdate(vmPShipment.selectedPendingShipment.shipmentProducts)}">
+              <span class="material-icons">
+                save
+              </span>
+              Save
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="option-title">
+          <label for="">
+            <span class="material-icons">
+              list
+            </span>
+            Product List</label>
+        </div>
+
+      </div>
+
+      <div class="grid-table2">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>O.ID</th>
+                <th>P.ID</th>
+                <th>SKU</th>
+                <th>Product&nbsp;Description</th>
+                <th>Product&nbsp;Number</th>
+                <th>Brand</th>
+                <th>Shipped</th>
+                <th>Received</th>
+                <th>Remarks</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let pod of productList()" (click)="activeTrFun(pod.shipmentDetailId)" [ngClass]="{'tactive-tr': activeTr === pod.shipmentDetailId}">
+                <td>{{pod.orderId}}</td>
+                <td>{{pod.productId}}</td>
+                <td>sku</td>
+                <td>
+                  <p *ngIf="!chackToolTip( pod.productDescription.length, 35)">
+                    {{ pod.productDescription }}
+                  </p>
+                  <div class="tooltip tool-wrap" *ngIf="chackToolTip( pod.productDescription.length, 35)">
+                    <p>{{ pod.productDescription }}</p>
+                    <span class="tooltiptext text-overflow">
+                      {{ pod.productDescription }}</span>
+                  </div>
+                  <div class="flag" *ngIf="pod.newStatus">
+                    <p>New</p>
+                  </div>
+                </td>
+                <td>
+                  <ng-container *ngIf="!pod.productNo">-</ng-container>
+                  <ng-container *ngIf="pod.productNo">
+                      <p *ngIf="!chackToolTip( pod.productNo.length, 17)">
+                        {{ pod.productNo }}
+                      </p>
+                      <div class="tooltip" *ngIf="chackToolTip( pod.productNo.length, 17)">
+                        <p>{{ pod.productNo }}</p>
+                        <span class="tooltiptext text-overflow">
+                          {{ pod.productNo }}</span>
+                      </div>
+                  </ng-container>
+                </td>
+                <td>
+                  <p *ngIf="!chackToolTip( pod.brandName.length, 15)">
+                    {{ pod.brandName }}
+                  </p>
+                  <div class="tooltip" *ngIf="chackToolTip( pod.brandName.length, 15)">
+                    <p>{{ pod.brandName }}</p>
+                    <span class="tooltiptext text-overflow">
+                      {{ pod.brandName }}</span>
+                  </div>
+                </td>
+                <td>{{pod.shippedQty}}</td>
+                <td>
+
+                  <p class="received" *ngIf="selTr !== pod.shipmentDetailId"
+                    [ngStyle]="{'background-color': vmPShipment.receivedQtyFlag(pod.receivedQty,pod.shippedQty)}">
+                    {{pod.receivedQty}}
+                  </p>
+
+                  <input type="number" [(ngModel)]="pod.receivedQty"
+
+                    [ngClass]="{'sel-tr': selTr === pod.shipmentDetailId}"
+                    [readonly]="selTr !== pod.shipmentDetailId" *ngIf="selTr === pod.shipmentDetailId && pod.lockStatus !== true"
+                    (ngModelChange)="checkReceivedQty(pod.shipmentDetailId); pod.hasUpdate = true">
+
+                  <p class="received" *ngIf="pod.lockStatus && selTr === pod.shipmentDetailId"
+                    [ngStyle]="{'background-color': vmPShipment.receivedQtyFlag(pod.receivedQty,pod.shippedQty)}">
+                    {{pod.receivedQty}}
+                  </p>
+
+                </td>
+                <td><input type="text" [(ngModel)]="pod.remarks" [ngClass]="{'sel-tr': selTr === pod.shipmentDetailId}"
+                    [readonly]="selTr !== pod.shipmentDetailId" (ngModelChange)="pod.hasUpdate = true" style="text-align: start;">
+                </td>
+                <td>
+                  <div [ngClass]="{'has-update': pod.hasUpdate === true}">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid-pagination2">
+        <app-pagination class="pagination" [ItemsCount]="getItemsCount()" [PageSize]="20" [PagePos]="podProduct"
+          (PositionEventEmitter)="posEventEmmit($event)">
+        </app-pagination>
+      </div>
+
+    </div>
+
+  </div>
+</div>

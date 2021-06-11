@@ -1,0 +1,111 @@
+* {
+  font-size: 13px;
+  color: #666666;
+}
+
+.search-warpper{
+  span{
+    border: 1px solid gainsboro !important;
+    border-right: none !important;
+  }
+
+  input{
+    border: 1px solid gainsboro !important;
+    border-left: none !important;
+  }
+}
+
+.search {
+  width: 50% !important;
+  margin: 0;
+  margin-left: 0 !important;
+}
+
+.table-wrapper {
+  height: calc(100vh - 300px);
+  overflow: auto;
+
+  table {
+    table-layout: fixed;
+
+    .tactive-tr{
+      td{
+        background:#FFE9E9;
+      }
+    }
+
+    th {
+      background: #efefef;
+      font-weight: 500;
+      height: 35px !important;
+      padding: 0;
+    }
+    td {
+      height: 40px !important;
+      border-bottom: 1px solid #f1f1f1;
+      padding: 0;
+    }
+
+    tr:nth-child(odd) {
+      background-color: white !important;
+      &:hover {
+        background: #ffe9e9 !important;
+      }
+    }
+
+    tr:nth-child(even) {
+      background-color: #fcfcfc !important;
+
+      &:hover {
+        background: #ffe9e9 !important;
+      }
+    }
+
+    th:nth-child(1) {
+      width: 90px;
+    }
+
+    .s-id{
+      width: 100px;
+    }
+
+    .forwarder{
+      width: 130px;
+    }
+
+    .tracking{
+      width: 110px;
+    }
+
+    .boxcount{
+      width: 80px;
+      text-align: center;
+    }
+
+    .weight{
+      width: 80px;
+      text-align: center;
+    }
+
+    .volume{
+      width: 80px;
+      text-align: center;
+    }
+
+    .shipment{
+      padding-left: 25px;
+    }
+
+    .detail{
+      width: 80px;
+    }
+
+
+  }
+}
+
+.pagination {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row-reverse;
+}

@@ -1,0 +1,39 @@
+<div class="wrapper">
+    <div class="wrapper-header">
+        <div class="top-nav-container">
+
+            <div class="top-nav-left">
+                <div class="logo">
+                    <a href="javascript:void(0);" [routerLink]="['/dashboard']"  class="side-menu-item" 
+                    (click)="updatePageTitle('Dashboard')"><img src="../../assets/favicon.png" alt=""></a>
+                </div>
+                <div class="toggle-menu">
+                    <a href="javascript:void(0);" (click)="vmNavigation.sideNavEvent()">
+                        <span class="material-icons icon">
+                            menu
+                        </span>
+                    </a>
+                </div>
+
+                <h3 class="page-title">{{ vmNavigation.PageTitle}}</h3>
+            </div>
+
+            <div class="top-nav-right" >
+          
+                <a href="javascript:void(0);" class="profiles"> 
+
+                    <img src="../../assets/images/user.png" alt="" (click)="vmNavigation.dropdownMenuFunc()">
+
+                    
+                    <div class="dropdown-menu bounceInUp" *ngIf="vmNavigation.dropdown">
+                        <div class="list">
+                            <a [routerLink]="['/user-profile']" (click)="vmNavigation.showSubNavSideMenu = false ; vmNavigation.dropdown = false"  class="item">My Profile</a>                            
+                            <a href="javascript:void(0)" class="item" (click)="logout()">Log Out</a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

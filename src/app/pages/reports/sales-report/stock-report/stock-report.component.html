@@ -1,0 +1,110 @@
+
+  <div class="tab-content product-report">
+
+    <div class="action-filter">
+
+      <div class="input-group search-input-wraper">
+        <span class="material-icons">search</span>
+        <input
+          type="text "
+          class="search-input"
+          placeholder="Search by id. product description. barcode ..." [(ngModel)]="vm.stockFilter.kw"/>
+      </div>
+
+      <div class="buttons">
+        <button class="btn-filter" type="button" (click)="openFilterFunc()">
+          <span class="material-icons">filter_alt</span>
+          Filter
+        </button>
+        <button class="btn-submit" type="button" (click)="submitButtonFunc()">
+          <span class="material-icons">send</span>
+          Submit
+        </button>
+      </div>
+
+    </div>
+
+    <div class="inv-summary">
+
+      <button class="btn-print">
+        <span class="material-icons">printer</span>
+        Print
+      </button>
+
+      <h2>SUMMARY</h2>
+
+      <div class="total-wraper">
+        <span>Total Qty:</span>
+        <span class="bold">{{vm.getSummary().totalQty}} Qty</span>
+      </div>
+
+      <div class="total-wraper">
+        <span>Total Vlue:</span>
+        <span class="bold">{{vm.getSummary().totalValue | currency:'':'':'0.0'}} LAK</span>
+      </div>
+
+    </div>
+
+    <div class="table-grid">
+      <div class="t-headers-product">
+        <div class="t-header product-id center">P.ID</div>
+        <div class="t-header product-sku left">SKU</div>
+        <div class="t-header product-description left">Product Description</div>
+        <div class="t-header product-number left">Product Number</div>
+        <div class="t-header product-brand left">Brand</div>
+        <div class="t-header product-amount right" (click)="sortByUnitCost()">
+          Unit Cost
+          <span class="material-icons"  [ngClass]="{arrow: !sortUnit && active1}">north</span>
+          <span class="material-icons" [ngClass]="{arrow: sortUnit && active1}">south</span>
+        </div>
+        <div class="t-header product-qty right" (click)="sortByQty()">
+          Qty
+          <span class="material-icons"  [ngClass]="{arrow: !sortQty && active2}">north</span>
+          <span class="material-icons"  [ngClass]="{arrow: sortQty && active2}">south</span>
+        </div>
+
+        <div class="t-header product-amount right" (click)="sortValueFunc()">
+          Value
+          <span class="material-icons"  [ngClass]="{arrow: !sortValue && active3}">north</span>
+          <span class="material-icons"  [ngClass]="{arrow: sortValue && active3}">south</span>
+        </div>
+
+      </div>
+
+      <div class="t-rows-wraper">
+        <ng-container *ngFor="let st of stockList()">
+          <div class="t-rows-product" [ngClass]="{'active-pod': selTable === st.productId}" (click)="selTable = st.productId">
+            <div class="t-row center">{{st.productId}}</div>
+            <div class="t-row left">
+              <p *ngIf="!st.sku">-</p>
+              <p *ngIf="st.sku">{{st.sku}}</p>
+            </div>
+            <div class="t-row left" >{{st.description}}</div>
+            <div class="t-row left">
+              <p *ngIf="!st.productNo">-</p>
+              <p *ngIf="st.productNo">{{st.productNo}}</p>
+            </div>
+            <div class="t-row left">{{st.brand}}</div>
+            <div class="t-row product-amount right">{{st.unitCost}}</div>
+            <div class="t-row product-qty right">{{st.qty}}</div>
+            <div class="t-row product-amount right">{{st.subTotal}}</div>
+          </div>
+        </ng-container>
+    </div>
+    </div>
+
+
+  <div class="pagination">
+    <app-pagination [ItemsCount]="getItemsCount()" [PageSize]="100" [PagePos]="pos"
+      (PositionEventEmitter)="posEventEmmit($event)" >
+    </app-pagination>
+  </div>
+
+
+</div>
+
+<ng-container *ngIf="vm.stockFilterModal">
+  <app-stock-fillter></app-stock-fillter>
+</ng-container>
+
+
